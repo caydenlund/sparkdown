@@ -18,6 +18,7 @@ Notes are transpiled into LaTeX and can then be compiled into a PDF.
 ## Syntax:
     
     $title: Title
+    $author: Author
     $date: Date
 
     =============  % Border between metadata and content.
