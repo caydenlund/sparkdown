@@ -10,9 +10,10 @@ Notes are transpiled into LaTeX and can then be compiled into a PDF.
 
     Usage: mark-sideways <file> [OPTIONS]
       Options:
-        -h, --help: 	Print this help message.
-        -v, --version:	Print version information.
-        -o, --output:	Output file.
+        -h, --help: 	    Print this help message.
+        -v, --version:	    Print version information.
+        -o, --output:	    Output file.
+        -w, --overwrite:	Overwrite output file if it exists.
 
 ## Syntax:
     

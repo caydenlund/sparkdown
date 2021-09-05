@@ -10,9 +10,10 @@ void print_usage(std::string program_name)
 {
     std::cout << "Usage: " << program_name << " <file> [OPTIONS]" << std::endl;
     std::cout << "  Options:" << std::endl;
-    std::cout << "    -h, --help: \tPrint this help message" << std::endl;
-    std::cout << "    -v, --version: \tPrint version information" << std::endl;
-    std::cout << "    -o, --output: \tOutput file" << std::endl;
+    std::cout << "    -h, --help: \tPrint this help message." << std::endl;
+    std::cout << "    -v, --version: \tPrint version information." << std::endl;
+    std::cout << "    -o, --output: \tOutput file." << std::endl;
+    std::cout << "    -w, --overwrite: \tOverwrite output file if it exists." << std::endl;
 }
 
 // Print version information.
