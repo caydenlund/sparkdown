@@ -237,10 +237,10 @@ std::string Parser::parse_line(std::string line)
     state.set_line(line);
     parse_section();
     parse_indentation();
-    parse_itemize();
-    parse_enumerate();
     parse_bold();
     parse_italics();
+    parse_itemize();
+    parse_enumerate();
     parse_arrow();
     return state.get_product();
 }
