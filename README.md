@@ -57,3 +57,7 @@ Notes are transpiled into LaTeX and can then be compiled into a PDF.
     => Rightarrow.
     --> Rightarrow.
     ==> Rightarrow.
+
+## Output:
+
+![](example.png)
