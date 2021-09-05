@@ -24,9 +24,11 @@ protected:
     State state;
     bool head;
     std::string title;
+    std::string author;
     std::string date;
     std::regex headline_regex;
     std::regex title_regex;
+    std::regex author_regex;
     std::regex date_regex;
     std::regex section_regex;
     std::regex indentation_regex;
@@ -49,9 +51,11 @@ Parser::Parser()
     state = State();
     head = true;
     title = "Notes";
+    author = "Cayden Lund";
     date = "";
     headline_regex = std::regex("^=+");
     title_regex = std::regex("^\\$title: ");
+    author_regex = std::regex("^\\$author: ");
     date_regex = std::regex("^\\$date: ");
     section_regex = std::regex("^(\\#+) ");
     indentation_regex = std::regex("^(\\s*)(\\S+?)");
@@ -68,7 +72,7 @@ std::string Parser::start()
     std::string header = "";
 
     header += "\\title{" + title + "}\n";
-    header += "\\author{Cayden Lund}\n";
+    header += "\\author{" + author + "}\n";
     header += "\\date{" + date + "}\n\n";
 
     header += "\\documentclass[12pt, letterpaper]{article}\n\n\n";
@@ -224,6 +228,10 @@ void Parser::parse_headline(std::string line)
     if (std::regex_search(line, title_regex))
     {
         title = std::regex_replace(line, title_regex, "");
+    }
+    else if (std::regex_search(line, author_regex))
+    {
+        author = std::regex_replace(line, author_regex, "");
     }
     else if (std::regex_search(line, date_regex))
     {
