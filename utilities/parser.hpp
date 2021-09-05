@@ -50,7 +50,7 @@ Parser::Parser()
     head = true;
     title = "Notes";
     date = "";
-    headline_regex = std::regex("^=+$");
+    headline_regex = std::regex("^=+");
     title_regex = std::regex("^\\$title: ");
     date_regex = std::regex("^\\$date: ");
     section_regex = std::regex("^(\\#+) ");
