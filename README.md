@@ -6,6 +6,12 @@ Written from scratch in C++.
 
 Notes are transpiled into LaTeX and can then be compiled into a PDF.
 
+All code falls under the MIT license.
+
+## Motivation:
+
+This project was created in a fit of anxiety in the early hours of the morning. Its purpose was to distract from unrelated emotional pain while simultaneously teaching a new programming language and providing a useful utility.
+
 ## Usage:
 
     Usage: mark-sideways <file> [OPTIONS]
