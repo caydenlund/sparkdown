@@ -55,8 +55,8 @@ Parser::Parser()
     date_regex = std::regex("^\\$date: ");
     section_regex = std::regex("^(\\#+) ");
     indentation_regex = std::regex("^(\\s*)(\\S+?)");
-    itemize_regex = std::regex("^(\\s*)\\*\\s*");
-    enumerate_regex = std::regex("^(\\s*)\\d+[\\.\\)]\\s*");
+    itemize_regex = std::regex("^(\\s*)[\\*\\-]\\s+");
+    enumerate_regex = std::regex("^(\\s*)\\d+[\\.\\)]\\s+");
     bold_regex = std::regex("\\*\\*(.*?)\\*\\*");
     italic_regex = std::regex("([\\*_])(.*?)(\\1)");
     arrow_regex = std::regex("[\\-=]+>");
