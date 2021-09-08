@@ -62,7 +62,7 @@ Parser::Parser()
     itemize_regex = std::regex("^(\\s*)[\\*\\-]\\s+");
     enumerate_regex = std::regex("^(\\s*)\\d+[\\.\\)]\\s+");
     bold_regex = std::regex("\\*\\*(.*?)\\*\\*");
-    italic_regex = std::regex("([\\*_])(.*?)(\\1)");
+    italic_regex = std::regex("\\*(.*?)\\*");
     arrow_regex = std::regex("[\\-=]+>");
 }
 
@@ -182,7 +182,7 @@ void Parser::parse_italics()
     std::string line = state.get_line();
     while (std::regex_search(line, italic_regex))
     {
-        line = std::regex_replace(line, italic_regex, "\\textit{$2}");
+        line = std::regex_replace(line, italic_regex, "\\textit{$1}");
     }
     state.set_line(line);
 }
@@ -245,10 +245,10 @@ std::string Parser::parse_line(std::string line)
     state.set_line(line);
     parse_section();
     parse_indentation();
-    parse_bold();
-    parse_italics();
     parse_itemize();
     parse_enumerate();
+    parse_bold();
+    parse_italics();
     parse_arrow();
     return state.get_product();
 }
