@@ -9,6 +9,10 @@
 // Parser state machine.
 #include "state.hpp"
 
+// TODO: \item indentation.
+// TODO: ``` indentation.
+// TODO: Ignore symbols in math mode, verbatim.
+
 // A class to parse an input file to LaTeX code.
 class Parser
 {
@@ -36,13 +40,18 @@ protected:
     std::regex enumerate_regex;
     std::regex bold_regex;
     std::regex italic_regex;
+    std::regex verb_regex;
+    std::regex verbatim_regex;
     std::regex arrow_regex;
+    std::regex section_char_regex;
     void parse_section();
     void parse_indentation();
     void parse_itemize();
     void parse_enumerate();
     void parse_bold();
     void parse_italics();
+    void parse_verb();
+    void parse_verbatim();
     void parse_arrow();
 };
 
@@ -63,7 +72,10 @@ Parser::Parser()
     enumerate_regex = std::regex("^(\\s*)\\d+[\\.\\)]\\s+");
     bold_regex = std::regex("\\*\\*(.*?)\\*\\*");
     italic_regex = std::regex("\\*(.*?)\\*");
+    verbatim_regex = std::regex("```");
+    verb_regex = std::regex("([\\|])(.*?)\\1");
     arrow_regex = std::regex("[\\-=]+>");
+    section_char_regex = std::regex("§");
 }
 
 // Returns the headers for a new file.
@@ -187,6 +199,28 @@ void Parser::parse_italics()
     state.set_line(line);
 }
 
+// Replace all inline verbatim text with LaTeX code.
+void Parser::parse_verb()
+{
+    std::string line = state.get_line();
+    while (std::regex_search(line, verb_regex))
+    {
+        line = std::regex_replace(line, verb_regex, "\\verb§$2§");
+    }
+    state.set_line(std::regex_replace(line, section_char_regex, "|"));
+}
+
+// Replace all blocks of verbatim text with LaTeX code.
+void Parser::parse_verbatim()
+{
+    std::string line = state.get_line();
+    while (std::regex_search(line, verbatim_regex))
+    {
+        line = std::regex_replace(line, verbatim_regex, state.toggle_verbatim());
+    }
+    state.set_line(line);
+}
+
 // Parse for arrows.
 void Parser::parse_arrow()
 {
@@ -243,13 +277,18 @@ void Parser::parse_headline(std::string line)
 std::string Parser::parse_line(std::string line)
 {
     state.set_line(line);
-    parse_section();
-    parse_indentation();
-    parse_itemize();
-    parse_enumerate();
-    parse_bold();
-    parse_italics();
-    parse_arrow();
+    parse_verbatim();
+    if (!state.is_verbatim())
+    {
+        parse_section();
+        parse_indentation();
+        parse_itemize();
+        parse_enumerate();
+        parse_bold();
+        parse_italics();
+        parse_verb();
+        parse_arrow();
+    }
     return state.get_product();
 }
 

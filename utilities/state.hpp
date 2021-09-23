@@ -11,6 +11,8 @@ class State
 public:
     State();
     std::string indent();
+    bool is_verbatim();
+    std::string toggle_verbatim();
     void set_indentation(int indentation);
     void begin_itemize(int level);
     void begin_enumerate(int level);
@@ -26,6 +28,7 @@ protected:
     };
     std::stack<level_type> levels;
     int indentation;
+    bool verbatim;
     std::string preline;
     std::string line;
     void increase_itemize();
@@ -38,6 +41,7 @@ protected:
 State::State()
 {
     indentation = 0;
+    verbatim = false;
     preline = "";
     line = "";
 }
@@ -51,6 +55,27 @@ std::string State::indent()
         result += "    ";
     }
     return result;
+}
+
+// Returns true if verbatim mode is on.
+bool State::is_verbatim()
+{
+    return verbatim;
+}
+
+// Returns the necessary \begin{verbatim} or \end{verbatim} commands.
+std::string State::toggle_verbatim()
+{
+    if (verbatim)
+    {
+        verbatim = false;
+        return "\\end{verbatim}";
+    }
+    else
+    {
+        verbatim = true;
+        return "\\begin{verbatim}";
+    }
 }
 
 // Sets the indentation to the given value.
@@ -133,7 +158,12 @@ void State::set_line(std::string line)
 // Returns the final product.
 std::string State::get_product()
 {
-    std::string product = preline + indent() + line;
+    std::string indentation_string = "";
+    if (!verbatim)
+    {
+        indentation_string = indent();
+    }
+    std::string product = preline + indentation_string + line;
     preline = "";
     line = "";
     return product;
