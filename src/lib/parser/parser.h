@@ -22,7 +22,7 @@
 // We use the State class to keep track of the current state of the parser.
 #include "lib/parser/state.h"
 
-// A class to parse an input file to LaTeX code.
+// A class to parse an input set of mark-sideways strings into LaTeX code.
 class Parser
 {
 public:
