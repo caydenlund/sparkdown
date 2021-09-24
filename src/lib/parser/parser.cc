@@ -1,5 +1,5 @@
 // src/lib/parser/parser.cc
-// v. 0.1.0
+// v. 0.2.0
 //
 // Author: Cayden Lund
 //   Date: 09/23/2021
@@ -20,7 +20,7 @@
 // This is the header file for the Parser class.
 #include "lib/parser/parser.h"
 
-// We also import the State class.
+// We also use the State class.
 #include "lib/parser/state.h"
 
 // TODO: \item indentation.
