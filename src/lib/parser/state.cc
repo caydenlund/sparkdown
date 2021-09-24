@@ -1,7 +1,22 @@
+// src/lib/parser/state.cc
+// v. 0.1.0
+//
+// Author: Cayden Lund
+//   Date: 09/23/2021
+//
+// This file is part of mark-sideways, a new markup/markdown language
+// for quickly writing and formatting notes.
+//
+// This file contains the implementation of the State class.
+//
+// Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
+// License: MIT (https://opensource.org/licenses/MIT)
+
 #include <string>
 #include <regex>
 #include <stack>
 
+// The header file for the State class.
 #include "lib/parser/state.h"
 
 // Constructor.
@@ -149,7 +164,8 @@ void State::decrease_itemize()
 {
     indentation--;
     preline += indent() + "\\end{itemize}\n";
-    if (levels.top() != itemize) {
+    if (levels.top() != itemize)
+    {
         throw std::runtime_error("Itemize level mismatch.");
         exit(1);
     }
@@ -169,7 +185,8 @@ void State::decrease_enumerate()
 {
     indentation--;
     preline += indent() + "\\end{enumerate}\n";
-    if (levels.top() != enumerate) {
+    if (levels.top() != enumerate)
+    {
         throw std::runtime_error("Enumerate level mismatch.");
         exit(1);
     }

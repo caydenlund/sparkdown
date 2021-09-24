@@ -1,11 +1,27 @@
+// src/lib/parser/parser.cc
+// v. 0.1.0
+//
+// Author: Cayden Lund
+//   Date: 09/23/2021
+//
+// This file is part of mark-sideways, a new markup/markdown language
+// for quickly writing and formatting notes.
+//
+// This file contains the implementation of the Parser class.
+//
+// Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
+// License: MIT (https://opensource.org/licenses/MIT)
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <regex>
 
-#include "parser.h"
-
+// This is the header file for the Parser class.
 #include "lib/parser/parser.h"
+
+// We also import the State class.
+#include "lib/parser/state.h"
 
 // TODO: \item indentation.
 // TODO: ``` indentation.

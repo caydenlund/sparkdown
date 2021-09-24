@@ -8,6 +8,7 @@
 // for quickly writing and formatting notes.
 //
 // This file contains helper functions for the main mark-sideways executable.
+// See mark-sideways-helpers.cc for implementation and documentation.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)

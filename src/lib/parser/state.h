@@ -1,3 +1,18 @@
+// src/lib/parser/state.cc
+// v. 0.1.0
+//
+// Author: Cayden Lund
+//   Date: 09/23/2021
+//
+// This file is part of mark-sideways, a new markup/markdown language
+// for quickly writing and formatting notes.
+//
+// This file contains the State class.
+// See state.cc for implementation and documentation.
+//
+// Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
+// License: MIT (https://opensource.org/licenses/MIT)
+
 #ifndef STATE_H
 #define STATE_H
 
