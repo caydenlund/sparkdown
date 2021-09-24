@@ -3,7 +3,7 @@
 #include <fstream>
 #include <filesystem>
 
-#include "utilities/parser.hpp"
+#include "lib/parser/parser.h"
 
 // Print usage information.
 void print_usage(std::string program_name)
