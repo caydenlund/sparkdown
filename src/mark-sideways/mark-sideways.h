@@ -1,8 +1,8 @@
-// src/mark-sideways/mark-sideways-helpers.h
-// v. 0.2.0
+// src/mark-sideways/mark-sideways.h
+// v. 0.3.0
 //
 // Author: Cayden Lund
-//   Date: 09/23/2021
+//   Date: 10/05/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -18,7 +18,7 @@
 
 #include <string>
 
-#include "lib/parser/parser.h"
+#include "parser/parser.h"
 
 // Print usage information.
 void print_usage(std::string program_name);

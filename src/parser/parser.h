@@ -1,8 +1,8 @@
-// src/lib/parser/parser.h
-// v. 0.2.0
+// src/parser/parser.h
+// v. 0.3.0
 //
 // Author: Cayden Lund
-//   Date: 09/23/2021
+//   Date: 10/05/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -20,7 +20,7 @@
 #include <regex>
 
 // We use the State class to keep track of the current state of the parser.
-#include "lib/parser/state.h"
+#include "parser/state.h"
 
 // A class to parse an input set of mark-sideways strings into LaTeX code.
 class Parser

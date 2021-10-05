@@ -1,13 +1,13 @@
 // src/mark-sideways/mark-sideways.cc
-// v. 0.2.0
+// v. 0.3.0
 //
 // Author: Cayden Lund
-//   Date: 09/23/2021
+//   Date: 10/05/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
-// This file contains the main program entry point.
+// This file contains helper functions for the main mark-sideways executable.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)
@@ -17,140 +17,77 @@
 #include <fstream>
 #include <filesystem>
 
-// Include our helper functions.
-#include "mark-sideways/mark-sideways-helpers.h"
+#include "parser/parser.h"
+#include "mark-sideways.h"
 
-// Main program entry point.
-int main(int argc, char *argv[])
+// Print usage information.
+void print_usage(std::string program_name)
 {
-    // Make sure that the user provided at least one argument.
-    if (argc < 2)
+    std::cout << "Usage: " << program_name << " <file> [OPTIONS]" << std::endl;
+    std::cout << "  Options:" << std::endl;
+    std::cout << "    -h, --help: \tPrint this help message." << std::endl;
+    std::cout << "    -v, --version: \tPrint version information." << std::endl;
+    std::cout << "    -o, --output: \tOutput file." << std::endl;
+    std::cout << "    -w, --overwrite: \tOverwrite output file if it exists." << std::endl;
+}
+
+// Print version information.
+void print_version()
+{
+    std::cout << "notes-parser v0.2.0" << std::endl;
+    std::cout << "Cayden Lund <https://github.com/shrimpster00>" << std::endl;
+}
+
+// Parse a file to stdout.
+void parse_file(Parser parser, std::ifstream &input_file)
+{
+    std::string line;
+
+    std::getline(input_file, line);
+    input_file.seekg(0);
+
+    if (line[0] == '$')
     {
-        print_usage(argv[0]);
-        return 1;
-    }
-
-    std::string input = "";
-    std::string output = "";
-
-    bool output_stdout = true;
-    bool overwrite = false;
-
-    // Parse the input arguments.
-    for (int i = 1; i < argc; i++)
-    {
-        std::string arg = argv[i];
-        if (arg == "-h" || arg == "--help")
+        while (parser.is_head())
         {
-            print_usage(argv[0]);
-            return 0;
-        }
-        else if (arg == "-v" || arg == "--version")
-        {
-            print_version();
-            return 0;
-        }
-        else if (arg == "-o" || arg == "--output")
-        {
-            if (i + 1 < argc)
-            {
-                output = argv[++i];
-                output_stdout = false;
-            }
-            else
-            {
-                std::cout << "Error: Missing output file." << std::endl;
-                return 1;
-            }
-        }
-        else if (arg == "-w" || arg == "--overwrite")
-        {
-            overwrite = true;
-        }
-        else
-        {
-            input = arg;
+            std::getline(input_file, line);
+            parser.parse_headline(line);
         }
     }
 
-    // Make sure that the user provided a file to parse.
-    if (input == "")
+    std::cout << parser.start() << std::endl;
+
+    while (std::getline(input_file, line))
     {
-        print_usage(argv[0]);
-        return 1;
+        std::cout << parser.parse_line(line) << std::endl;
     }
 
-    // Make sure that the input file exists.
-    if (!std::filesystem::exists(input))
-    {
-        std::cerr << "Error: File '" << input << "' does not exist." << std::endl;
-        return 1;
-    }
+    std::cout << parser.end() << std::endl;
+}
 
-    // Make sure that the output file is not the same as the input file.
-    if (input == output)
-    {
-        std::cerr << "Error: Input and output files cannot be the same." << std::endl;
-        return 1;
-    }
+// Parse a file to another file.
+void parse_file(Parser parser, std::ifstream &input_file, std::ofstream &output_file)
+{
+    std::string line;
 
-    // Make sure that the input and output files are not a directory.
-    if (std::filesystem::is_directory(input))
-    {
-        std::cerr << "Error: Is a directory: " << input << std::endl;
-        return 1;
-    }
-    if (std::filesystem::is_directory(output))
-    {
-        std::cerr << "Error: Is a directory: " << output << std::endl;
-        return 1;
-    }
+    std::getline(input_file, line);
+    input_file.seekg(0);
 
-    // If the output file exists, make sure that the user wants to overwrite it.
-    if (std::filesystem::exists(output) && !overwrite)
+    if (line[0] == '$')
     {
-        std::cout << "Warning: Output file '" << output << "' already exists. Overwrite? (Y/n) ";
-        std::string input;
-        std::getline(std::cin, input);
-        if (input == "Y" || input == "y" || input == "")
+        while (parser.is_head())
         {
-            overwrite = true;
-        }
-        else
-        {
-            std::cerr << "Error: Output file '" << output << "' already exists. Will not overwrite." << std::endl;
-            return 1;
+            std::getline(input_file, line);
+            parser.parse_headline(line);
         }
     }
 
-    // Open the input file.
-    std::ifstream input_file(input);
-    if (!input_file.is_open())
+    output_file << parser.start() << std::endl;
+
+    while (std::getline(input_file, line))
     {
-        std::cerr << "Error: Could not open file '" << input << "'." << std::endl;
-        return 1;
+        output_file << parser.parse_line(line) << std::endl;
     }
 
-    // Open the output file.
-    std::ofstream output_file(output);
-    if (!output_stdout && !output_file.is_open())
-    {
-        std::cerr << "Error: Could not open file '" << output << "'." << std::endl;
-        return 1;
-    }
-
-    // Instantiate a new Parser object.
-    Parser parser = Parser();
-
-    // Parse the input file.
-    if (output_stdout)
-    {
-        parse_file(parser, input_file);
-    }
-    else
-    {
-        parse_file(parser, input_file, output_file);
-    }
-
-    return 0;
+    output_file << parser.end() << std::endl;
 }
