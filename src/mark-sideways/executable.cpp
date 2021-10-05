@@ -1,5 +1,5 @@
-// src/mark-sideways/executable.cc
-// v. 0.3.0
+// src/mark-sideways/executable.cpp
+// v. 0.3.1
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -18,7 +18,7 @@
 #include <filesystem>
 
 // Include our helper functions.
-#include "mark-sideways.h"
+#include "mark-sideways.hpp"
 
 // Main program entry point.
 int main(int argc, char *argv[])

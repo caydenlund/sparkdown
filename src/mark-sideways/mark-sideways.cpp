@@ -1,5 +1,5 @@
-// src/mark-sideways/mark-sideways.cc
-// v. 0.3.0
+// src/mark-sideways/mark-sideways.cpp
+// v. 0.3.1
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -17,8 +17,8 @@
 #include <fstream>
 #include <filesystem>
 
-#include "parser/parser.h"
-#include "mark-sideways.h"
+#include "parser/parser.hpp"
+#include "mark-sideways.hpp"
 
 // Print usage information.
 void print_usage(std::string program_name)

@@ -1,13 +1,13 @@
 cc_library(
     name = "parser",
-    srcs = ["parser.cc"],
-    hdrs = ["parser.h"],
+    srcs = ["parser.cpp"],
+    hdrs = ["parser.hpp"],
     deps = [":parser.state"],
     visibility = ["//visibility:public"]
 )
 
 cc_library(
     name = "parser.state",
-    srcs = ["state.cc"],
-    hdrs = ["state.h"],
+    srcs = ["state.cpp"],
+    hdrs = ["state.hpp"],
 )

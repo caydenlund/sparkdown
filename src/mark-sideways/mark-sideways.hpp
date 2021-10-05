@@ -1,5 +1,5 @@
-// src/mark-sideways/mark-sideways.h
-// v. 0.3.0
+// src/mark-sideways/mark-sideways.hpp
+// v. 0.3.1
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -13,12 +13,12 @@
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)
 
-#ifndef MARK_SIDEWAYS_HELPERS_H
-#define MARK_SIDEWAYS_HELPERS_H
+#ifndef MARK_SIDEWAYS_HELPERS_HPP
+#define MARK_SIDEWAYS_HELPERS_HPP
 
 #include <string>
 
-#include "parser/parser.h"
+#include "parser/parser.hpp"
 
 // Print usage information.
 void print_usage(std::string program_name);

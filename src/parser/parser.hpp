@@ -1,5 +1,5 @@
-// src/parser/parser.h
-// v. 0.3.0
+// src/parser/parser.hpp
+// v. 0.3.1
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -13,14 +13,14 @@
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)
 
-#ifndef PARSER_H
-#define PARSER_H
+#ifndef PARSER_HPP
+#define PARSER_HPP
 
 #include <string>
 #include <regex>
 
 // We use the State class to keep track of the current state of the parser.
-#include "parser/state.h"
+#include "state.hpp"
 
 // A class to parse an input set of mark-sideways strings into LaTeX code.
 class Parser

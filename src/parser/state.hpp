@@ -1,5 +1,5 @@
-// src/parser/state.cc
-// v. 0.3.0
+// src/parser/state.hpp
+// v. 0.3.1
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -13,8 +13,8 @@
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)
 
-#ifndef STATE_H
-#define STATE_H
+#ifndef STATE_HPP
+#define STATE_HPP
 
 #include <string>
 #include <stack>

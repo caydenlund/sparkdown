@@ -1,5 +1,5 @@
-// src/parser/state.cc
-// v. 0.3.0
+// src/parser/state.cpp
+// v. 0.3.1
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -17,7 +17,7 @@
 #include <stack>
 
 // The header file for the State class.
-#include "state.h"
+#include "state.hpp"
 
 // Constructor.
 State::State()

@@ -1,5 +1,5 @@
-// src/lib/parser/parser.cc
-// v. 0.3.0
+// src/lib/parser/parser.cpp
+// v. 0.3.1
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -18,10 +18,10 @@
 #include <regex>
 
 // This is the header file for the Parser class.
-#include "parser.h"
+#include "parser.hpp"
 
 // We also use the State class.
-#include "state.h"
+#include "state.hpp"
 
 // TODO: \item indentation.
 // TODO: ``` indentation.

@@ -1,13 +1,13 @@
 cc_library(
     name = "mark-sideways.lib",
-    srcs = ["mark-sideways.cc"],
-    hdrs = ["mark-sideways.h"],
+    srcs = ["mark-sideways.cpp"],
+    hdrs = ["mark-sideways.hpp"],
     deps = [ "//parser" ],
     visibility = ["//visibility:public"]
 )
 
 cc_binary(
     name = "mark-sideways",
-    srcs = ["executable.cc"],
+    srcs = ["executable.cpp"],
     deps = [ ":mark-sideways.lib" ]
 )
