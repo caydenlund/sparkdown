@@ -1,5 +1,5 @@
 // src/lib/parser/parser.cpp
-// v. 0.4.0
+// v. 0.4.1
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -12,6 +12,16 @@
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)
 
+// ==============
+// | Todo list: |
+// ==============
+// - Correct \item indentation.
+// - Correct ``` indentation.
+// - Ignore symbols in math mode.
+// - Ignore symbols in verbatim mode.
+// - Ignore symbols inside of headlines.
+// - Use stringstream for parsing.
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -22,10 +32,6 @@
 
 // We also use the State class.
 #include "state.hpp"
-
-// TODO: \item indentation.
-// TODO: ``` indentation.
-// TODO: Ignore symbols in math mode, verbatim.
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
@@ -113,7 +119,6 @@ namespace mark_sideways
 
     // Returns the LaTeX headers for a new file,
     // using our `title`, `author`, and `date` instance variables.
-    // TODO: Use a string stream instead of a string.
     std::string Parser::start()
     {
         std::string header = "";
@@ -158,7 +163,6 @@ namespace mark_sideways
     }
 
     // Returns the footers for a new file.
-    // TODO: Use a string stream instead of a string.
     std::string Parser::end()
     {
         std::string footer = "";
@@ -181,7 +185,6 @@ namespace mark_sideways
     }
 
     // Parse headlines.
-    // TODO: When we're in a headline, don't follow the rules for the rest of the document.
     void Parser::parse_section()
     {
         // Get the line from the state.
@@ -213,7 +216,6 @@ namespace mark_sideways
     }
 
     // Parse indentation.
-    // TODO: Document.
     void Parser::parse_indentation()
     {
         // Get the line from the state.
@@ -229,11 +231,12 @@ namespace mark_sideways
     }
 
     // Parse for bullet points.
-    // TODO: Document.
     void Parser::parse_itemize()
     {
-        std::smatch match;
+        // Get the line from the state.
         std::string line = state.get_line();
+
+        std::smatch match;
         if (std::regex_search(line, match, itemize_regex))
         {
             int indentation = match.str(1).length() / 2;
@@ -243,11 +246,12 @@ namespace mark_sideways
     }
 
     // Parse for numbered lists.
-    // TODO: Document.
     void Parser::parse_enumerate()
     {
-        std::smatch match;
+        // Get the line from the state.
         std::string line = state.get_line();
+
+        std::smatch match;
         if (std::regex_search(line, match, enumerate_regex))
         {
             int indentation = match.str(1).length() / 2;
@@ -325,7 +329,6 @@ namespace mark_sideways
     }
 
     // Replace all blocks of verbatim text with LaTeX code.
-    // TODO: Correctly handle indentation and itemize/enumerate.
     void Parser::parse_verbatim()
     {
         // Get the line from the state.
@@ -383,7 +386,8 @@ namespace mark_sideways
     }
 
     // Parse a single line from the head of the file.
-    // TODO: Document.
+    //
+    // * std::string line - The line to parse.
     void Parser::parse_headline(std::string line)
     {
         if (std::regex_search(line, headline_regex))
@@ -406,7 +410,8 @@ namespace mark_sideways
     }
 
     // Parse a single line from the input file.
-    // TODO: Document.
+    //
+    // * std::string line - The line to parse.
     std::string Parser::parse_line(std::string line)
     {
         state.set_line(line);
