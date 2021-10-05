@@ -1,5 +1,5 @@
 // src/parser/parser.hpp
-// v. 0.3.1
+// v. 0.4.0
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -22,46 +22,50 @@
 // We use the State class to keep track of the current state of the parser.
 #include "state.hpp"
 
-// A class to parse an input set of mark-sideways strings into LaTeX code.
-class Parser
+// The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
+namespace mark_sideways
 {
-public:
-    Parser();
-    std::string start();
-    std::string end();
-    bool is_head();
-    void parse_headline(std::string line);
-    std::string parse_line(std::string line);
+    // A class to parse an input set of mark-sideways strings into LaTeX code.
+    class Parser
+    {
+    public:
+        Parser();
+        std::string start();
+        std::string end();
+        bool is_head();
+        void parse_headline(std::string line);
+        std::string parse_line(std::string line);
 
-protected:
-    State state;
-    bool head;
-    std::string title;
-    std::string author;
-    std::string date;
-    std::regex headline_regex;
-    std::regex title_regex;
-    std::regex author_regex;
-    std::regex date_regex;
-    std::regex section_regex;
-    std::regex indentation_regex;
-    std::regex itemize_regex;
-    std::regex enumerate_regex;
-    std::regex bold_regex;
-    std::regex italic_regex;
-    std::regex verb_regex;
-    std::regex verbatim_regex;
-    std::regex arrow_regex;
-    std::regex section_char_regex;
-    void parse_section();
-    void parse_indentation();
-    void parse_itemize();
-    void parse_enumerate();
-    void parse_bold();
-    void parse_italics();
-    void parse_verb();
-    void parse_verbatim();
-    void parse_arrow();
-};
+    protected:
+        State state;
+        bool head;
+        std::string title;
+        std::string author;
+        std::string date;
+        std::regex headline_regex;
+        std::regex title_regex;
+        std::regex author_regex;
+        std::regex date_regex;
+        std::regex section_regex;
+        std::regex indentation_regex;
+        std::regex itemize_regex;
+        std::regex enumerate_regex;
+        std::regex bold_regex;
+        std::regex italic_regex;
+        std::regex verb_regex;
+        std::regex verbatim_regex;
+        std::regex arrow_regex;
+        std::regex section_char_regex;
+        void parse_section();
+        void parse_indentation();
+        void parse_itemize();
+        void parse_enumerate();
+        void parse_bold();
+        void parse_italics();
+        void parse_verb();
+        void parse_verbatim();
+        void parse_arrow();
+    };
+}
 
 #endif

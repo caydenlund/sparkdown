@@ -1,5 +1,5 @@
 // src/mark-sideways/mark-sideways.hpp
-// v. 0.3.1
+// v. 0.4.0
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -7,8 +7,8 @@
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
-// This file contains helper functions for the main mark-sideways executable.
-// See mark-sideways-helpers.cc for implementation and documentation.
+// This file contains the definitions for the library methods.
+// See mark-sideways.cc for implementation.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)
@@ -20,16 +20,29 @@
 
 #include "parser/parser.hpp"
 
-// Print usage information.
-void print_usage(std::string program_name);
+// The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
+namespace mark_sideways
+{
+    // Print usage information.
+    //
+    // * std::string program_name - The name of the program being executed.
+    void print_usage(std::string program_name);
 
-// Print version information.
-void print_version();
+    // Print version information.
+    void print_version();
 
-// Parse a mark-sideways file to stdout.
-void parse_file(Parser parser, std::ifstream &input_file);
+    // Parse a mark-sideways file to stdout.
+    //
+    // * mark_sideways::Parser parser - The parser to handle the input file.
+    // * std::ifstream &input_file    - The file to parse.
+    void parse_file(mark_sideways::Parser parser, std::ifstream &input_file);
 
-// Parse a mark-sideways file to an output file.
-void parse_file(Parser parser, std::ifstream &input_file, std::ofstream &output_file);
+    // Parse a mark-sideways file to an output file.
+    //
+    // * mark_sideways::Parser parser - The parser to handle the input file.
+    // * std::ifstream &input_file    - The file to parse.
+    // * std::ofstream &output_file   - The output file for the LaTeX code.
+    void parse_file(mark_sideways::Parser parser, std::ifstream &input_file, std::ofstream &output_file);
+}
 
 #endif

@@ -1,5 +1,5 @@
 // src/mark-sideways/executable.cpp
-// v. 0.3.1
+// v. 0.4.0
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     // Make sure that the user provided at least one argument.
     if (argc < 2)
     {
-        print_usage(argv[0]);
+        mark_sideways::print_usage(argv[0]);
         return 1;
     }
 
@@ -42,12 +42,12 @@ int main(int argc, char *argv[])
         std::string arg = argv[i];
         if (arg == "-h" || arg == "--help")
         {
-            print_usage(argv[0]);
+            mark_sideways::print_usage(argv[0]);
             return 0;
         }
         else if (arg == "-v" || arg == "--version")
         {
-            print_version();
+            mark_sideways::print_version();
             return 0;
         }
         else if (arg == "-o" || arg == "--output")
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
     // Make sure that the user provided a file to parse.
     if (input == "")
     {
-        print_usage(argv[0]);
+        mark_sideways::print_usage(argv[0]);
         return 1;
     }
 
@@ -140,16 +140,16 @@ int main(int argc, char *argv[])
     }
 
     // Instantiate a new Parser object.
-    Parser parser = Parser();
+    mark_sideways::Parser parser = mark_sideways::Parser();
 
     // Parse the input file.
     if (output_stdout)
     {
-        parse_file(parser, input_file);
+        mark_sideways::parse_file(parser, input_file);
     }
     else
     {
-        parse_file(parser, input_file, output_file);
+        mark_sideways::parse_file(parser, input_file, output_file);
     }
 
     return 0;
