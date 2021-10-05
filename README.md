@@ -2,22 +2,36 @@
 
 A new markup/markdown language for quickly taking notes.
 
-Written from scratch in C++.
-
-Notes are transpiled into LaTeX and can then be compiled into a PDF.
-
-All code falls under the MIT license.
+Mark-sideways is a C++ library and command-line executable that provides, a simple, powerful, and easy-to-use API
+for transpiling notes into LaTeX code, which can then be compiled into a PDF.
 
 ## Motivation:
 
-This project was created in a fit of anxiety in the early hours of the morning. Its purpose was to distract from unrelated emotional pain while simultaneously teaching a new programming language and providing a useful utility.
+Is LaTeX too verbose? Does markdown lack features?
+
+Enter mark-sideways, the new note-taking language.
+Mark-sideways is the perfect blend of simple, easy, and feature-rich.
+
+## Features:
+
+* Nested ordered and unordered lists.
+
+* Math mode: display your formulas neatly!
+
+* Verbatim mode: display code in a monospace text, with special characters and custom indentation supported.
+
+* Italic and bold text.
+
+* Arrows!
+
+* All LaTeX code is validin mark-sideways.
 
 ## Usage:
 
     Usage: mark-sideways <file> [OPTIONS]
       Options:
         -h, --help: 	    Print this help message.
-        -v, --version:	    Print version information.
+        -v, --version:	  Print version information.
         -o, --output:	    Output file.
         -w, --overwrite:	Overwrite output file if it exists.
 
@@ -27,7 +41,7 @@ This project was created in a fit of anxiety in the early hours of the morning. 
     $author: Author
     $date: Date
 
-    =============  % Border between metadata and content.
+    =============  % Border between optional metadata and content.
 
     # Header.
 
@@ -38,8 +52,9 @@ This project was created in a fit of anxiety in the early hours of the morning. 
     % Comment.
 
     * List item.
-      Can contain newlines for readability.
-      \\ Create an actual newline.
+      Can contain newlines for readability without
+      creating an actual newline in the output document.
+      \\ Create an actual newline like so.
       * Sub-list item (etc.).
 
       - Sub-list item.
@@ -50,20 +65,28 @@ This project was created in a fit of anxiety in the early hours of the morning. 
     1. Ordered list item.
       1. Sub-ordered list item (etc.).
 
-    * Bullets
-      1. and numerals
+    * Unordered lists
+      1. and sub-ordered lists
       2. can be used together.
 
-    *Italic text.*
+    \noindent *Italic text.*  % Notice how we can use LaTeX commands.
 
-    _Italic text._
+    \indent **Bold text.**
 
-    **Bold text.**
+    \[
+      y = mx + b
+    \]
 
-    -> Rightarrow.
-    => Rightarrow.
-    --> Rightarrow.
-    ==> Rightarrow.
+    \noindent -> Rightarrow.
+
+    \indent --> Rightarrow.
+
+    ```
+    int verbatim_text()
+    {
+      return 0;
+    }
+    ```
 
 ## Output:
 
