@@ -12,13 +12,6 @@
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)
 
-// ==============
-// | Todo list: |
-// ==============
-// - Add tests for parsing headlines.
-// - Add tests for start().
-// - Add tests for end().
-
 #include <gtest/gtest.h>
 #include <string>
 
@@ -31,6 +24,163 @@ using namespace mark_sideways;
 TEST(Parser, Constructor)
 {
     Parser parser = Parser();
+}
+
+// Test the Parser#start() method.
+// This test ensures that the start() method returns the correct value with
+// everything left as default.
+TEST(Parser, StartDefaults)
+{
+    Parser parser = Parser();
+
+    std::stringstream expected;
+    expected << "\\title{Notes}" << std::endl;
+    expected << "\\author{Cayden Lund}" << std::endl;
+    expected << "\\date{}" << std::endl;
+    expected << std::endl;
+    expected << "\\documentclass[12pt, letterpaper]{article}" << std::endl;
+    expected << std::endl;
+    expected << std::endl;
+    expected << "\\usepackage{graphicx}" << std::endl;
+    expected << "\\graphicspath{{.}}" << std::endl;
+    expected << std::endl;
+    expected << "\\usepackage[utf8]{inputenc}" << std::endl;
+    expected << std::endl;
+    expected << "\\usepackage{tabularx}" << std::endl;
+    expected << std::endl;
+    expected << "\\usepackage{amsmath}" << std::endl;
+    expected << std::endl;
+    expected << std::endl;
+    expected << "\\begin{document}" << std::endl;
+    expected << std::endl;
+    expected << std::endl;
+    expected << "\\maketitle" << std::endl;
+    expected << std::endl;
+
+    std::string actual = parser.start();
+
+    EXPECT_EQ(expected.str(), actual);
+}
+
+// Test the Parser#start() method.
+// This test ensures that the start() method returns the correct value with
+// default values for the title, author, and date overridden.
+TEST(Parser, StartOverrides)
+{
+    Parser parser = Parser();
+
+    parser.parse_line("$title: My Notes");
+    parser.parse_line("$author: Test");
+    parser.parse_line("$date: Date");
+
+    std::stringstream expected;
+    expected << "\\title{My Notes}" << std::endl;
+    expected << "\\author{Test}" << std::endl;
+    expected << "\\date{Date}" << std::endl;
+    expected << std::endl;
+    expected << "\\documentclass[12pt, letterpaper]{article}" << std::endl;
+    expected << std::endl;
+    expected << std::endl;
+    expected << "\\usepackage{graphicx}" << std::endl;
+    expected << "\\graphicspath{{.}}" << std::endl;
+    expected << std::endl;
+    expected << "\\usepackage[utf8]{inputenc}" << std::endl;
+    expected << std::endl;
+    expected << "\\usepackage{tabularx}" << std::endl;
+    expected << std::endl;
+    expected << "\\usepackage{amsmath}" << std::endl;
+    expected << std::endl;
+    expected << std::endl;
+    expected << "\\begin{document}" << std::endl;
+    expected << std::endl;
+    expected << std::endl;
+    expected << "\\maketitle" << std::endl;
+    expected << std::endl;
+
+    std::string actual = parser.start();
+
+    EXPECT_EQ(expected.str(), actual);
+}
+
+// Test the Parser#start() method.
+// This test ensures that the start() method returns the correct value with
+// extra packages added.
+TEST(Parser, StartPackages)
+{
+    Parser parser = Parser();
+
+    parser.parse_line("$usepackage: xcolor");
+    parser.parse_line("$usepackage: geometry");
+
+    std::stringstream expected;
+    expected << "\\title{Notes}" << std::endl;
+    expected << "\\author{Cayden Lund}" << std::endl;
+    expected << "\\date{}" << std::endl;
+    expected << std::endl;
+    expected << "\\documentclass[12pt, letterpaper]{article}" << std::endl;
+    expected << std::endl;
+    expected << std::endl;
+    expected << "\\usepackage{graphicx}" << std::endl;
+    expected << "\\graphicspath{{.}}" << std::endl;
+    expected << std::endl;
+    expected << "\\usepackage[utf8]{inputenc}" << std::endl;
+    expected << std::endl;
+    expected << "\\usepackage{tabularx}" << std::endl;
+    expected << std::endl;
+    expected << "\\usepackage{amsmath}" << std::endl;
+    expected << std::endl;
+    expected << "\\usepackage{xcolor}" << std::endl;
+    expected << std::endl;
+    expected << "\\usepackage{geometry}" << std::endl;
+    expected << std::endl;
+    expected << std::endl;
+    expected << "\\begin{document}" << std::endl;
+    expected << std::endl;
+    expected << std::endl;
+    expected << "\\maketitle" << std::endl;
+    expected << std::endl;
+
+    std::string actual = parser.start();
+
+    EXPECT_EQ(expected.str(), actual);
+}
+
+// Test the Parser#end() method.
+// This test ensures that the end() method returns the correct value with
+// everything left as default.
+TEST(Parser, EndDefaults)
+{
+    Parser parser = Parser();
+
+    std::string expected = "\n\n\\end{document}";
+
+    std::string actual = parser.end();
+
+    EXPECT_EQ(expected, actual);
+}
+
+// Test the Parser#end() method.
+// This test ensures that the end() method returns the correct value with
+// a closing of itemize and enumerate.
+TEST(Parser, EndLists)
+{
+    Parser parser = Parser();
+
+    parser.parse_line("* Itemize 1.\n");
+    parser.parse_line("  * Itemize 2.\n");
+    parser.parse_line("    1. Enumerate.\n");
+
+    std::stringstream expected;
+    expected << "        \\end{enumerate}" << std::endl;
+    expected << "    \\end{itemize}" << std::endl;
+    expected << "\\end{itemize}" << std::endl;
+    expected << std::endl;
+    expected << std::endl;
+    expected << "\\end{document}";
+
+    std::string actual = parser.end();
+
+    EXPECT_EQ(expected.str(), actual);
 }
 
 // Test the Parser#parse_line() method.
