@@ -1,5 +1,5 @@
 // src/parser/state.cpp
-// v. 0.4.1
+// v. 0.5.0
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -25,17 +25,18 @@ namespace mark_sideways
     // Constructor.
     State::State()
     {
-        indentation = 0;
-        verbatim = false;
-        preline = "";
-        line = "";
+        this->indentation = 0;
+        this->verbatim = false;
+        this->math = false;
+        this->preline = "";
+        this->line = "";
     }
 
     // Returns a string of spaces to indent the next line.
     std::string State::indent()
     {
         std::string result;
-        for (int i = 0; i < indentation; i++)
+        for (int i = 0; i < this->indentation; i++)
         {
             result += "    ";
         }
@@ -45,22 +46,33 @@ namespace mark_sideways
     // Returns true if verbatim mode is on.
     bool State::is_verbatim()
     {
-        return verbatim;
+        return this->verbatim;
     }
 
     // Returns the necessary \begin{verbatim} or \end{verbatim} commands.
     std::string State::toggle_verbatim()
     {
-        if (verbatim)
+        this->verbatim = !this->verbatim;
+        if (this->verbatim)
         {
-            verbatim = false;
-            return "\\end{verbatim}";
+            return "\\begin{verbatim}";
         }
         else
         {
-            verbatim = true;
-            return "\\begin{verbatim}";
+            return "\\end{verbatim}";
         }
+    }
+
+    // Returns true if math mode is on.
+    bool State::is_math()
+    {
+        return this->math;
+    }
+
+    // Toggles math mode.
+    void State::toggle_math()
+    {
+        this->math = !this->math;
     }
 
     // Sets the indentation to the given value.

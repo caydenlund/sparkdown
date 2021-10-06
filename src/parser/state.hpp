@@ -1,5 +1,5 @@
 // src/parser/state.hpp
-// v. 0.4.1
+// v. 0.5.0
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -37,6 +37,12 @@ namespace mark_sideways
 
         // Returns the necessary \begin{verbatim} or \end{verbatim} commands.
         std::string toggle_verbatim();
+
+        // Returns true if math mode is on.
+        bool is_math();
+
+        // Toggles math mode.
+        void toggle_math();
 
         // Sets the indentation to the given value.
         //
@@ -100,6 +106,9 @@ namespace mark_sideways
 
         // Whether or not we are in verbatim mode.
         bool verbatim;
+
+        // Whether or not we are in math mode.
+        bool math;
 
         // The text preceding the line we are currently parsing.
         std::string preline;
