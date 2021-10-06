@@ -1,5 +1,5 @@
 // src/parser/state.cpp
-// v. 0.4.0
+// v. 0.4.1
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -80,6 +80,8 @@ namespace mark_sideways
     }
 
     // Sets the idemization level to itemize.
+    //
+    // * int level - The new idemization level.
     void State::begin_itemize(int level)
     {
         while ((int)levels.size() > level)
@@ -104,6 +106,9 @@ namespace mark_sideways
         }
     }
 
+    // Sets the enumeration level to enumerate.
+    //
+    // * int level - The new enumeration level.
     void State::begin_enumerate(int level)
     {
         while ((int)levels.size() > level)
@@ -135,6 +140,8 @@ namespace mark_sideways
     }
 
     // Sets the current line.
+    //
+    // * std::string line - The new current line.
     void State::set_line(std::string line)
     {
         this->line = line;
