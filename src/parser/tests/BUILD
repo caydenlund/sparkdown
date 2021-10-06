@@ -1,9 +1,19 @@
 cc_test(
-    name = "parser-test",
+    name = "parser.test",
     size = "small",
-    srcs = ["parser-test.cc"],
+    srcs = ["parser.test.cpp"],
     deps = [
         "@googletest//:gtest_main",
-        "//lib/parser"
+        "//parser"
+    ]
+)
+
+cc_test(
+    name = "state.test",
+    size = "small",
+    srcs = ["state.test.cpp"],
+    deps = [
+        "@googletest//:gtest_main",
+        "//parser:state"
     ]
 )
