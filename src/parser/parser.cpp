@@ -1,8 +1,8 @@
 // src/lib/parser/parser.cpp
-// v. 0.5.1
+// v. 0.5.2
 //
 // Author: Cayden Lund
-//   Date: 10/05/2021
+//   Date: 10/06/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -33,7 +33,8 @@
 // We also use the State class.
 #include "state.hpp"
 
-#include "lexers/bullets.hpp"
+// The lexers.
+#include "lexers/itemize.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
@@ -92,7 +93,7 @@ namespace mark_sideways
         indentation_regex = std::regex("^(\\s*)(\\S+?)");
 
         // 2. * Bullet point.
-        bullets = new mark_sideways::lexers::Bullets(&state);
+        itemize = new mark_sideways::lexers::Itemize(&state);
 
         // 3. (\d). Ordered list.
         enumerate_regex = std::regex("^(\\s*)\\d+[\\.\\)]\\s+");
@@ -122,7 +123,7 @@ namespace mark_sideways
     // The destructor for the Parser class.
     Parser::~Parser()
     {
-        delete bullets;
+        delete itemize;
     }
 
     // Returns the LaTeX headers for a new file,
@@ -230,7 +231,7 @@ namespace mark_sideways
         std::string line = state.get_line();
 
         std::smatch match;
-        if (std::regex_search(line, match, indentation_regex) && !bullets->is_bullet_point(line) && !std::regex_search(line, enumerate_regex))
+        if (std::regex_search(line, match, indentation_regex) && !itemize->is_bullet_point(line) && !std::regex_search(line, enumerate_regex))
         {
             int indentation = match.str(1).length() / 2;
             state.set_indentation(indentation);
@@ -410,7 +411,7 @@ namespace mark_sideways
     std::string Parser::parse_line(std::string line)
     {
         state.set_line(line);
-        state.set_line(bullets->lex(state.get_line()));
+        state.set_line(itemize->lex(state.get_line()));
         parse_verbatim();
         if (!state.is_verbatim())
         {

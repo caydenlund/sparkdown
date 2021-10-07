@@ -1,8 +1,8 @@
-// src/lib/parser/lexers/bullets.hpp
-// v. 0.1.0
+// src/lib/parser/lexers/itemize.hpp
+// v. 0.1.1
 //
 // Author: Cayden Lund
-//   Date: 10/05/2021
+//   Date: 10/06/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -27,19 +27,19 @@ namespace mark_sideways
     // The lexers namespace contains all the lexer classes.
     namespace lexers
     {
-        // Bullets.
+        // Itemize.
         // This class is used to lex bullet points.
-        class Bullets : public Lexer
+        class Itemize : public Lexer
         {
         public:
             // The constructor saves a reference to the State object, which is used to store
             // the current state of the parser.
             //
             // * mark_sideways::State state - The state object.
-            Bullets(mark_sideways::State *state);
+            Itemize(mark_sideways::State *state);
 
             // The class destructor.
-            virtual ~Bullets();
+            virtual ~Itemize();
 
             // Returns true when a given line is a bullet point.
             //

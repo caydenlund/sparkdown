@@ -1,8 +1,8 @@
 // src/parser/parser.hpp
-// v. 0.5.1
+// v. 0.5.2
 //
 // Author: Cayden Lund
-//   Date: 10/05/2021
+//   Date: 10/06/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -21,7 +21,7 @@
 
 // We use the State class to keep track of the current state of the parser.
 #include "state.hpp"
-#include "lexers/bullets.hpp"
+#include "lexers/itemize.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
@@ -123,7 +123,7 @@ namespace mark_sideways
         // ===== Misc. =====
 
         // The bullet point lexer.
-        mark_sideways::lexers::Bullets *bullets;
+        mark_sideways::lexers::Itemize *itemize;
 
         // The current state of the parser.
         State state;

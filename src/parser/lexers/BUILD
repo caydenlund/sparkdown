@@ -1,7 +1,7 @@
 cc_library(
-    name = "bullets",
-    srcs = ["bullets.cpp"],
-    hdrs = ["bullets.hpp"],
+    name = "itemize",
+    srcs = ["itemize.cpp"],
+    hdrs = ["itemize.hpp"],
     deps = [
         "//parser:state",
         "//parser:lexer"

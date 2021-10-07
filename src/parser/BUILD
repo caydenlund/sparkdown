@@ -4,7 +4,7 @@ cc_library(
     hdrs = ["parser.hpp"],
     deps = [
         ":state",
-        "//parser/lexers:bullets"
+        "//parser/lexers:itemize"
     ],
     visibility = ["//visibility:public"]
 )

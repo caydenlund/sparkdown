@@ -1,10 +1,10 @@
 cc_test(
-    name = "bullets.test",
+    name = "itemize.test",
     size = "small",
-    srcs = ["bullets.test.cpp"],
+    srcs = ["itemize.test.cpp"],
     deps = [
         "@googletest//:gtest_main",
         "//parser:state",
-        "//parser/lexers:bullets"
+        "//parser/lexers:itemize"
     ]
 )

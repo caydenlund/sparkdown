@@ -1,8 +1,8 @@
-// src/lib/parser/lexers/bullets.cpp
-// v. 0.1.0
+// src/lib/parser/lexers/itemize.cpp
+// v. 0.1.1
 //
 // Author: Cayden Lund
-//   Date: 10/05/2021
+//   Date: 10/06/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -16,7 +16,7 @@
 #include <regex>
 #include <iostream>
 
-#include "bullets.hpp"
+#include "itemize.hpp"
 #include "parser/state.hpp"
 #include "parser/lexer.hpp"
 
@@ -30,7 +30,7 @@ namespace mark_sideways
         // the current state of the parser.
         //
         // mark_sideways::State state - The state object.
-        mark_sideways::lexers::Bullets::Bullets(mark_sideways::State *state) : Lexer(state)
+        mark_sideways::lexers::Itemize::Itemize(mark_sideways::State *state) : Lexer(state)
         {
             // The regex for the bullet point lexer.
             this->match_regex = std::regex("^(\\s*)[-\\*](\\s.*)");
@@ -38,7 +38,7 @@ namespace mark_sideways
         }
 
         // The class destructor.
-        mark_sideways::lexers::Bullets::~Bullets()
+        mark_sideways::lexers::Itemize::~Itemize()
         {
             // Nothing to do here.
         }
@@ -47,7 +47,7 @@ namespace mark_sideways
         //
         // * std::string line - The line to check.
         // * return bool      - True if the line is a bullet point.
-        bool mark_sideways::lexers::Bullets::is_bullet_point(std::string line)
+        bool mark_sideways::lexers::Itemize::is_bullet_point(std::string line)
         {
             if (this->ignore(line))
                 return false;
@@ -59,7 +59,7 @@ namespace mark_sideways
         //
         // * std::string line   - The string to lex.
         // * return std::string - The lexed string.
-        std::string mark_sideways::lexers::Bullets::lex(std::string line)
+        std::string mark_sideways::lexers::Itemize::lex(std::string line)
         {
             // First, determine whether we are in a block of verbatim text or math mode.
             if (!this->ignore(line))
@@ -89,7 +89,7 @@ namespace mark_sideways
         //
         // * std::string line - The line to test.
         // * return bool      - Whether we should ignore the given line.
-        bool mark_sideways::lexers::Bullets::ignore(std::string line)
+        bool mark_sideways::lexers::Itemize::ignore(std::string line)
         {
             return (state->is_verbatim() || state->is_math());
         }
@@ -98,7 +98,7 @@ namespace mark_sideways
         // The token is of the form "[%%==BULLET_{LEVEL}==%%]", where {LEVEL} is the bullet point level.
         //
         // * int level - The level of the bullet point.
-        std::string mark_sideways::lexers::Bullets::get_token(int level)
+        std::string mark_sideways::lexers::Itemize::get_token(int level)
         {
             return "[%%==BULLET_" + std::to_string(level) + "==%%]";
         }
