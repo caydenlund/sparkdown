@@ -1,5 +1,5 @@
 // src/lexer/lexers/abstract-lexer.hpp
-// v. 0.3.0
+// v. 0.4.0
 //
 // Author: Cayden Lund
 //   Date: 10/06/2021
@@ -17,6 +17,7 @@
 
 // System imports.
 #include <string>
+#include <regex>
 
 // We use the State class to keep track of the current state of the parser.
 #include "parser/state.hpp"
@@ -50,6 +51,9 @@ namespace mark_sideways
         protected:
             // The state object.
             mark_sideways::State *state;
+
+            // A regular expression to match unlexed tokens.
+            std::regex unlexed_regex;
         };
     }
 }

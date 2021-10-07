@@ -1,5 +1,5 @@
 // src/lexer/lexers/abstract-lexer.cpp
-// v. 0.3.0
+// v. 0.4.0
 //
 // Author: Cayden Lund
 //   Date: 10/06/2021
@@ -14,6 +14,7 @@
 
 // System imports.
 #include <string>
+#include <regex>
 
 // We use the State object to keep track of the current state of the parser.
 #include "parser/state.hpp"
@@ -39,6 +40,8 @@ namespace mark_sideways
         mark_sideways::lexers::AbstractLexer::AbstractLexer(mark_sideways::State *state)
         {
             this->state = state;
+
+            this->unlexed_regex = std::regex("\\[%%UNLEXED=(.*?)%%\\]");
         }
     }
 }

@@ -1,5 +1,5 @@
 // src/lexer/lexers/abstract-lexer/abstract-lexer.test.cpp
-// v. 0.1.0
+// v. 0.2.0
 //
 // Author: Cayden Lund
 //   Date: 10/07/2021
@@ -11,6 +11,10 @@
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)
+
+// System imports.
+#include <string>
+#include <regex>
 
 // The GTest testing framework.
 #include <gtest/gtest.h>
@@ -40,6 +44,11 @@ public:
     {
         if (state->is_verbatim())
             return line;
+        std::smatch match;
+        if (std::regex_search(line, match, this->unlexed_regex))
+        {
+            return match.str(1);
+        }
         return "Test";
     }
 };
@@ -72,6 +81,26 @@ TEST(AbstractLexer, AccessState)
 
     state.toggle_verbatim();
     expected = input;
+    actual = lexer.lex(input);
+    ASSERT_EQ(expected, actual);
+}
+
+// Ensure that the lex function can correctly match the unlexed_token regular expression.
+TEST(AbstractLexer, LexUnlexedToken)
+{
+    // Create a new state.
+    mark_sideways::State state;
+
+    // Create a new lexer.
+    ConcreteLexer lexer(&state);
+
+    std::string input = "[%%UNLEXED=123%%]";
+    std::string expected = "123";
+    std::string actual = lexer.lex(input);
+    ASSERT_EQ(expected, actual);
+
+    input = "123 [%%UNLEXED=456%%] 789";
+    expected = "456";
     actual = lexer.lex(input);
     ASSERT_EQ(expected, actual);
 }
