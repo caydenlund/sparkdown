@@ -1,5 +1,5 @@
-// src/lib/parser/parser.cpp
-// v. 0.5.2
+// src/parser/parser.cpp
+// v. 0.5.3
 //
 // Author: Cayden Lund
 //   Date: 10/06/2021
@@ -27,14 +27,15 @@
 #include <string>
 #include <regex>
 
-// This is the header file for the Parser class.
+// The header file for the Parser class.
 #include "parser.hpp"
 
-// We also use the State class.
+// We use the State class to keep track of the current state of the parser.
 #include "state.hpp"
 
-// The lexers.
+// The various lexers.
 #include "lexers/itemize.hpp"
+#include "lexers/enumerate.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
@@ -96,7 +97,7 @@ namespace mark_sideways
         itemize = new mark_sideways::lexers::Itemize(&state);
 
         // 3. (\d). Ordered list.
-        enumerate_regex = std::regex("^(\\s*)\\d+[\\.\\)]\\s+");
+        enumerate = new mark_sideways::lexers::Enumerate(&state);
 
         // 4. **Bold text.**
         bold_regex = std::regex("\\*\\*(.*?)\\*\\*");
@@ -231,7 +232,7 @@ namespace mark_sideways
         std::string line = state.get_line();
 
         std::smatch match;
-        if (std::regex_search(line, match, indentation_regex) && !itemize->is_bullet_point(line) && !std::regex_search(line, enumerate_regex))
+        if (std::regex_search(line, match, indentation_regex) && !itemize->is_bullet_point(line) && !enumerate->is_enumerate(line))
         {
             int indentation = match.str(1).length() / 2;
             state.set_indentation(indentation);
@@ -239,21 +240,6 @@ namespace mark_sideways
         }
 
         state.set_line(line);
-    }
-
-    // Parse for numbered lists.
-    void Parser::parse_enumerate()
-    {
-        // Get the line from the state.
-        std::string line = state.get_line();
-
-        std::smatch match;
-        if (std::regex_search(line, match, enumerate_regex))
-        {
-            int indentation = match.str(1).length() / 2;
-            state.begin_enumerate(indentation + 1);
-            state.set_line(std::regex_replace(line, enumerate_regex, "\\item "));
-        }
     }
 
     // Replace all bold text with LaTeX code.
@@ -412,12 +398,12 @@ namespace mark_sideways
     {
         state.set_line(line);
         state.set_line(itemize->lex(state.get_line()));
+        state.set_line(enumerate->lex(state.get_line()));
         parse_verbatim();
         if (!state.is_verbatim())
         {
             parse_section();
             parse_indentation();
-            parse_enumerate();
             parse_bold();
             parse_italics();
             parse_verb();

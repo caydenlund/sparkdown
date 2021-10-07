@@ -1,5 +1,5 @@
 // src/parser/parser.hpp
-// v. 0.5.2
+// v. 0.5.3
 //
 // Author: Cayden Lund
 //   Date: 10/06/2021
@@ -21,7 +21,10 @@
 
 // We use the State class to keep track of the current state of the parser.
 #include "state.hpp"
+
+// The various lexers.
 #include "lexers/itemize.hpp"
+#include "lexers/enumerate.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
@@ -83,22 +86,37 @@ namespace mark_sideways
         // ====================
         // | Private methods. |
         // ====================
+
         // Parse headlines.
         void parse_section();
+
         // Parse indentation.
         void parse_indentation();
-        // Parse numbered lists.
-        void parse_enumerate();
+
         // Parse bold text.
         void parse_bold();
+
         // Parse italic text.
         void parse_italics();
+
         // Parse inline verbatim text.
         void parse_verb();
+
         // Parse block verbatim text.
         void parse_verbatim();
+
         // Parse rightarrows.
         void parse_arrow();
+
+        // ===========
+        // | Lexers. |
+        // ===========
+
+        // Bullet points.
+        mark_sideways::lexers::Itemize *itemize;
+
+        // Enumerate.
+        mark_sideways::lexers::Enumerate *enumerate;
 
         // =======================
         // | Instance variables. |
@@ -112,7 +130,6 @@ namespace mark_sideways
         std::regex date_regex;
         std::regex section_regex;
         std::regex indentation_regex;
-        std::regex enumerate_regex;
         std::regex bold_regex;
         std::regex italic_regex;
         std::regex verb_regex;
@@ -121,9 +138,6 @@ namespace mark_sideways
         std::regex section_char_regex;
 
         // ===== Misc. =====
-
-        // The bullet point lexer.
-        mark_sideways::lexers::Itemize *itemize;
 
         // The current state of the parser.
         State state;
