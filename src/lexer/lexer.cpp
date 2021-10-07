@@ -23,7 +23,7 @@
 #include "lexer.hpp"
 
 // The interface for a lexer.
-#include "lexer/lexers/abstractLexer/abstractLexer.hpp"
+#include "lexer/lexers/abstract-lexer/abstract-lexer.hpp"
 
 // The various sub-lexers.
 #include "lexer/lexers/enumerate/enumerate.hpp"

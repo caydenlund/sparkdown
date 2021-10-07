@@ -3,7 +3,7 @@ cc_library(
     srcs = ["lexer.cpp"],
     hdrs = ["lexer.hpp"],
     deps = [
-        "//lexer/lexers/abstractLexer",
+        "//lexer/lexers/abstract-lexer",
         "//lexer/lexers/enumerate",
         "//lexer/lexers/itemize"
     ],

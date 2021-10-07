@@ -1,4 +1,4 @@
-// src/lexer/lexers/abstractLexer.cpp
+// src/lexer/lexers/abstract-lexer.cpp
 // v. 0.3.0
 //
 // Author: Cayden Lund
@@ -19,7 +19,7 @@
 #include "parser/state.hpp"
 
 // The header for the AbstractLexer class.
-#include "abstractLexer.hpp"
+#include "abstract-lexer.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways

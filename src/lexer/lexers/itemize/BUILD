@@ -4,7 +4,7 @@ cc_library(
     hdrs = ["itemize.hpp"],
     deps = [
         "//parser:state",
-        "//lexer/lexers/abstractLexer"
+        "//lexer/lexers/abstract-lexer"
     ],
     visibility = ["//lexer:__subpackages__"]
 )

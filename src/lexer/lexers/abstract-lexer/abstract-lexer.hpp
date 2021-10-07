@@ -1,4 +1,4 @@
-// src/lexer/lexers/abstractLexer.hpp
+// src/lexer/lexers/abstract-lexer.hpp
 // v. 0.3.0
 //
 // Author: Cayden Lund

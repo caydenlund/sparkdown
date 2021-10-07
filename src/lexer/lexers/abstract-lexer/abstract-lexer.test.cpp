@@ -1,4 +1,4 @@
-// src/lexer/lexers/abstractLexer/abstractLexer.test.cpp
+// src/lexer/lexers/abstract-lexer/abstract-lexer.test.cpp
 // v. 0.1.0
 //
 // Author: Cayden Lund
@@ -19,7 +19,7 @@
 #include "parser/state.hpp"
 
 // The AbstractLexer class.
-#include "lexer/lexers/abstractLexer/abstractLexer.hpp"
+#include "lexer/lexers/abstract-lexer/abstract-lexer.hpp"
 
 // Since the AbstractLexer class is abstract, we need to create a concrete
 // class to test it.
