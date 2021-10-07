@@ -1,5 +1,5 @@
 // src/parser/parser.hpp
-// v. 0.4.1
+// v. 0.5.0
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -21,6 +21,7 @@
 
 // We use the State class to keep track of the current state of the parser.
 #include "state.hpp"
+#include "lexers/bullets.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
@@ -54,6 +55,9 @@ namespace mark_sideways
         // Overrides of these defaults are specified
         // inside the mark-sideways text itself.
         Parser();
+
+        // The class destructor.
+        ~Parser();
 
         // Returns the LaTeX headers for a new file,
         // using our `title`, `author`, and `date` instance variables.
@@ -110,7 +114,6 @@ namespace mark_sideways
         std::regex date_regex;
         std::regex section_regex;
         std::regex indentation_regex;
-        std::regex itemize_regex;
         std::regex enumerate_regex;
         std::regex bold_regex;
         std::regex italic_regex;
@@ -120,6 +123,9 @@ namespace mark_sideways
         std::regex section_char_regex;
 
         // ===== Misc. =====
+
+        // The bullet point lexer.
+        mark_sideways::lexers::Bullets *bullets;
 
         // The current state of the parser.
         State state;

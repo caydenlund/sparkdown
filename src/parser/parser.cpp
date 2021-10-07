@@ -1,5 +1,5 @@
 // src/lib/parser/parser.cpp
-// v. 0.4.1
+// v. 0.5.0
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -32,6 +32,8 @@
 
 // We also use the State class.
 #include "state.hpp"
+
+#include "lexers/bullets.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
@@ -90,7 +92,7 @@ namespace mark_sideways
         indentation_regex = std::regex("^(\\s*)(\\S+?)");
 
         // 2. * Bullet point.
-        itemize_regex = std::regex("^(\\s*)[\\*\\-]\\s+");
+        bullets = new mark_sideways::lexers::Bullets(&state);
 
         // 3. (\d). Ordered list.
         enumerate_regex = std::regex("^(\\s*)\\d+[\\.\\)]\\s+");
@@ -115,6 +117,12 @@ namespace mark_sideways
         // We use the section symbol internally to indicate
         // sections of the string as we parse it.
         section_char_regex = std::regex("§");
+    }
+
+    // The destructor for the Parser class.
+    Parser::~Parser()
+    {
+        delete bullets;
     }
 
     // Returns the LaTeX headers for a new file,
@@ -222,12 +230,14 @@ namespace mark_sideways
         std::string line = state.get_line();
 
         std::smatch match;
-        if (std::regex_search(line, match, indentation_regex) && !std::regex_search(line, itemize_regex) && !std::regex_search(line, enumerate_regex))
+        if (std::regex_search(line, match, indentation_regex) && !bullets->is_bullet_point(line) && !std::regex_search(line, enumerate_regex))
         {
             int indentation = match.str(1).length() / 2;
             state.set_indentation(indentation);
             std::regex_replace(line, indentation_regex, "$2");
         }
+
+        state.set_line(line);
     }
 
     // Parse for bullet points.
@@ -236,13 +246,7 @@ namespace mark_sideways
         // Get the line from the state.
         std::string line = state.get_line();
 
-        std::smatch match;
-        if (std::regex_search(line, match, itemize_regex))
-        {
-            int indentation = match.str(1).length() / 2;
-            state.begin_itemize(indentation + 1);
-            state.set_line(std::regex_replace(line, itemize_regex, "\\item "));
-        }
+        state.set_line(bullets->lex(line));
     }
 
     // Parse for numbered lists.
