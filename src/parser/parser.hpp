@@ -1,5 +1,5 @@
 // src/parser/parser.hpp
-// v. 0.5.0
+// v. 0.5.1
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -87,8 +87,6 @@ namespace mark_sideways
         void parse_section();
         // Parse indentation.
         void parse_indentation();
-        // Parse bullets.
-        void parse_itemize();
         // Parse numbered lists.
         void parse_enumerate();
         // Parse bold text.

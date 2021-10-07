@@ -1,5 +1,5 @@
 // src/lib/parser/parser.cpp
-// v. 0.5.0
+// v. 0.5.1
 //
 // Author: Cayden Lund
 //   Date: 10/05/2021
@@ -240,15 +240,6 @@ namespace mark_sideways
         state.set_line(line);
     }
 
-    // Parse for bullet points.
-    void Parser::parse_itemize()
-    {
-        // Get the line from the state.
-        std::string line = state.get_line();
-
-        state.set_line(bullets->lex(line));
-    }
-
     // Parse for numbered lists.
     void Parser::parse_enumerate()
     {
@@ -419,12 +410,12 @@ namespace mark_sideways
     std::string Parser::parse_line(std::string line)
     {
         state.set_line(line);
+        state.set_line(bullets->lex(state.get_line()));
         parse_verbatim();
         if (!state.is_verbatim())
         {
             parse_section();
             parse_indentation();
-            parse_itemize();
             parse_enumerate();
             parse_bold();
             parse_italics();
