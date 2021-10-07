@@ -1,5 +1,5 @@
 // src/parser/parser.cpp
-// v. 0.5.3
+// v. 0.6.0
 //
 // Author: Cayden Lund
 //   Date: 10/06/2021
@@ -33,9 +33,8 @@
 // We use the State class to keep track of the current state of the parser.
 #include "state.hpp"
 
-// The various lexers.
-#include "lexers/itemize.hpp"
-#include "lexers/enumerate.hpp"
+// We use the Lexer class to lex a line into tokens.
+#include "lexer/lexer.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
@@ -69,7 +68,10 @@ namespace mark_sideways
     Parser::Parser()
     {
         // Set the default Parser state.
-        state = State();
+        state = new State();
+
+        // Instantiate a new Lexer.
+        this->lexer = new mark_sideways::Lexer(state);
 
         // Assume at first that we are reading overrides for the head of the document.
         head = true;
@@ -92,12 +94,6 @@ namespace mark_sideways
 
         // (Handle indentation.)
         indentation_regex = std::regex("^(\\s*)(\\S+?)");
-
-        // 2. * Bullet point.
-        itemize = new mark_sideways::lexers::Itemize(&state);
-
-        // 3. (\d). Ordered list.
-        enumerate = new mark_sideways::lexers::Enumerate(&state);
 
         // 4. **Bold text.**
         bold_regex = std::regex("\\*\\*(.*?)\\*\\*");
@@ -124,7 +120,7 @@ namespace mark_sideways
     // The destructor for the Parser class.
     Parser::~Parser()
     {
-        delete itemize;
+        delete lexer;
     }
 
     // Returns the LaTeX headers for a new file,

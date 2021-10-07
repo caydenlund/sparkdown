@@ -1,8 +1,8 @@
-// src/parser/lexers/tests/itemize.test.cpp
-// v. 0.1.1
+// src/lexer/lexers/itemize/itemize.test.cpp
+// v. 0.2.0
 //
 // Author: Cayden Lund
-//   Date: 09/23/2021
+//   Date: 10/06/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -15,7 +15,7 @@
 #include <gtest/gtest.h>
 
 #include "parser/state.hpp"
-#include "parser/lexers/itemize.hpp"
+#include "itemize.hpp"
 
 // Test the constructor.
 // Ensures that the lexer does not throw an exception.
@@ -34,12 +34,12 @@ TEST(ItemizeLexer, LexSingleBulletNoIndent)
     mark_sideways::lexers::Itemize itemize(&state);
 
     std::string input = "* Bullet point.";
-    std::string expected = "[%%==BULLET_1==%%] Bullet point.";
+    std::string expected = "[%%BULLET=1%%] Bullet point.";
     std::string actual = itemize.lex(input);
     EXPECT_EQ(expected, actual);
 
     input = "- Bullet point.\n";
-    expected = "[%%==BULLET_1==%%] Bullet point.\n";
+    expected = "[%%BULLET=1%%] Bullet point.\n";
     actual = itemize.lex(input);
     EXPECT_EQ(expected, actual);
 }
@@ -52,12 +52,12 @@ TEST(ItemizeLexer, LexSingleBulletIndent)
     mark_sideways::lexers::Itemize itemize(&state);
 
     std::string input = "  * Bullet point.";
-    std::string expected = "[%%==BULLET_2==%%] Bullet point.";
+    std::string expected = "[%%BULLET=2%%] Bullet point.";
     std::string actual = itemize.lex(input);
     EXPECT_EQ(expected, actual);
 
     input = "    - Bullet point.\n";
-    expected = "[%%==BULLET_3==%%] Bullet point.\n";
+    expected = "[%%BULLET=3%%] Bullet point.\n";
     actual = itemize.lex(input);
     EXPECT_EQ(expected, actual);
 }

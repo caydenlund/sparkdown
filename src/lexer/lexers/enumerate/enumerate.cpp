@@ -1,5 +1,5 @@
-// src/lib/parser/lexers/itemize.cpp
-// v. 0.1.1
+// src/lexer/lexers/enumerate/enumerate.cpp
+// v. 0.2.0
 //
 // Author: Cayden Lund
 //   Date: 10/06/2021
@@ -7,38 +7,44 @@
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
-// This file contains the implementation for the bullet point lexer.
+// This file contains the implementation for the enumerate lexer.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)
 
+// System imports.
 #include <string>
 #include <regex>
 #include <iostream>
 
-#include "itemize.hpp"
+// The enumerate header file.
+#include "enumerate.hpp"
+
+// We use the State class to keep track of the current state of the parser.
 #include "parser/state.hpp"
-#include "parser/lexer.hpp"
+
+// The interface for a lexer.
+#include "lexer/lexers/abstractLexer/abstractLexer.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
 {
-    // The lexers namespace contains all the lexer classes.
+    // The lexers namespace contains all the sub-lexer classes.
     namespace lexers
     {
         // The constructor saves a reference to the State object, which is used to store
         // the current state of the parser.
         //
         // mark_sideways::State state - The state object.
-        mark_sideways::lexers::Itemize::Itemize(mark_sideways::State *state) : Lexer(state)
+        mark_sideways::lexers::Enumerate::Enumerate(mark_sideways::State *state) : AbstractLexer(state)
         {
             // The regex for the bullet point lexer.
-            this->match_regex = std::regex("^(\\s*)[-\\*](\\s.*)");
-            this->escape_regex = std::regex("^(\\s*)\\\\([-\\*]\\s.*)");
+            this->match_regex = std::regex("^(\\s*)\\d+\\.(\\s.*)");
+            this->escape_regex = std::regex("^(\\s*)\\\\(\\d+\\.\\s.*)");
         }
 
         // The class destructor.
-        mark_sideways::lexers::Itemize::~Itemize()
+        mark_sideways::lexers::Enumerate::~Enumerate()
         {
             // Nothing to do here.
         }
@@ -47,7 +53,7 @@ namespace mark_sideways
         //
         // * std::string line - The line to check.
         // * return bool      - True if the line is a bullet point.
-        bool mark_sideways::lexers::Itemize::is_bullet_point(std::string line)
+        bool mark_sideways::lexers::Enumerate::is_enumerate(std::string line)
         {
             if (this->ignore(line))
                 return false;
@@ -59,7 +65,7 @@ namespace mark_sideways
         //
         // * std::string line   - The string to lex.
         // * return std::string - The lexed string.
-        std::string mark_sideways::lexers::Itemize::lex(std::string line)
+        std::string mark_sideways::lexers::Enumerate::lex(std::string line)
         {
             // First, determine whether we are in a block of verbatim text or math mode.
             if (!this->ignore(line))
@@ -89,18 +95,18 @@ namespace mark_sideways
         //
         // * std::string line - The line to test.
         // * return bool      - Whether we should ignore the given line.
-        bool mark_sideways::lexers::Itemize::ignore(std::string line)
+        bool mark_sideways::lexers::Enumerate::ignore(std::string line)
         {
             return (state->is_verbatim() || state->is_math());
         }
 
         // The token used to replace the bullet point.
-        // The token is of the form "[%%==BULLET_{LEVEL}==%%]", where {LEVEL} is the bullet point level.
+        // The token is of the form "[%%BULLET_{LEVEL}%%]", where {LEVEL} is the bullet point level.
         //
         // * int level - The level of the bullet point.
-        std::string mark_sideways::lexers::Itemize::get_token(int level)
+        std::string mark_sideways::lexers::Enumerate::get_token(int level)
         {
-            return "[%%==BULLET_" + std::to_string(level) + "==%%]";
+            return "[%%ENUMERATE=" + std::to_string(level) + "%%]";
         }
     }
 }

@@ -1,5 +1,5 @@
-// src/lib/parser/lexers/enumerate.hpp
-// v. 0.1.0
+// src/lexer/lexers/enumerate/enumerate.hpp
+// v. 0.2.0
 //
 // Author: Cayden Lund
 //   Date: 10/06/2021
@@ -15,21 +15,25 @@
 #ifndef ENUMERATE_HPP
 #define ENUMERATE_HPP
 
+// System imports.
 #include <string>
 #include <regex>
 
+// We use the State class to keep track of the current state of the parser.
 #include "parser/state.hpp"
-#include "parser/lexer.hpp"
+
+// The interface for a lexer.
+#include "lexer/lexers/abstractLexer/abstractLexer.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
 {
-    // The lexers namespace contains all the lexer classes.
+    // The lexers namespace contains all the sub-lexer classes.
     namespace lexers
     {
         // Enumerate.
         // This class is used to lex bullet points.
-        class Enumerate : public Lexer
+        class Enumerate : public AbstractLexer
         {
         public:
             // The constructor saves a reference to the State object, which is used to store

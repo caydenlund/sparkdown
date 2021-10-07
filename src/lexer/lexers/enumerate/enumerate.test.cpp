@@ -1,5 +1,5 @@
-// src/parser/lexers/tests/enumerate.test.cpp
-// v. 0.1.0
+// src/lexer/lexers/enumerate/enumerate.test.cpp
+// v. 0.2.0
 //
 // Author: Cayden Lund
 //   Date: 10/06/2021
@@ -7,15 +7,19 @@
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
-// This file contains the unit tests for the Enumerate Lexer class.
+// This file contains the unit tests for the Enumerate lexer class.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)
 
+// The GTest testing framework.
 #include <gtest/gtest.h>
 
+// We use the State class to keep track of the current state of the parser.
 #include "parser/state.hpp"
-#include "parser/lexers/enumerate.hpp"
+
+// The Enumerate lexer class.
+#include "enumerate.hpp"
 
 // Test the constructor.
 // Ensures that the lexer does not throw an exception.
@@ -34,12 +38,12 @@ TEST(EnumerateLexer, LexSingleEnumerateNoIndent)
     mark_sideways::lexers::Enumerate enumerate(&state);
 
     std::string input = "1. List item.";
-    std::string expected = "[%%==ENUMERATE_1==%%] List item.";
+    std::string expected = "[%%ENUMERATE=1%%] List item.";
     std::string actual = enumerate.lex(input);
     EXPECT_EQ(expected, actual);
 
     input = "2. List item.\n";
-    expected = "[%%==ENUMERATE_1==%%] List item.\n";
+    expected = "[%%ENUMERATE=1%%] List item.\n";
     actual = enumerate.lex(input);
     EXPECT_EQ(expected, actual);
 }
@@ -52,12 +56,12 @@ TEST(EnumerateLexer, LexSingleEnumerateIndent)
     mark_sideways::lexers::Enumerate enumerate(&state);
 
     std::string input = "  1. List item.";
-    std::string expected = "[%%==ENUMERATE_2==%%] List item.";
+    std::string expected = "[%%ENUMERATE=2%%] List item.";
     std::string actual = enumerate.lex(input);
     EXPECT_EQ(expected, actual);
 
     input = "    1. List item.\n";
-    expected = "[%%==ENUMERATE_3==%%] List item.\n";
+    expected = "[%%ENUMERATE=3%%] List item.\n";
     actual = enumerate.lex(input);
     EXPECT_EQ(expected, actual);
 }

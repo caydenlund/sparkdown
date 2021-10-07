@@ -1,21 +1,25 @@
-// src/lib/parser/lexer.hpp
-// v. 0.1.0
+// src/lexer/lexers/abstractLexer.cpp
+// v. 0.3.0
 //
 // Author: Cayden Lund
-//   Date: 10/05/2021
+//   Date: 10/06/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
-// This file contains the headers for the abstract lexer class.
+// This file contains the headers for the AbstractLexer class.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)
 
+// System imports.
 #include <string>
 
-#include "state.hpp"
-#include "lexer.hpp"
+// We use the State object to keep track of the current state of the parser.
+#include "parser/state.hpp"
+
+// The header for the AbstractLexer class.
+#include "abstractLexer.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
@@ -32,7 +36,7 @@ namespace mark_sideways
         // the current state of the parser.
         //
         // * mark_sideways::State state - The state object.
-        mark_sideways::lexers::Lexer::Lexer(mark_sideways::State *state)
+        mark_sideways::lexers::AbstractLexer::AbstractLexer(mark_sideways::State *state)
         {
             this->state = state;
         }

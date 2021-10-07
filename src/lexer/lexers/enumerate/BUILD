@@ -1,12 +1,12 @@
-cc_test(
-    name = "itemize.test",
-    size = "small",
-    srcs = ["itemize.test.cpp"],
+cc_library(
+    name = "enumerate",
+    srcs = ["enumerate.cpp"],
+    hdrs = ["enumerate.hpp"],
     deps = [
-        "@googletest//:gtest_main",
         "//parser:state",
-        "//parser/lexers:itemize"
-    ]
+        "//lexer/lexers/abstractLexer"
+    ],
+    visibility = ["//lexer:__subpackages__"]
 )
 
 cc_test(
@@ -16,6 +16,6 @@ cc_test(
     deps = [
         "@googletest//:gtest_main",
         "//parser:state",
-        "//parser/lexers:enumerate"
+        ":enumerate"
     ]
 )

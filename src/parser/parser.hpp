@@ -1,5 +1,5 @@
 // src/parser/parser.hpp
-// v. 0.5.3
+// v. 0.6.0
 //
 // Author: Cayden Lund
 //   Date: 10/06/2021
@@ -22,9 +22,8 @@
 // We use the State class to keep track of the current state of the parser.
 #include "state.hpp"
 
-// The various lexers.
-#include "lexers/itemize.hpp"
-#include "lexers/enumerate.hpp"
+// We use the Lexer class to lex a line into tokens.
+#include "lexer/lexer.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
@@ -108,16 +107,6 @@ namespace mark_sideways
         // Parse rightarrows.
         void parse_arrow();
 
-        // ===========
-        // | Lexers. |
-        // ===========
-
-        // Bullet points.
-        mark_sideways::lexers::Itemize *itemize;
-
-        // Enumerate.
-        mark_sideways::lexers::Enumerate *enumerate;
-
         // =======================
         // | Instance variables. |
         // =======================
@@ -140,13 +129,20 @@ namespace mark_sideways
         // ===== Misc. =====
 
         // The current state of the parser.
-        State state;
+        State *state;
+
+        // The line lexer.
+        Lexer *lexer;
+
         // Whether or not we are currently parsing the head of the file.
         bool head;
+
         // The title of the document.
         std::string title;
+
         // The author of the document.
         std::string author;
+
         // The date of the document.
         std::string date;
     };
