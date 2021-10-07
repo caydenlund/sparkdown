@@ -1,8 +1,8 @@
 // src/lexer/lexers/abstract-lexer.hpp
-// v. 0.4.0
+// v. 0.5.0
 //
 // Author: Cayden Lund
-//   Date: 10/06/2021
+//   Date: 10/07/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -51,9 +51,6 @@ namespace mark_sideways
         protected:
             // The state object.
             mark_sideways::State *state;
-
-            // A regular expression to match unlexed tokens.
-            std::regex unlexed_regex;
         };
     }
 }
