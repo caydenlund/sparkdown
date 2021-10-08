@@ -1,8 +1,8 @@
 // src/lexer/lexers/itemize/itemize.hpp
-// v. 0.2.0
+// v. 0.3.0
 //
 // Author: Cayden Lund
-//   Date: 10/06/2021
+//   Date: 10/07/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -18,9 +18,13 @@
 // System imports.
 #include <string>
 #include <regex>
+#include <vector>
 
 // We use the State class to keep track of the current state of the parser.
 #include "parser/state.hpp"
+
+// We use the Token class to build a vector of tokens.
+#include "lexer/token/token.hpp"
 
 // The interface for a lexer.
 #include "lexer/lexers/abstract-lexer/abstract-lexer.hpp"
@@ -52,25 +56,13 @@ namespace mark_sideways
             bool is_bullet_point(std::string line);
 
             // lex() is used to lex a single input line.
-            // This method takes in a string and returns a new string with the lexed tokens.
+            // This method takes in a string and returns a new vector with the lexed tokens.
             //
-            // * std::string line   - The string to lex.
-            // * return std::string - The lexed string.
-            std::string lex(std::string line);
+            // * std::string line                         - The string to lex.
+            // * return std::vector<mark_sideways::Token> - The vector of tokens.
+            std::vector<mark_sideways::Token> lex(std::string line);
 
         private:
-            // ignore() returns true when we should ignore the given line.
-            //
-            // * std::string line - The line to test.
-            // * return bool      - Whether we should ignore the given line.
-            bool ignore(std::string line);
-
-            // Used to construct the token used to replace the bullet point.
-            // The token is of the form "[%%==BULLET_{LEVEL}==%%]", where {LEVEL} is the bullet point level.
-            //
-            // * int level - The level of the bullet point.
-            std::string get_token(int level);
-
             // The regex used to lex bullet points.
             std::regex match_regex;
 
