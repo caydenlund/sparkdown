@@ -16,7 +16,7 @@ cc_test(
     srcs = ["lexer.test.cpp"],
     deps = [
         "@googletest//:gtest_main",
-        "//parser:state",
+        "//state",
         ":lexer"
     ]
 )

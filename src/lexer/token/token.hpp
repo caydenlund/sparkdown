@@ -1,5 +1,5 @@
 // src/token/token.hpp
-// v. 0.1.1
+// v. 0.1.2
 //
 // Author: Cayden Lund
 //   Date: 10/07/2021
@@ -20,7 +20,7 @@
 #include <regex>
 
 // We use the State class to keep track of the current state of the parser.
-#include "parser/state.hpp"
+#include "state/state.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways

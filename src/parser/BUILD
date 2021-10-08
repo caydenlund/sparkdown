@@ -3,18 +3,18 @@ cc_library(
     srcs = ["parser.cpp"],
     hdrs = ["parser.hpp"],
     deps = [
-        ":state",
+        "//state",
         "//lexer"
     ],
     visibility = ["//visibility:public"]
 )
 
-cc_library(
-    name = "state",
-    srcs = ["state.cpp"],
-    hdrs = ["state.hpp"],
-    visibility = [
-        "//parser:__subpackages__",
-        "//lexer:__subpackages__"
+cc_test(
+    name = "parser.test",
+    size = "small",
+    srcs = ["parser.test.cpp"],
+    deps = [
+        "@googletest//:gtest_main",
+        ":parser"
     ]
 )

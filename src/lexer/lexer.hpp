@@ -1,5 +1,5 @@
 // src/lexer/lexer.hpp
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
 //   Date: 10/07/2021
@@ -21,7 +21,10 @@
 #include <regex>
 
 // We use the State class to keep track of the current state of the parser.
-#include "parser/state.hpp"
+#include "state/state.hpp"
+
+// We use the Token class to build a vector of tokens.
+#include "lexer/token/token.hpp"
 
 // The interface for a lexer.
 #include "lexer/lexers/abstract-lexer/abstract-lexer.hpp"
@@ -48,28 +51,27 @@ namespace mark_sideways
         virtual ~Lexer();
 
         // lex() is used to lex a single input line.
-        // This method takes in a string and returns a new string with the lexed tokens.
+        // This method takes in a string and returns a new vector with the lexed tokens.
         //
-        // * std::string line   - The string to lex.
-        // * return std::string - The lexed string.
-        std::string lex(std::string line);
+        // * std::string line                         - The string to lex.
+        // * return std::vector<mark_sideways::Token> - The vector of tokens.
+        std::vector<mark_sideways::Token> lex(std::string line);
 
     private:
         // ====================
         // | Private methods. |
         // ====================
 
-        // Lex a line from the head of the file.
+        // A helper method to lex a line from the head of the file.
         //
-        // * std::string line   - The line to lex.
-        // * return std::string - The lexed line.
-        std::string lex_head(std::string line);
+        // * std::string line                         - The line to lex.
+        // * return std::vector<mark_sideways::Token> - The vector of tokens.
+        std::vector<mark_sideways::Token> lex_head(std::string line);
 
-        // Lex a line from the body of the file.
+        // A recursive helper method to lex a line from the body of the file.
         //
-        // * std::string line   - The line to lex.
-        // * return std::string - The lexed line.
-        std::string lex_body(std::string line);
+        // * std::vector<mark_sideways::Token> &tokens - The vector of tokens.
+        void lex_body(std::vector<mark_sideways::Token> &tokens);
 
         // ===========================
         // | The various sub-lexers. |

@@ -1,8 +1,8 @@
-// src/parser/state.hpp
-// v. 0.5.0
+// src/state/state.hpp
+// v. 0.5.1
 //
 // Author: Cayden Lund
-//   Date: 10/05/2021
+//   Date: 10/07/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.

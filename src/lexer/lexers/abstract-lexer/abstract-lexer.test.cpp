@@ -1,5 +1,5 @@
 // src/lexer/lexers/abstract-lexer/abstract-lexer.test.cpp
-// v. 0.4.1
+// v. 0.4.2
 //
 // Author: Cayden Lund
 //   Date: 10/07/2021
@@ -21,7 +21,7 @@
 #include <gtest/gtest.h>
 
 // We use the State class to keep track of the current state of the parser.
-#include "parser/state.hpp"
+#include "state/state.hpp"
 
 // We use the Token class to build a vector of tokens.
 #include "lexer/token/token.hpp"

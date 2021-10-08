@@ -1,5 +1,5 @@
 // src/lexer/lexer.test.cpp
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
 //   Date: 10/06/2021
@@ -16,7 +16,7 @@
 #include <gtest/gtest.h>
 
 // We use the State class to keep track of the current state of the parser.
-#include "parser/state.hpp"
+#include "state/state.hpp"
 
 // The Lexer class.
 #include "lexer.hpp"

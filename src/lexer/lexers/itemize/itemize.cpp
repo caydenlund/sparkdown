@@ -1,5 +1,5 @@
 // src/lexer/lexers/itemize/itemize.cpp
-// v. 0.3.0
+// v. 0.3.1
 //
 // Author: Cayden Lund
 //   Date: 10/07/2021
@@ -20,7 +20,7 @@
 #include "itemize.hpp"
 
 // We use the State class to keep track of the current state of the parser.
-#include "parser/state.hpp"
+#include "state/state.hpp"
 
 // The interface for a lexer.
 #include "lexer/lexers/abstract-lexer/abstract-lexer.hpp"

@@ -1,8 +1,8 @@
-// src/parser/tests/parser-test.cpp
-// v. 0.3.0
+// src/parser/parser-test.cpp
+// v. 0.3.1
 //
 // Author: Cayden Lund
-//   Date: 09/23/2021
+//   Date: 10/07/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -15,7 +15,7 @@
 #include <gtest/gtest.h>
 #include <string>
 
-#include "parser/parser.hpp"
+#include "parser.hpp"
 
 using namespace mark_sideways;
 

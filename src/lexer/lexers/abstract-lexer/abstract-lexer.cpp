@@ -1,5 +1,5 @@
 // src/lexer/lexers/abstract-lexer.cpp
-// v. 0.6.0
+// v. 0.6.1
 //
 // Author: Cayden Lund
 //   Date: 10/07/2021
@@ -17,7 +17,7 @@
 #include <regex>
 
 // We use the State object to keep track of the current state of the parser.
-#include "parser/state.hpp"
+#include "state/state.hpp"
 
 // The header for the AbstractLexer class.
 #include "abstract-lexer.hpp"

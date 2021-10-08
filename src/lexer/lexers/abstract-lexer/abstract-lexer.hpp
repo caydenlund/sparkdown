@@ -1,5 +1,5 @@
 // src/lexer/lexers/abstract-lexer.hpp
-// v. 0.6.0
+// v. 0.6.1
 //
 // Author: Cayden Lund
 //   Date: 10/07/2021
@@ -20,7 +20,7 @@
 #include <vector>
 
 // We use the State class to keep track of the current state of the parser.
-#include "parser/state.hpp"
+#include "state/state.hpp"
 
 // We use the Token class to build a vector of tokens.
 #include "lexer/token/token.hpp"

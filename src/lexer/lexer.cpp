@@ -1,5 +1,5 @@
 // src/lexer/lexer.cpp
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
 //   Date: 10/07/2021
@@ -15,9 +15,13 @@
 
 // System imports.
 #include <string>
+#include <vector>
 
 // We use the State class to keep track of the current state of the parser.
-#include "parser/state.hpp"
+#include "state/state.hpp"
+
+// We use the Token class to build a vector of tokens.
+#include "lexer/token/token.hpp"
 
 // The header for the Lexer class.
 #include "lexer.hpp"
@@ -53,10 +57,25 @@ namespace mark_sideways
     //
     // * std::string line   - The line to lex.
     // * return std::string - The lexed line.
-    std::string mark_sideways::Lexer::lex(std::string line)
+    std::vector<mark_sideways::Token> mark_sideways::Lexer::lex(std::string line)
     {
-        line = this->enumerate->lex(line);
-        line = this->itemize->lex(line);
-        return line;
+        std::vector<mark_sideways::Token> tokens;
+        tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, line));
+        return tokens;
+    }
+
+    // A helper method to lex a line from the head of the file.
+    //
+    // * std::string line                         - The line to lex.
+    // * return std::vector<mark_sideways::Token> - The vector of tokens.
+    std::vector<mark_sideways::Token> mark_sideways::Lexer::lex_head(std::string line)
+    {
+    }
+
+    // A recursive helper method to lex a line from the body of the file.
+    //
+    // * std::vector<mark_sideways::Token> &tokens - The vector of tokens.
+    void mark_sideways::Lexer::lex_body(std::vector<mark_sideways::Token> &tokens)
+    {
     }
 }

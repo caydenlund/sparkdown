@@ -1,5 +1,5 @@
 // src/token/token.cpp
-// v. 0.1.0
+// v. 0.1.2
 //
 // Author: Cayden Lund
 //   Date: 10/07/2021

@@ -1,8 +1,8 @@
-// src/parser/tests/state.test.cpp
-// v. 0.1.0
+// src/state/state.test.cpp
+// v. 0.1.1
 //
 // Author: Cayden Lund
-//   Date: 10/05/2021
+//   Date: 10/07/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -15,7 +15,7 @@
 #include <gtest/gtest.h>
 #include <string>
 
-#include "parser/state.hpp"
+#include "state.hpp"
 
 using namespace mark_sideways;
 
