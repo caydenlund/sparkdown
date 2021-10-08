@@ -1,5 +1,5 @@
 // src/lexer/lexers/abstract-lexer/abstract-lexer.test.cpp
-// v. 0.4.0
+// v. 0.4.1
 //
 // Author: Cayden Lund
 //   Date: 10/07/2021
@@ -15,6 +15,7 @@
 // System imports.
 #include <string>
 #include <regex>
+#include <vector>
 
 // The GTest testing framework.
 #include <gtest/gtest.h>
@@ -58,6 +59,10 @@ public:
     }
 
     // A static function to test the equality of two token vectors.
+    //
+    // * std::vector<mark_sideways::Token> tokens1 - The first vector of tokens.
+    // * std::vector<mark_sideways::Token> tokens2 - The second vector of tokens.
+    // * return bool                               - True when the two vectors are equal; false otherwise.
     static bool tokens_equal(std::vector<mark_sideways::Token> tokens1, std::vector<mark_sideways::Token> tokens2)
     {
         if (tokens1.size() != tokens2.size())
