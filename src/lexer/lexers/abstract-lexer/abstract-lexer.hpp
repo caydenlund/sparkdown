@@ -1,5 +1,5 @@
 // src/lexer/lexers/abstract-lexer.hpp
-// v. 0.5.0
+// v. 0.6.0
 //
 // Author: Cayden Lund
 //   Date: 10/07/2021
@@ -17,10 +17,13 @@
 
 // System imports.
 #include <string>
-#include <regex>
+#include <vector>
 
 // We use the State class to keep track of the current state of the parser.
 #include "parser/state.hpp"
+
+// We use the Token class to build a vector of tokens.
+#include "lexer/token/token.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
@@ -45,8 +48,8 @@ namespace mark_sideways
             // This method takes in a string and returns a new string with the lexed tokens.
             //
             // * std::string line   - The string to lex.
-            // * return std::string - The lexed string.
-            virtual std::string lex(std::string line) = 0;
+            // * return std::vector<mark_sideways::Token> - The vector of tokens.
+            virtual std::vector<mark_sideways::Token> lex(std::string line) = 0;
 
         protected:
             // The state object.

@@ -2,7 +2,10 @@ cc_library(
     name = "abstract-lexer",
     srcs = ["abstract-lexer.cpp"],
     hdrs = ["abstract-lexer.hpp"],
-    deps = ["//parser:state"],
+    deps = [
+        "//parser:state",
+        "//lexer/token",
+    ],
     visibility = ["//lexer:__subpackages__"]
 )
 

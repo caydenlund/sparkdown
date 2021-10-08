@@ -1,5 +1,5 @@
 // src/lexer/lexers/abstract-lexer/abstract-lexer.test.cpp
-// v. 0.3.0
+// v. 0.4.0
 //
 // Author: Cayden Lund
 //   Date: 10/07/2021
@@ -22,6 +22,9 @@
 // We use the State class to keep track of the current state of the parser.
 #include "parser/state.hpp"
 
+// We use the Token class to build a vector of tokens.
+#include "lexer/token/token.hpp"
+
 // The AbstractLexer class.
 #include "lexer/lexers/abstract-lexer/abstract-lexer.hpp"
 
@@ -39,12 +42,36 @@ public:
     // The lex function.
     //
     // * std::string line   - The line to lex.
-    // * return std::string - The lexed line.
-    std::string lex(std::string line)
+    // * return std::vector<mark_sideways::Token> - The tokens found in the line.
+    std::vector<mark_sideways::Token> lex(std::string line)
     {
+        std::vector<mark_sideways::Token> tokens;
         if (state->is_verbatim())
-            return line;
-        return "Test";
+        {
+            tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::VERB_BLOCK, line));
+        }
+        else
+        {
+            tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, line));
+        }
+        return tokens;
+    }
+
+    // A static function to test the equality of two token vectors.
+    static bool tokens_equal(std::vector<mark_sideways::Token> tokens1, std::vector<mark_sideways::Token> tokens2)
+    {
+        if (tokens1.size() != tokens2.size())
+        {
+            return false;
+        }
+        for (size_t i = 0; i < tokens1.size(); i++)
+        {
+            if (tokens1[i] != tokens2[i])
+            {
+                return false;
+            }
+        }
+        return true;
     }
 };
 
@@ -70,12 +97,14 @@ TEST(AbstractLexer, AccessState)
     ConcreteLexer lexer(&state);
 
     std::string input = "Line";
-    std::string expected = "Test";
-    std::string actual = lexer.lex(input);
-    ASSERT_EQ(expected, actual);
+    std::vector<mark_sideways::Token> expected;
+    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, input));
+    std::vector<mark_sideways::Token> actual = lexer.lex(input);
+    EXPECT_TRUE(ConcreteLexer::tokens_equal(expected, actual));
 
     state.toggle_verbatim();
-    expected = input;
+    expected.clear();
+    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::VERB_BLOCK, input));
     actual = lexer.lex(input);
-    ASSERT_EQ(expected, actual);
+    EXPECT_TRUE(ConcreteLexer::tokens_equal(expected, actual));
 }

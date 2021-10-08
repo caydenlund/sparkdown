@@ -1,5 +1,5 @@
 // src/lexer/lexers/abstract-lexer.cpp
-// v. 0.5.0
+// v. 0.6.0
 //
 // Author: Cayden Lund
 //   Date: 10/07/2021
