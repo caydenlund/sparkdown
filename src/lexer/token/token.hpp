@@ -1,5 +1,5 @@
 // src/token/token.hpp
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
 //   Date: 10/07/2021
@@ -12,8 +12,8 @@
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)
 
-#ifndef ABSTRACT_LEXER_HPP
-#define ABSTRACT_LEXER_HPP
+#ifndef TOKEN_HPP
+#define TOKEN_HPP
 
 // System imports.
 #include <string>
