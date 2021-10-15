@@ -2,11 +2,11 @@ cc_library(
     name = "itemize",
     srcs = ["itemize.cpp"],
     hdrs = ["itemize.hpp"],
+    visibility = ["//lexer:__subpackages__"],
     deps = [
+        "//lexer/lexers/abstract-lexer",
         "//state",
-        "//lexer/lexers/abstract-lexer"
     ],
-    visibility = ["//lexer:__subpackages__"]
 )
 
 cc_test(
@@ -14,8 +14,8 @@ cc_test(
     size = "small",
     srcs = ["itemize.test.cpp"],
     deps = [
-        "@googletest//:gtest_main",
+        ":itemize",
         "//state",
-        ":itemize"
-    ]
+        "@googletest//:gtest_main",
+    ],
 )

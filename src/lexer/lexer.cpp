@@ -45,7 +45,7 @@ namespace mark_sideways
     {
         // The various sub-lexers.
         this->header = new mark_sideways::lexers::Header(this->state);
-        this->section= new mark_sideways::lexers::Section(this->state);
+        this->section = new mark_sideways::lexers::Section(this->state);
         this->enumerate = new mark_sideways::lexers::Enumerate(state);
         this->itemize = new mark_sideways::lexers::Itemize(state);
     }

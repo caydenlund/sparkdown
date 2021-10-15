@@ -2,11 +2,11 @@ cc_library(
     name = "parser",
     srcs = ["parser.cpp"],
     hdrs = ["parser.hpp"],
+    visibility = ["//visibility:public"],
     deps = [
+        "//lexer",
         "//state",
-        "//lexer"
     ],
-    visibility = ["//visibility:public"]
 )
 
 cc_test(
@@ -14,7 +14,7 @@ cc_test(
     size = "small",
     srcs = ["parser.test.cpp"],
     deps = [
+        ":parser",
         "@googletest//:gtest_main",
-        ":parser"
-    ]
+    ],
 )

@@ -14,17 +14,17 @@ Mark-sideways is the perfect blend of simple, easy, and feature-rich.
 
 ## Features:
 
-* Nested ordered and unordered lists.
+- Nested ordered and unordered lists.
 
-* Math mode: display your formulas neatly!
+- Math mode: display your formulas neatly!
 
-* Verbatim mode: display code in a monospace text, with special characters and custom indentation supported.
+- Verbatim mode: display code in a monospace text, with special characters and custom indentation supported.
 
-* Italic and bold text.
+- Italic and bold text.
 
-* Arrows!
+- Arrows!
 
-* All LaTeX code is validin mark-sideways.
+- All LaTeX code is validin mark-sideways.
 
 ## Usage:
 
@@ -36,7 +36,7 @@ Mark-sideways is the perfect blend of simple, easy, and feature-rich.
         -w, --overwrite:	Overwrite output file if it exists.
 
 ## Syntax:
-    
+
     $title: Title
     $author: Author
     $date: Date
@@ -60,7 +60,7 @@ Mark-sideways is the perfect blend of simple, easy, and feature-rich.
       - Sub-list item.
         Line breaks for readability don't interrupt the flow
         of the bullet list.
-        
+
 
     1. Ordered list item.
       1. Sub-ordered list item (etc.).

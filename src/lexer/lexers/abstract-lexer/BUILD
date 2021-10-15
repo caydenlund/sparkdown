@@ -2,11 +2,11 @@ cc_library(
     name = "abstract-lexer",
     srcs = ["abstract-lexer.cpp"],
     hdrs = ["abstract-lexer.hpp"],
+    visibility = ["//lexer:__subpackages__"],
     deps = [
-        "//state",
         "//lexer/token",
+        "//state",
     ],
-    visibility = ["//lexer:__subpackages__"]
 )
 
 cc_test(
@@ -14,8 +14,8 @@ cc_test(
     size = "small",
     srcs = ["abstract-lexer.test.cpp"],
     deps = [
-        "@googletest//:gtest_main",
+        ":abstract-lexer",
         "//state",
-        ":abstract-lexer"
-    ]
+        "@googletest//:gtest_main",
+    ],
 )

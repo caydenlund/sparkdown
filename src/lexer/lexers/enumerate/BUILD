@@ -2,11 +2,11 @@ cc_library(
     name = "enumerate",
     srcs = ["enumerate.cpp"],
     hdrs = ["enumerate.hpp"],
+    visibility = ["//lexer:__subpackages__"],
     deps = [
+        "//lexer/lexers/abstract-lexer",
         "//state",
-        "//lexer/lexers/abstract-lexer"
     ],
-    visibility = ["//lexer:__subpackages__"]
 )
 
 cc_test(
@@ -14,8 +14,8 @@ cc_test(
     size = "small",
     srcs = ["enumerate.test.cpp"],
     deps = [
-        "@googletest//:gtest_main",
+        ":enumerate",
         "//state",
-        ":enumerate"
-    ]
+        "@googletest//:gtest_main",
+    ],
 )
