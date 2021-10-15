@@ -1,5 +1,5 @@
 // src/lexer/lexers/header/header.test.cpp
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
 //   Date: 10/15/2021
@@ -7,7 +7,7 @@
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
-// This file contains the unit tests for the Header Lexer class.
+// This file contains the unit tests for the Header lexer class.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)
