@@ -1,8 +1,8 @@
 // src/state/state.cpp
-// v. 0.5.1
+// v. 0.6.0
 //
 // Author: Cayden Lund
-//   Date: 10/07/2021
+//   Date: 10/15/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -26,44 +26,44 @@ namespace mark_sideways
     State::State()
     {
         this->indentation = 0;
+
         this->verbatim = false;
         this->math = false;
-        this->preline = "";
-        this->line = "";
+
+        this->head = true;
     }
 
-    // Returns a string of spaces to indent the next line.
-    std::string State::indent()
+    // Returns true if we are looking at the head of the document.
+    //
+    // * return bool - True if we are looking at the head of the document.
+    bool State::is_head()
     {
-        std::string result;
-        for (int i = 0; i < this->indentation; i++)
-        {
-            result += "    ";
-        }
-        return result;
+        return this->head;
+    }
+
+    // Ends the head of the document.
+    void State::end_head()
+    {
+        this->head = false;
     }
 
     // Returns true if verbatim mode is on.
+    //
+    // * return bool - True if verbatim mode is on.
     bool State::is_verbatim()
     {
         return this->verbatim;
     }
 
-    // Returns the necessary \begin{verbatim} or \end{verbatim} commands.
-    std::string State::toggle_verbatim()
+    // Toggles verbatim mode.
+    void State::toggle_verbatim()
     {
         this->verbatim = !this->verbatim;
-        if (this->verbatim)
-        {
-            return "\\begin{verbatim}";
-        }
-        else
-        {
-            return "\\end{verbatim}";
-        }
     }
 
     // Returns true if math mode is on.
+    //
+    // * return bool - True if math mode is on.
     bool State::is_math()
     {
         return this->math;
@@ -75,143 +75,60 @@ namespace mark_sideways
         this->math = !this->math;
     }
 
-    // Sets the indentation to the given value.
-    void State::set_indentation(int indentation)
-    {
-        while (this->indentation > indentation)
-        {
-            if (levels.top() == itemize)
-            {
-                decrease_itemize();
-            }
-            else
-            {
-                decrease_enumerate();
-            }
-        }
-    }
-
-    // Sets the idemization level to itemize.
+    // Returns a string of spaces to indent the next line.
     //
-    // * int level - The new idemization level.
-    void State::begin_itemize(int level)
+    // * return std::string - A string of spaces to indent the next line.
+    std::string State::indent()
     {
-        while ((int)levels.size() > level)
+        std::stringstream result;
+        for (int i = 0; i < this->indentation; i++)
         {
-            if (levels.top() == itemize)
-            {
-                decrease_itemize();
-            }
-            else
-            {
-                decrease_enumerate();
-            }
+            result << " ";
         }
-        while ((int)levels.size() < level)
-        {
-            increase_itemize();
-        }
-        if (level > 0 && levels.top() != itemize)
-        {
-            decrease_enumerate();
-            increase_itemize();
-        }
+        return result.str();
     }
 
-    // Sets the enumeration level to enumerate.
+    // Decreases the list level to the given value.
     //
-    // * int level - The new enumeration level.
-    void State::begin_enumerate(int level)
+    // * int list level - The new list level.
+    void State::decrease_list_level(int level)
     {
-        while ((int)levels.size() > level)
+        while (this->levels.size() > (long unsigned int)level)
         {
-            if (levels.top() == itemize)
-            {
-                decrease_itemize();
-            }
-            else
-            {
-                decrease_enumerate();
-            }
-        }
-        while ((int)levels.size() < level)
-        {
-            increase_enumerate();
-        }
-        if (level > 0 && levels.top() != enumerate)
-        {
-            decrease_itemize();
-            increase_enumerate();
+            this->indentation -= 4;
+            this->levels.pop();
         }
     }
 
-    // Returns the current line.
-    std::string State::get_line()
-    {
-        return line;
-    }
-
-    // Sets the current line.
+    // Returns the current list level.
     //
-    // * std::string line - The new current line.
-    void State::set_line(std::string line)
+    // * return int - The current list level.
+    int State::get_list_level()
     {
-        this->line = line;
+        return this->levels.size();
     }
 
-    // Returns the final product.
-    std::string State::get_product()
+    // Returns the current list type.
+    //
+    // * return State::level_type - The current list type.
+    State::level_type State::get_list_type()
     {
-        std::string indentation_string = "";
-        if (!verbatim)
+        if (this->levels.empty())
+            throw std::runtime_error("No list level.");
+        return this->levels.top();
+    }
+
+    // Begins a new list of the given type.
+    //
+    // * int level       - The new list level.
+    // * level_type type - The type of list.
+    void State::begin_list(int level, level_type type)
+    {
+        this->decrease_list_level(level - 1);
+        while (this->levels.size() < (long unsigned int)level)
         {
-            indentation_string = indent();
+            this->indentation += 4;
+            this->levels.push(type);
         }
-        std::string product = preline + indentation_string + line;
-        preline = "";
-        line = "";
-        return product;
-    }
-
-    // Increases the itemize level.
-    void State::increase_itemize()
-    {
-        preline += indent() + "\\begin{itemize}\n";
-        levels.push(itemize);
-        indentation++;
-    }
-
-    // Decreases the itemize level.
-    void State::decrease_itemize()
-    {
-        indentation--;
-        preline += indent() + "\\end{itemize}\n";
-        if (levels.top() != itemize)
-        {
-            throw std::runtime_error("Itemize level mismatch.");
-            exit(1);
-        }
-        levels.pop();
-    }
-
-    // Increases the enumerate level.
-    void State::increase_enumerate()
-    {
-        preline += indent() + "\\begin{enumerate}\n";
-        levels.push(enumerate);
-        indentation++;
-    }
-
-    // Decreases the enumerate level.
-    void State::decrease_enumerate()
-    {
-        indentation--;
-        preline += indent() + "\\end{enumerate}\n";
-        if (levels.top() != enumerate)
-        {
-            throw std::runtime_error("Enumerate level mismatch.");
-            exit(1);
-        }
-        levels.pop();
     }
 }

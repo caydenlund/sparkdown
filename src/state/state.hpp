@@ -1,8 +1,8 @@
 // src/state/state.hpp
-// v. 0.5.1
+// v. 0.6.0
 //
 // Author: Cayden Lund
-//   Date: 10/07/2021
+//   Date: 10/15/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -29,14 +29,26 @@ namespace mark_sideways
         // Constructor.
         State();
 
-        // Returns a string of spaces to indent the next line.
-        std::string indent();
+        // An enum to represent a type of list.
+        enum level_type
+        {
+            itemize,
+            enumerate
+        };
+
+        // Returns true if we are looking at the head of the document.
+        //
+        // * return bool - True if we are looking at the head of the document.
+        bool is_head();
+
+        // Set `head` to false.
+        void end_head();
 
         // Returns true if verbatim mode is on.
         bool is_verbatim();
 
-        // Returns the necessary \begin{verbatim} or \end{verbatim} commands.
-        std::string toggle_verbatim();
+        // Toggles verbatim mode.
+        void toggle_verbatim();
 
         // Returns true if math mode is on.
         bool is_math();
@@ -44,65 +56,36 @@ namespace mark_sideways
         // Toggles math mode.
         void toggle_math();
 
-        // Sets the indentation to the given value.
+        // Returns a string of spaces to indent the next line.
+        std::string indent();
+
+        // Decreases the list level to the given value.
         //
-        // * int indentation - The new identation level.
-        void set_indentation(int indentation);
+        // * int level - The new list level.
+        void decrease_list_level(int level);
 
-        // Sets the idemization level to itemize.
+        // Returns the current list level.
+        int get_list_level();
+
+        // Returns the current list type.
+        level_type get_list_type();
+
+        // Begins a new list of the given type.
         //
-        // * int level - The new idemization level.
-        void begin_itemize(int level);
+        // * int level       - The new list level.
+        // * level_type type - The type of list.
+        void begin_list(int level, level_type type);
 
-        // Sets the enumeration level to enumerate.
-        //
-        // * int level - The new enumeration level.
-        void begin_enumerate(int level);
-
-        // Returns the current line.
-        std::string get_line();
-
-        // Sets the current line.
-        //
-        // * std::string line - The new current line.
-        void set_line(std::string line);
-
-        // Returns the final product.
-        std::string get_product();
-
-    protected:
-        // ====================
-        // | Private methods. |
-        // ====================
-
-        // Adds the necessary \begin{itemize} command and increments the itemize level.
-        void increase_itemize();
-
-        // Adds the necessary \end{itemize} command and decrements the itemize level.
-        void decrease_itemize();
-
-        // Adds the necessary \begin{enumerate} command and increments the enumeration level.
-        void increase_enumerate();
-
-        // Adds the necessary \end{enumerate} command and decrements the enumeration level.
-        void decrease_enumerate();
-
+    private:
         // =======================
         // | Instance variables. |
         // =======================
 
-        // An enum to represent what type of list we are in.
-        enum level_type
-        {
-            itemize,
-            enumerate
-        };
+        // The number of spaces to indent the next line.
+        int indentation;
 
         // A stack to represent the current itemize/enumerate level.
         std::stack<level_type> levels;
-
-        // The current indentation level.
-        int indentation;
 
         // Whether or not we are in verbatim mode.
         bool verbatim;
@@ -110,11 +93,8 @@ namespace mark_sideways
         // Whether or not we are in math mode.
         bool math;
 
-        // The text preceding the line we are currently parsing.
-        std::string preline;
-
-        // The current line.
-        std::string line;
+        // Whether or not we are in the head of the document.
+        bool head;
     };
 }
 

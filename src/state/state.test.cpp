@@ -1,8 +1,8 @@
 // src/state/state.test.cpp
-// v. 0.1.1
+// v. 0.2.0
 //
 // Author: Cayden Lund
-//   Date: 10/07/2021
+//   Date: 10/15/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -17,138 +17,138 @@
 
 #include "state.hpp"
 
-using namespace mark_sideways;
-
-// Tests the State class's constructor.
-// Ensures that the State constructor doesn't throw an exception.
+// Test the State class's constructor.
+// Ensures that no exceptions are thrown.
 TEST(State, Constructor)
 {
-    State state = State();
+    mark_sideways::State state;
 }
 
-// Tests the State class's method indent().
-// Ensures that the State class's method indent() returns the correct value
-// for various indentation levels.
-TEST(State, IndentCorrectness)
+// Test the State class's method indent().
+TEST(State, Indent)
 {
-    State state = State();
+    mark_sideways::State state;
 
     std::string expected = "";
     std::string actual = state.indent();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
-    
-    state.begin_itemize(1);
+    EXPECT_EQ(expected, actual);
+
+    state.begin_list(1, mark_sideways::State::level_type::itemize);
     expected = "    ";
     actual = state.indent();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
+    EXPECT_EQ(expected, actual);
 
-    state.begin_itemize(2);
+    state.begin_list(2, mark_sideways::State::level_type::enumerate);
     expected = "        ";
     actual = state.indent();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
+    EXPECT_EQ(expected, actual);
 
-    state.begin_enumerate(2);
-    expected = "        ";
-    actual = state.indent();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
-
-    state.set_indentation(1);
+    state.begin_list(1, mark_sideways::State::level_type::itemize);
     expected = "    ";
     actual = state.indent();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
-
-    state.begin_enumerate(2);
-    expected = "        ";
-    actual = state.indent();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
-
-    state.set_indentation(0);
-    expected = "";
-    actual = state.indent();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
-}
-
-// Tests the State class's method begin_itemize().
-// Ensures that the State class's method begin_itemize() returns the correct
-// value for various itemize levels.
-TEST(State, BeginItemize)
-{
-    State state = State();
-    state.begin_itemize(1);
-    std::string expected = "\\begin{itemize}\n    ";
-    std::string actual = state.get_product();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
-
-    state = State();
-    state.begin_itemize(2);
-    expected = "\\begin{itemize}\n    \\begin{itemize}\n        ";
-    actual = state.get_product();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
-    state.begin_itemize(1);
-    expected = "    \\end{itemize}\n    ";
-    actual = state.get_product();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
-}
-
-// Tests the State class's method begin_enumerate().
-// Ensures that the State class's method begin_enumerate() returns the correct
-// value for various enumerate levels.
-TEST(State, BeginEnumerate)
-{
-    State state = State();
-    state.begin_enumerate(1);
-    std::string expected = "\\begin{enumerate}\n    ";
-    std::string actual = state.get_product();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
-
-    state = State();
-    state.begin_enumerate(2);
-    expected = "\\begin{enumerate}\n    \\begin{enumerate}\n        ";
-    actual = state.get_product();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
-    state.begin_enumerate(1);
-    expected = "    \\end{enumerate}\n    ";
-    actual = state.get_product();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
-}
-
-// Test the State class's methods get_line() and set_line().
-TEST(State, GetSetLine)
-{
-    State state = State();
-    state.set_line("test");
-    std::string expected = "test";
-    std::string actual = state.get_line();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
-
-    state = State();
-    state.set_line("test");
-    state.set_line("test2");
-    expected = "test2";
-    actual = state.get_line();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
+    EXPECT_EQ(expected, actual);
 }
 
 // Test the State class's methods is_verbatim() and toggle_verbatim().
 TEST(State, Verbatim)
 {
-    State state = State();
+    mark_sideways::State state;
     EXPECT_FALSE(state.is_verbatim());
-    std::string expected = "\\begin{verbatim}";
-    std::string actual = state.toggle_verbatim();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
+
+    state.toggle_verbatim();
     EXPECT_TRUE(state.is_verbatim());
+
+    state.toggle_verbatim();
+    EXPECT_FALSE(state.is_verbatim());
 }
 
-// Test that the State class's method get_product() does not indent
-// inside of verbatim blocks.
-TEST(State, VerbatimIndent)
+// Test the State class's methods is_math() and toggle_math().
+TEST(State, Math)
 {
-    State state = State();
-    state.begin_itemize(1);
-    state.toggle_verbatim();
-    state.set_line("test");
-    std::string expected = "\\begin{itemize}\ntest";
-    std::string actual = state.get_product();
-    EXPECT_STREQ(expected.c_str(), actual.c_str());
+    mark_sideways::State state;
+    EXPECT_FALSE(state.is_math());
+
+    state.toggle_math();
+    EXPECT_TRUE(state.is_math());
+
+    state.toggle_math();
+    EXPECT_FALSE(state.is_math());
+}
+
+// Test the State class's methods is_head() and end_head().
+TEST(State, Head)
+{
+    mark_sideways::State state;
+    EXPECT_TRUE(state.is_head());
+
+    state.end_head();
+    EXPECT_FALSE(state.is_head());
+}
+
+// Test the State class's methods decrease_list_level(), get_list_level(), and get_list_type().
+TEST(State, DecreaseListLevel)
+{
+    mark_sideways::State state;
+    EXPECT_EQ(0, state.get_list_level());
+    EXPECT_THROW(state.get_list_type(), std::runtime_error);
+
+    state.decrease_list_level(0);
+    EXPECT_EQ(0, state.get_list_level());
+
+    state.begin_list(1, mark_sideways::State::level_type::itemize);
+    EXPECT_EQ(1, state.get_list_level());
+    EXPECT_EQ(mark_sideways::State::level_type::itemize, state.get_list_type());
+
+    state.decrease_list_level(1);
+    EXPECT_EQ(1, state.get_list_level());
+
+    state.decrease_list_level(0);
+    EXPECT_EQ(0, state.get_list_level());
+
+    state.decrease_list_level(1);
+    EXPECT_EQ(0, state.get_list_level());
+
+    state.begin_list(1, mark_sideways::State::level_type::itemize);
+    EXPECT_EQ(mark_sideways::State::level_type::itemize, state.get_list_type());
+    EXPECT_EQ(1, state.get_list_level());
+
+    state.begin_list(2, mark_sideways::State::level_type::enumerate);
+    EXPECT_EQ(mark_sideways::State::level_type::enumerate, state.get_list_type());
+    EXPECT_EQ(2, state.get_list_level());
+
+    state.decrease_list_level(2);
+    EXPECT_EQ(2, state.get_list_level());
+
+    state.decrease_list_level(0);
+    EXPECT_EQ(0, state.get_list_level());
+}
+
+// Test the State class's method begin_list().
+TEST(State, BeginList)
+{
+    mark_sideways::State state;
+
+    state.begin_list(1, mark_sideways::State::level_type::itemize);
+    EXPECT_EQ(1, state.get_list_level());
+    EXPECT_EQ(mark_sideways::State::level_type::itemize, state.get_list_type());
+
+    state.begin_list(2, mark_sideways::State::level_type::enumerate);
+    EXPECT_EQ(2, state.get_list_level());
+    EXPECT_EQ(mark_sideways::State::level_type::enumerate, state.get_list_type());
+
+    state.begin_list(1, mark_sideways::State::level_type::itemize);
+    EXPECT_EQ(1, state.get_list_level());
+    EXPECT_EQ(mark_sideways::State::level_type::itemize, state.get_list_type());
+
+    state.begin_list(2, mark_sideways::State::level_type::enumerate);
+    EXPECT_EQ(2, state.get_list_level());
+    EXPECT_EQ(mark_sideways::State::level_type::enumerate, state.get_list_type());
+
+    state.begin_list(3, mark_sideways::State::level_type::itemize);
+    EXPECT_EQ(3, state.get_list_level());
+    EXPECT_EQ(mark_sideways::State::level_type::itemize, state.get_list_type());
+
+    state.begin_list(5, mark_sideways::State::level_type::itemize);
+    EXPECT_EQ(5, state.get_list_level());
+    EXPECT_EQ(mark_sideways::State::level_type::itemize, state.get_list_type());
 }
