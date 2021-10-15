@@ -61,17 +61,15 @@ namespace mark_sideways
             SECTION,      //    # A headline.
                           //    ## A subheadline.
                           //  ==============================
-            R_ARROW,      //    -> Rightarrow.
+            ARROW,        //    -> Rightarrow.
                           //    => Rightarrow.
                           //    --> Rightarrow.
                           //    ==> Rightarrow.
-                          //  ==============================
-            L_ARROW,      //    <- Leftarrow.
+                          //    <- Leftarrow.
                           //    <= Leftarrow.
                           //    <-- Leftarrow.
                           //    <== Leftarrow.
-                          //  ==============================
-            L_R_AROW,     //    <-> Leftrightarrow.
+                          //    <-> Leftrightarrow.
                           //    <=> Leftrightarrow.
                           //    <--> Leftrightarrow.
                           //    <==> Leftrightarrow.

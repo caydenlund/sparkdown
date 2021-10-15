@@ -1,8 +1,8 @@
 // src/lexer/lexer.hpp
-// v. 0.1.1
+// v. 0.2.0
 //
 // Author: Cayden Lund
-//   Date: 10/07/2021
+//   Date: 10/15/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -30,6 +30,8 @@
 #include "lexer/lexers/abstract-lexer/abstract-lexer.hpp"
 
 // The various sub-lexers.
+#include "lexer/lexers/header/header.hpp"
+#include "lexer/lexers/section/section.hpp"
 #include "lexer/lexers/enumerate/enumerate.hpp"
 #include "lexer/lexers/itemize/itemize.hpp"
 
@@ -62,27 +64,30 @@ namespace mark_sideways
         // | Private methods. |
         // ====================
 
-        // A helper method to lex a line from the head of the file.
-        //
-        // * std::string line                         - The line to lex.
-        // * return std::vector<mark_sideways::Token> - The vector of tokens.
-        std::vector<mark_sideways::Token> lex_head(std::string line);
-
-        // A recursive helper method to lex a line from the body of the file.
+        // A recursive helper method to lex a single line.
         //
         // * std::vector<mark_sideways::Token> &tokens - The vector of tokens.
-        void lex_body(std::vector<mark_sideways::Token> &tokens);
+        // * return std::vector<mark_sideways::Token>  - The new vector of tokens.
+        std::vector<mark_sideways::Token> lex(std::vector<mark_sideways::Token> &tokens);
 
         // ===========================
         // | The various sub-lexers. |
         // ===========================
 
-        // 2. The enumerate lexer.
-        //    \d. List item.
+        // The header lexer.
+        //   $item: value
+        mark_sideways::lexers::Header *header;
+
+        // The section lexer.
+        //   # Headline.
+        mark_sideways::lexers::Section *section;
+
+        // The enumerate lexer.
+        //   \d. List item.
         mark_sideways::lexers::Enumerate *enumerate;
 
-        // 3. The itemize lexer.
-        //    * List item.
+        // The itemize lexer.
+        //   * List item.
         mark_sideways::lexers::Itemize *itemize;
     };
 }

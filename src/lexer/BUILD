@@ -4,6 +4,8 @@ cc_library(
     hdrs = ["lexer.hpp"],
     deps = [
         "//lexer/lexers/abstract-lexer",
+        "//lexer/lexers/header",
+        "//lexer/lexers/section",
         "//lexer/lexers/enumerate",
         "//lexer/lexers/itemize"
     ],

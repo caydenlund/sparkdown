@@ -1,8 +1,8 @@
 // src/lexer/lexer.cpp
-// v. 0.1.1
+// v. 0.2.0
 //
 // Author: Cayden Lund
-//   Date: 10/07/2021
+//   Date: 10/15/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -30,6 +30,8 @@
 #include "lexer/lexers/abstract-lexer/abstract-lexer.hpp"
 
 // The various sub-lexers.
+#include "lexer/lexers/header/header.hpp"
+#include "lexer/lexers/section/section.hpp"
 #include "lexer/lexers/enumerate/enumerate.hpp"
 #include "lexer/lexers/itemize/itemize.hpp"
 
@@ -41,6 +43,9 @@ namespace mark_sideways
     // * mark_sideways::State *state - The State object to use for keeping track of the state of the parser.
     mark_sideways::Lexer::Lexer(mark_sideways::State *state) : mark_sideways::lexers::AbstractLexer(state)
     {
+        // The various sub-lexers.
+        this->header = new mark_sideways::lexers::Header(this->state);
+        this->section= new mark_sideways::lexers::Section(this->state);
         this->enumerate = new mark_sideways::lexers::Enumerate(state);
         this->itemize = new mark_sideways::lexers::Itemize(state);
     }
@@ -61,21 +66,68 @@ namespace mark_sideways
     {
         std::vector<mark_sideways::Token> tokens;
         tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, line));
+        this->lex(tokens);
         return tokens;
     }
 
-    // A helper method to lex a line from the head of the file.
-    //
-    // * std::string line                         - The line to lex.
-    // * return std::vector<mark_sideways::Token> - The vector of tokens.
-    std::vector<mark_sideways::Token> mark_sideways::Lexer::lex_head(std::string line)
-    {
-    }
-
-    // A recursive helper method to lex a line from the body of the file.
+    // A recursive helper method to lex a single line.
     //
     // * std::vector<mark_sideways::Token> &tokens - The vector of tokens.
-    void mark_sideways::Lexer::lex_body(std::vector<mark_sideways::Token> &tokens)
+    // * return std::vector<mark_sideways::Token>  - The new vector of tokens.
+    std::vector<mark_sideways::Token> mark_sideways::Lexer::lex(std::vector<mark_sideways::Token> &tokens)
     {
+        if (tokens.size() == 0)
+        {
+            return tokens;
+        }
+        for (long unsigned int i = 0; i < tokens.size(); i++)
+        {
+            if (tokens[i].get_type() == mark_sideways::Token::token_type::UNLEXED)
+            {
+                if (i == 0)
+                {
+                    // We are currently at the beginning of the line, and nothing has been lexed yet.
+                    // Some rules apply only to the first token:
+                    //   * Document header.
+                    //   * Section header.
+                    //   * Itemize.
+                    //   * Enumerate.
+
+                    // Document header.
+                    std::vector<mark_sideways::Token> new_tokens;
+                    if (this->state->is_head())
+                    {
+                        new_tokens = this->header->lex(tokens[0].get_value());
+                        tokens.erase(tokens.begin());
+                        tokens.insert(tokens.begin(), new_tokens.begin(), new_tokens.end());
+                    }
+
+                    // If the first token is still UNLEXED, we pass it through the section lexer.
+                    if (tokens[0].get_type() == mark_sideways::Token::token_type::UNLEXED)
+                    {
+                        new_tokens = this->section->lex(tokens[0].get_value());
+                        tokens.erase(tokens.begin());
+                        tokens.insert(tokens.begin(), new_tokens.begin(), new_tokens.end());
+                    }
+
+                    // If the first token is still UNLEXED, we pass it through the itemize lexer.
+                    if (tokens[0].get_type() == mark_sideways::Token::token_type::UNLEXED)
+                    {
+                        new_tokens = this->itemize->lex(tokens[0].get_value());
+                        tokens.erase(tokens.begin());
+                        tokens.insert(tokens.begin(), new_tokens.begin(), new_tokens.end());
+                    }
+
+                    // If the first token is still UNLEXED, we pass it through the enumerate lexer.
+                    if (tokens[0].get_type() == mark_sideways::Token::token_type::UNLEXED)
+                    {
+                        new_tokens = this->enumerate->lex(tokens[0].get_value());
+                        tokens.erase(tokens.begin());
+                        tokens.insert(tokens.begin(), new_tokens.begin(), new_tokens.end());
+                    }
+                }
+            }
+        }
+        return tokens;
     }
 }
