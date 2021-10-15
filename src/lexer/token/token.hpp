@@ -58,7 +58,7 @@ namespace mark_sideways
                           //  ==============================
             INLINE_MATH,  //    $y = mx + b$
                           //  ==============================
-            HEADLINE,     //    # A headline.
+            SECTION,      //    # A headline.
                           //    ## A subheadline.
                           //  ==============================
             R_ARROW,      //    -> Rightarrow.
