@@ -1,8 +1,8 @@
 // src/token/token.hpp
-// v. 0.1.2
+// v. 0.1.3
 //
 // Author: Cayden Lund
-//   Date: 10/07/2021
+//   Date: 10/08/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -37,8 +37,10 @@ namespace mark_sideways
         {
             UNLEXED,      //    Content that we have not yet lexed.
                           //  ==============================
+            HEADER,       //    A meta-command at the head of the document.
+                          //  ==============================
             INDENTATION,  //    Indentation.
-                          //
+                          //  ==============================
             TEXT_CONTENT, //    Literal text content.
                           //  ==============================
             VERB_BLOCK,   //    ```
