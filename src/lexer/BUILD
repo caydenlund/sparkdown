@@ -9,6 +9,7 @@ cc_library(
         "//lexer/lexers/bold",
         "//lexer/lexers/enumerate",
         "//lexer/lexers/header",
+        "//lexer/lexers/italic",
         "//lexer/lexers/itemize",
         "//lexer/lexers/section",
         "//lexer/lexers/verbatim",

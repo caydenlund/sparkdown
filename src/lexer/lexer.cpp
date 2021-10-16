@@ -37,6 +37,7 @@
 #include "lexer/lexers/enumerate/enumerate.hpp"
 #include "lexer/lexers/itemize/itemize.hpp"
 #include "lexer/lexers/bold/bold.hpp"
+#include "lexer/lexers/italic/italic.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
@@ -54,6 +55,7 @@ namespace mark_sideways
         this->enumerate = new mark_sideways::lexers::Enumerate(this->state);
         this->itemize = new mark_sideways::lexers::Itemize(this->state);
         this->bold = new mark_sideways::lexers::Bold(this->state);
+        this->italic = new mark_sideways::lexers::Italic(this->state);
     }
 
     // The class destructor.
@@ -66,6 +68,7 @@ namespace mark_sideways
         delete this->enumerate;
         delete this->itemize;
         delete this->bold;
+        delete this->italic;
     }
 
     // lex() is used to lex a single input line.
@@ -160,6 +163,14 @@ namespace mark_sideways
                 if (tokens[i].get_type() == mark_sideways::Token::token_type::UNLEXED)
                 {
                     new_tokens = this->bold->lex(tokens[i].get_value());
+                    tokens.erase(tokens.begin() + i);
+                    tokens.insert(tokens.begin() + i, new_tokens.begin(), new_tokens.end());
+                }
+
+                // If this token is still UNLEXED, we pass it through the italic lexer.
+                if (tokens[i].get_type() == mark_sideways::Token::token_type::UNLEXED)
+                {
+                    new_tokens = this->italic->lex(tokens[i].get_value());
                     tokens.erase(tokens.begin() + i);
                     tokens.insert(tokens.begin() + i, new_tokens.begin(), new_tokens.end());
                 }

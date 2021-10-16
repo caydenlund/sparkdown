@@ -37,6 +37,7 @@
 #include "lexer/lexers/enumerate/enumerate.hpp"
 #include "lexer/lexers/itemize/itemize.hpp"
 #include "lexer/lexers/bold/bold.hpp"
+#include "lexer/lexers/italic/italic.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
@@ -104,6 +105,10 @@ namespace mark_sideways
         // The bold lexer.
         //   **Bold text.**
         mark_sideways::lexers::Bold *bold;
+
+        // The italic lexer.
+        //   *Italic text.*
+        mark_sideways::lexers::Italic *italic;
     };
 }
 
