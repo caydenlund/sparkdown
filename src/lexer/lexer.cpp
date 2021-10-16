@@ -1,5 +1,5 @@
 // src/lexer/lexer.cpp
-// v. 0.2.1
+// v. 0.2.2
 //
 // Author: Cayden Lund
 //   Date: 10/15/2021
@@ -68,9 +68,9 @@ namespace mark_sideways
     // lex() is used to lex a single input line.
     // This method takes in a string and returns a new string with the lexed tokens.
     //
-    // * std::string line   - The line to lex.
-    // * return std::string - The lexed line.
-    std::vector<mark_sideways::Token> mark_sideways::Lexer::lex(std::string line)
+    // * const std::string &line - The line to lex.
+    // * return std::string      - The lexed line.
+    std::vector<mark_sideways::Token> mark_sideways::Lexer::lex(const std::string &line)
     {
         std::vector<mark_sideways::Token> tokens;
         tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, line));

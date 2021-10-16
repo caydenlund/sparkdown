@@ -1,5 +1,5 @@
 // src/lexer/lexers/abstract-lexer/abstract-lexer.test.cpp
-// v. 0.4.3
+// v. 0.4.4
 //
 // Author: Cayden Lund
 //   Date: 10/15/2021
@@ -42,9 +42,9 @@ public:
 
     // The lex function.
     //
-    // * std::string line   - The line to lex.
+    // * const std::string &line   - The line to lex.
     // * return std::vector<mark_sideways::Token> - The tokens found in the line.
-    std::vector<mark_sideways::Token> lex(std::string line)
+    std::vector<mark_sideways::Token> lex(const std::string &line)
     {
         std::vector<mark_sideways::Token> tokens;
         if (state->is_verbatim())

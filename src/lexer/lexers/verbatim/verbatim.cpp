@@ -1,5 +1,5 @@
 // src/lexer/lexers/verbatim/verbatim.cpp
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
 //   Date: 10/15/2021
@@ -50,9 +50,9 @@ namespace mark_sideways
         // lex() is used to lex a single input line.
         // This method takes in a string and returns a new vector with the lexed tokens.
         //
-        // * std::string line                         - The string to lex.
+        // * const std::string &line                  - The string to lex.
         // * return std::vector<mark_sideways::Token> - The vector of tokens.
-        std::vector<mark_sideways::Token> mark_sideways::lexers::Verbatim::lex(std::string line)
+        std::vector<mark_sideways::Token> mark_sideways::lexers::Verbatim::lex(const std::string &line)
         {
             // The vector of tokens to return.
             std::vector<mark_sideways::Token> tokens;

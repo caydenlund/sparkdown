@@ -1,8 +1,8 @@
 // src/lexer/lexers/enumerate/enumerate.hpp
-// v. 0.3.1
+// v. 0.3.2
 //
 // Author: Cayden Lund
-//   Date: 10/07/2021
+//   Date: 10/15/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -51,16 +51,16 @@ namespace mark_sideways
 
             // Returns true when a given line is a bullet point.
             //
-            // * std::string line - The line to check.
-            // * return bool      - True if the line is a bullet point.
-            bool is_enumerate(std::string line);
+            // * const std::string &line - The line to check.
+            // * return bool             - True if the line is a bullet point.
+            bool is_enumerate(const std::string &line);
 
             // lex() is used to lex a single input line.
             // This method takes in a string and returns a new vector with the lexed tokens.
             //
-            // * std::string line                         - The string to lex.
+            // * const std::string &line                  - The string to lex.
             // * return std::vector<mark_sideways::Token> - The vector of tokens.
-            std::vector<mark_sideways::Token> lex(std::string line);
+            std::vector<mark_sideways::Token> lex(const std::string &line);
 
         private:
             // The regex used to lex bullet points.

@@ -1,8 +1,8 @@
 // src/lexer/lexers/abstract-lexer.hpp
-// v. 0.6.1
+// v. 0.6.2
 //
 // Author: Cayden Lund
-//   Date: 10/07/2021
+//   Date: 10/15/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -47,9 +47,9 @@ namespace mark_sideways
             // This method is the abstract lex() method, implemented by the various lexer classes.
             // This method takes in a string and returns a new string with the lexed tokens.
             //
-            // * std::string line   - The string to lex.
+            // * const std::string &line                  - The string to lex.
             // * return std::vector<mark_sideways::Token> - The vector of tokens.
-            virtual std::vector<mark_sideways::Token> lex(std::string line) = 0;
+            virtual std::vector<mark_sideways::Token> lex(const std::string &line) = 0;
 
         protected:
             // The state object.
