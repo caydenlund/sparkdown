@@ -10,6 +10,7 @@ cc_library(
         "//lexer/lexers/header",
         "//lexer/lexers/itemize",
         "//lexer/lexers/section",
+        "//lexer/lexers/verbatim",
     ],
 )
 

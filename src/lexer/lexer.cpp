@@ -32,6 +32,7 @@
 // The various sub-lexers.
 #include "lexer/lexers/header/header.hpp"
 #include "lexer/lexers/section/section.hpp"
+#include "lexer/lexers/verbatim/verbatim.hpp"
 #include "lexer/lexers/arrow/arrow.hpp"
 #include "lexer/lexers/enumerate/enumerate.hpp"
 #include "lexer/lexers/itemize/itemize.hpp"
@@ -47,9 +48,10 @@ namespace mark_sideways
         // The various sub-lexers.
         this->header = new mark_sideways::lexers::Header(this->state);
         this->section = new mark_sideways::lexers::Section(this->state);
+        this->verbatim = new mark_sideways::lexers::Verbatim(this->state);
         this->arrow = new mark_sideways::lexers::Arrow(this->state);
-        this->enumerate = new mark_sideways::lexers::Enumerate(state);
-        this->itemize = new mark_sideways::lexers::Itemize(state);
+        this->enumerate = new mark_sideways::lexers::Enumerate(this->state);
+        this->itemize = new mark_sideways::lexers::Itemize(this->state);
     }
 
     // The class destructor.
@@ -57,6 +59,7 @@ namespace mark_sideways
     {
         delete this->header;
         delete this->section;
+        delete this->verbatim;
         delete this->arrow;
         delete this->enumerate;
         delete this->itemize;
@@ -97,6 +100,7 @@ namespace mark_sideways
                     // Some rules apply only to the first token:
                     //   * Document header.
                     //   * Section header.
+                    //   * Verbatim.
                     //   * Itemize.
                     //   * Enumerate.
 
@@ -112,6 +116,14 @@ namespace mark_sideways
                     if (tokens[0].get_type() == mark_sideways::Token::token_type::UNLEXED)
                     {
                         new_tokens = this->section->lex(tokens[0].get_value());
+                        tokens.erase(tokens.begin());
+                        tokens.insert(tokens.begin(), new_tokens.begin(), new_tokens.end());
+                    }
+
+                    // If the first token is still UNLEXED, we pass it through the verbatim lexer.
+                    if (tokens[0].get_type() == mark_sideways::Token::token_type::UNLEXED)
+                    {
+                        new_tokens = this->verbatim->lex(tokens[0].get_value());
                         tokens.erase(tokens.begin());
                         tokens.insert(tokens.begin(), new_tokens.begin(), new_tokens.end());
                     }

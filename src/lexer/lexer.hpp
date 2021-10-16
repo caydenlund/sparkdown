@@ -32,6 +32,7 @@
 // The various sub-lexers.
 #include "lexer/lexers/header/header.hpp"
 #include "lexer/lexers/section/section.hpp"
+#include "lexer/lexers/verbatim/verbatim.hpp"
 #include "lexer/lexers/arrow/arrow.hpp"
 #include "lexer/lexers/enumerate/enumerate.hpp"
 #include "lexer/lexers/itemize/itemize.hpp"
@@ -82,6 +83,10 @@ namespace mark_sideways
         // The section lexer.
         //   # Headline.
         mark_sideways::lexers::Section *section;
+
+        // The verbatim block lexer.
+        //   ```
+        mark_sideways::lexers::Verbatim *verbatim;
 
         // The arrow lexer.
         //   ->
