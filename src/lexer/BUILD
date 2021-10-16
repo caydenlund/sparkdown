@@ -6,6 +6,7 @@ cc_library(
     deps = [
         "//lexer/lexers/abstract-lexer",
         "//lexer/lexers/arrow",
+        "//lexer/lexers/bold",
         "//lexer/lexers/enumerate",
         "//lexer/lexers/header",
         "//lexer/lexers/itemize",

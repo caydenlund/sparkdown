@@ -1,5 +1,5 @@
 // src/lexer/lexer.hpp
-// v. 0.2.2
+// v. 0.2.3
 //
 // Author: Cayden Lund
 //   Date: 10/15/2021
@@ -36,6 +36,7 @@
 #include "lexer/lexers/arrow/arrow.hpp"
 #include "lexer/lexers/enumerate/enumerate.hpp"
 #include "lexer/lexers/itemize/itemize.hpp"
+#include "lexer/lexers/bold/bold.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
@@ -99,6 +100,10 @@ namespace mark_sideways
         // The itemize lexer.
         //   * List item.
         mark_sideways::lexers::Itemize *itemize;
+
+        // The bold lexer.
+        //   **Bold text.**
+        mark_sideways::lexers::Bold *bold;
     };
 }
 

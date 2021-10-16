@@ -1,5 +1,5 @@
 // src/lexer/lexer.cpp
-// v. 0.2.2
+// v. 0.2.3
 //
 // Author: Cayden Lund
 //   Date: 10/15/2021
@@ -36,6 +36,7 @@
 #include "lexer/lexers/arrow/arrow.hpp"
 #include "lexer/lexers/enumerate/enumerate.hpp"
 #include "lexer/lexers/itemize/itemize.hpp"
+#include "lexer/lexers/bold/bold.hpp"
 
 // The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
 namespace mark_sideways
@@ -52,6 +53,7 @@ namespace mark_sideways
         this->arrow = new mark_sideways::lexers::Arrow(this->state);
         this->enumerate = new mark_sideways::lexers::Enumerate(this->state);
         this->itemize = new mark_sideways::lexers::Itemize(this->state);
+        this->bold = new mark_sideways::lexers::Bold(this->state);
     }
 
     // The class destructor.
@@ -63,6 +65,7 @@ namespace mark_sideways
         delete this->arrow;
         delete this->enumerate;
         delete this->itemize;
+        delete this->bold;
     }
 
     // lex() is used to lex a single input line.
@@ -149,6 +152,14 @@ namespace mark_sideways
                 if (tokens[i].get_type() == mark_sideways::Token::token_type::UNLEXED)
                 {
                     new_tokens = this->arrow->lex(tokens[i].get_value());
+                    tokens.erase(tokens.begin() + i);
+                    tokens.insert(tokens.begin() + i, new_tokens.begin(), new_tokens.end());
+                }
+
+                // If this token is still UNLEXED, we pass it through the bold lexer.
+                if (tokens[i].get_type() == mark_sideways::Token::token_type::UNLEXED)
+                {
+                    new_tokens = this->bold->lex(tokens[i].get_value());
                     tokens.erase(tokens.begin() + i);
                     tokens.insert(tokens.begin() + i, new_tokens.begin(), new_tokens.end());
                 }
