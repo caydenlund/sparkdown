@@ -1,5 +1,5 @@
-// src/lexer/lexers/section/section.cpp
-// v. 0.1.0
+// src/lexer/lexers/section/section.hpp
+// v. 0.1.1
 //
 // Author: Cayden Lund
 //   Date: 10/15/2021
@@ -55,7 +55,7 @@ namespace mark_sideways
             // * std::string line                         - The string to lex.
             // * return std::vector<mark_sideways::Token> - The vector of tokens.
             std::vector<mark_sideways::Token> lex(std::string line);
-        
+
         private:
             // The regex used to match section headlines.
             std::regex match_regex;
