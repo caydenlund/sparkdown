@@ -1,5 +1,5 @@
 // src/lexer/lexer.hpp
-// v. 0.2.0
+// v. 0.2.1
 //
 // Author: Cayden Lund
 //   Date: 10/15/2021
@@ -32,6 +32,7 @@
 // The various sub-lexers.
 #include "lexer/lexers/header/header.hpp"
 #include "lexer/lexers/section/section.hpp"
+#include "lexer/lexers/arrow/arrow.hpp"
 #include "lexer/lexers/enumerate/enumerate.hpp"
 #include "lexer/lexers/itemize/itemize.hpp"
 
@@ -81,6 +82,10 @@ namespace mark_sideways
         // The section lexer.
         //   # Headline.
         mark_sideways::lexers::Section *section;
+
+        // The arrow lexer.
+        //   ->
+        mark_sideways::lexers::Arrow *arrow;
 
         // The enumerate lexer.
         //   \d. List item.

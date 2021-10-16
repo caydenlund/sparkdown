@@ -1,5 +1,5 @@
 // src/lexer/lexer.cpp
-// v. 0.2.0
+// v. 0.2.1
 //
 // Author: Cayden Lund
 //   Date: 10/15/2021
@@ -32,6 +32,7 @@
 // The various sub-lexers.
 #include "lexer/lexers/header/header.hpp"
 #include "lexer/lexers/section/section.hpp"
+#include "lexer/lexers/arrow/arrow.hpp"
 #include "lexer/lexers/enumerate/enumerate.hpp"
 #include "lexer/lexers/itemize/itemize.hpp"
 
@@ -46,6 +47,7 @@ namespace mark_sideways
         // The various sub-lexers.
         this->header = new mark_sideways::lexers::Header(this->state);
         this->section = new mark_sideways::lexers::Section(this->state);
+        this->arrow = new mark_sideways::lexers::Arrow(this->state);
         this->enumerate = new mark_sideways::lexers::Enumerate(state);
         this->itemize = new mark_sideways::lexers::Itemize(state);
     }
@@ -53,6 +55,9 @@ namespace mark_sideways
     // The class destructor.
     mark_sideways::Lexer::~Lexer()
     {
+        delete this->header;
+        delete this->section;
+        delete this->arrow;
         delete this->enumerate;
         delete this->itemize;
     }
@@ -76,12 +81,14 @@ namespace mark_sideways
     // * return std::vector<mark_sideways::Token>  - The new vector of tokens.
     std::vector<mark_sideways::Token> mark_sideways::Lexer::lex(std::vector<mark_sideways::Token> &tokens)
     {
+        std::vector<mark_sideways::Token> new_tokens;
         if (tokens.size() == 0)
         {
             return tokens;
         }
-        for (long unsigned int i = 0; i < tokens.size(); i++)
+        for (int i = 0; i < (int)tokens.size(); i++)
         {
+            new_tokens.clear();
             if (tokens[i].get_type() == mark_sideways::Token::token_type::UNLEXED)
             {
                 if (i == 0)
@@ -94,7 +101,6 @@ namespace mark_sideways
                     //   * Enumerate.
 
                     // Document header.
-                    std::vector<mark_sideways::Token> new_tokens;
                     if (this->state->is_head())
                     {
                         new_tokens = this->header->lex(tokens[0].get_value());
@@ -125,6 +131,14 @@ namespace mark_sideways
                         tokens.erase(tokens.begin());
                         tokens.insert(tokens.begin(), new_tokens.begin(), new_tokens.end());
                     }
+                }
+
+                // If this token is still UNLEXED, we pass it through the arrow lexer.
+                if (tokens[i].get_type() == mark_sideways::Token::token_type::UNLEXED)
+                {
+                    new_tokens = this->arrow->lex(tokens[i].get_value());
+                    tokens.erase(tokens.begin() + i);
+                    tokens.insert(tokens.begin() + i, new_tokens.begin(), new_tokens.end());
                 }
             }
         }

@@ -1,5 +1,5 @@
 // src/lexer/lexer.test.cpp
-// v. 0.2.0
+// v. 0.2.1
 //
 // Author: Cayden Lund
 //   Date: 10/15/2021
@@ -74,8 +74,8 @@ TEST(Lexer, BulletArrow)
 
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::BULLET, "2"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, " Text. "));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "-"));
+    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, "Text. "));
+    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "->"));
 
     std::vector<mark_sideways::Token> actual = lexer.lex(input);
 
