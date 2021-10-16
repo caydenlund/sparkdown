@@ -24,7 +24,7 @@ Mark-sideways is the perfect blend of simple, easy, and feature-rich.
 
 - Arrows!
 
-- All LaTeX code is validin mark-sideways.
+- All LaTeX code is valid in mark-sideways.
 
 ## Usage:
 
