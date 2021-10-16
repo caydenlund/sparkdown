@@ -1,14 +1,13 @@
 // src/token/token.test.cpp
-// v. 0.1.0
+// v. 0.2.0
 //
 // Author: Cayden Lund
-//   Date: 10/07/2021
+//   Date: 10/15/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the unit tests for the Token class.
-// The class is very simplistic; there isn't much to test.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)
@@ -98,4 +97,47 @@ TEST(Token, OperatorNotEqual)
     mark_sideways::Token token_h(mark_sideways::Token::token_type::ENUMERATE, "123");
 
     EXPECT_TRUE(token_g != token_h);
+}
+
+// Test the Token class's static method get_token_type().
+TEST(Token, GetTokenType)
+{
+    std::string expected = "Bullet";
+    std::string actual = mark_sideways::Token::get_token_type(mark_sideways::Token::token_type::BULLET);
+    EXPECT_EQ(expected, actual);
+}
+
+// Test the Token class's static method tokens_equal().
+TEST(Token, TokensEqual)
+{
+    std::vector<mark_sideways::Token> tokens_a;
+    tokens_a.push_back(mark_sideways::Token(mark_sideways::Token::token_type::BULLET, "1"));
+    tokens_a.push_back(mark_sideways::Token(mark_sideways::Token::token_type::BULLET, "2"));
+    tokens_a.push_back(mark_sideways::Token(mark_sideways::Token::token_type::BULLET, "3"));
+
+    std::vector<mark_sideways::Token> tokens_b;
+    tokens_b.push_back(mark_sideways::Token(mark_sideways::Token::token_type::BULLET, "1"));
+    tokens_b.push_back(mark_sideways::Token(mark_sideways::Token::token_type::BULLET, "2"));
+    tokens_b.push_back(mark_sideways::Token(mark_sideways::Token::token_type::BULLET, "3"));
+
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(tokens_a, tokens_b));
+}
+
+// Test the Token class's static method print_tokens().
+TEST(Token, PrintTokens)
+{
+    std::vector<mark_sideways::Token> input;
+    input.push_back(mark_sideways::Token(mark_sideways::Token::token_type::BULLET, "1"));
+    input.push_back(mark_sideways::Token(mark_sideways::Token::token_type::BULLET, "2"));
+    input.push_back(mark_sideways::Token(mark_sideways::Token::token_type::BULLET, "3"));
+
+    std::stringstream expected;
+    expected << "Tokens (3):" << std::endl
+             << "Bullet: \"1\"" << std::endl
+             << "Bullet: \"2\"" << std::endl
+             << "Bullet: \"3\"" << std::endl;
+
+    std::string actual = mark_sideways::Token::print_tokens(input);
+
+    EXPECT_EQ(expected.str(), actual);
 }

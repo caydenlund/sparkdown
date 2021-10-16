@@ -1,5 +1,5 @@
 // src/lexer/lexers/header/header.test.cpp
-// v. 0.1.1
+// v. 0.1.2
 //
 // Author: Cayden Lund
 //   Date: 10/15/2021
@@ -29,27 +29,6 @@
 // The Header class.
 #include "lexer/lexers/header/header.hpp"
 
-// We define a static helper method to determine whether two vectors of tokens are equal.
-//
-// * std::vector<mark_sideways::Token> tokens1 - The first vector of tokens.
-// * std::vector<mark_sideways::Token> tokens2 - The second vector of tokens.
-// * return bool                               - True when the two vectors are equal; false otherwise.
-static bool tokens_equal(std::vector<mark_sideways::Token> tokens1, std::vector<mark_sideways::Token> tokens2)
-{
-    if (tokens1.size() != tokens2.size())
-    {
-        return false;
-    }
-    for (size_t i = 0; i < tokens1.size(); i++)
-    {
-        if (tokens1[i] != tokens2[i])
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
 // Test the constructor.
 // Ensures that the lexer does not throw an exception.
 TEST(HeaderLexer, ConstructorNoFail)
@@ -69,7 +48,7 @@ TEST(HeaderLexer, SimpleHeader)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::HEADER, "date=10-15-2021"));
     std::vector<mark_sideways::Token> actual = header.lex("$date: 10-15-2021");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
 
 // Test the lexer's method lex().
@@ -82,7 +61,7 @@ TEST(HeaderLexer, Newline)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::HEADER, "date=10-15-2021"));
     std::vector<mark_sideways::Token> actual = header.lex("$date: 10-15-2021\n");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
 
 // Test the lexer's method lex().
@@ -95,7 +74,7 @@ TEST(HeaderLexer, SpecialCharacters)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::HEADER, "date=*10-15-2021*"));
     std::vector<mark_sideways::Token> actual = header.lex("$date: *10-15-2021*");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
 
 // Test the lexer's method lex().
@@ -108,7 +87,7 @@ TEST(HeaderLexer, EscapedHeader)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "$date: 10-15-2021"));
     std::vector<mark_sideways::Token> actual = header.lex("\\$date: 10-15-2021");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
     EXPECT_FALSE(state.is_head());
 }
 
@@ -123,7 +102,7 @@ TEST(HeaderLexer, IgnoreHeader)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "$date: 10-15-2021"));
     std::vector<mark_sideways::Token> actual = header.lex("$date: 10-15-2021");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
 
 // Test the lexer's method lex().
@@ -136,13 +115,13 @@ TEST(HeaderLexer, EndHeader)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::HEADER, "date=10-15-2021"));
     std::vector<mark_sideways::Token> actual = header.lex("$date: 10-15-2021\n");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
     EXPECT_TRUE(state.is_head());
 
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::HEADER, "title=Title"));
     actual = header.lex("$title: Title\n");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
     EXPECT_TRUE(state.is_head());
 
     header.lex("    \n");
@@ -152,7 +131,7 @@ TEST(HeaderLexer, EndHeader)
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "Content.\n"));
     actual = header.lex("Content.\n");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
     EXPECT_FALSE(state.is_head());
 }
 
@@ -166,11 +145,11 @@ TEST(HeaderLexer, EndHeaderOnEquals)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::HEADER, "date=10-15-2021"));
     std::vector<mark_sideways::Token> actual = header.lex("$date: 10-15-2021\n");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
     EXPECT_TRUE(state.is_head());
 
     expected.clear();
     actual = header.lex("=======\n");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
     EXPECT_FALSE(state.is_head());
 }

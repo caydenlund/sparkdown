@@ -1,8 +1,8 @@
 // src/lexer/lexers/abstract-lexer/abstract-lexer.test.cpp
-// v. 0.4.2
+// v. 0.4.3
 //
 // Author: Cayden Lund
-//   Date: 10/07/2021
+//   Date: 10/15/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -57,27 +57,6 @@ public:
         }
         return tokens;
     }
-
-    // A static function to test the equality of two token vectors.
-    //
-    // * std::vector<mark_sideways::Token> tokens1 - The first vector of tokens.
-    // * std::vector<mark_sideways::Token> tokens2 - The second vector of tokens.
-    // * return bool                               - True when the two vectors are equal; false otherwise.
-    static bool tokens_equal(std::vector<mark_sideways::Token> tokens1, std::vector<mark_sideways::Token> tokens2)
-    {
-        if (tokens1.size() != tokens2.size())
-        {
-            return false;
-        }
-        for (size_t i = 0; i < tokens1.size(); i++)
-        {
-            if (tokens1[i] != tokens2[i])
-            {
-                return false;
-            }
-        }
-        return true;
-    }
 };
 
 // Ensure that the constructor throws no exceptions.
@@ -105,11 +84,11 @@ TEST(AbstractLexer, AccessState)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, input));
     std::vector<mark_sideways::Token> actual = lexer.lex(input);
-    EXPECT_TRUE(ConcreteLexer::tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     state.toggle_verbatim();
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::VERB_BLOCK, input));
     actual = lexer.lex(input);
-    EXPECT_TRUE(ConcreteLexer::tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }

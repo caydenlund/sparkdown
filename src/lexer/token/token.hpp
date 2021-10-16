@@ -1,8 +1,8 @@
 // src/token/token.hpp
-// v. 0.1.3
+// v. 0.2.0
 //
 // Author: Cayden Lund
-//   Date: 10/08/2021
+//   Date: 10/15/2021
 //
 // This file is part of mark-sideways, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -28,7 +28,7 @@ namespace mark_sideways
     // Token.
     // This class is the token class, instantiated by the various lexers.
     // These tokens are then used by the Parser class to parse the input line into LaTeX code.
-    // Tokens are immutable; once instantiated, their values can only be read.
+    // Tokens are immutable; once instantiated, their values are read-only.
     class Token
     {
     public:
@@ -111,6 +111,29 @@ namespace mark_sideways
         // * Token other - The token to compare to.
         // * return bool  - Whether the two tokens are not equal.
         bool operator!=(const Token &other);
+
+        // ==========================
+        // | Public static methods. |
+        // ==========================
+
+        // The get_token_type method returns the string representation of the token type.
+        //
+        // * const token_type &type    - The type of the token.
+        // * return std::string - The string representation of the token type.
+        static std::string get_token_type(const token_type &type);
+
+        // The tokens_equal method returns whether two vectors of tokens are equal.
+        //
+        // * const std::vector<Token> &tokens1 - The first vector of tokens.
+        // * const std::vector<Token> &tokens2 - The second vector of tokens.
+        // * return bool                       - Whether the two vectors of tokens are equal.
+        static bool tokens_equal(const std::vector<Token> &tokens1, const std::vector<Token> &tokens2);
+
+        // The print_tokens method returns the string representation of a vector of tokens.
+        //
+        // * const std::vector<Token> &tokens - The vector of tokens to print.
+        // * return std::string               - The string representation of the vector of tokens.
+        static std::string print_tokens(const std::vector<Token> &tokens);
 
     protected:
         // The type of the token.

@@ -1,5 +1,5 @@
 // src/lexer/lexers/enumerate/enumerate.test.cpp
-// v. 0.3.1
+// v. 0.3.2
 //
 // Author: Cayden Lund
 //   Date: 10/07/2021
@@ -29,27 +29,6 @@
 // The Enumerate lexer class.
 #include "enumerate.hpp"
 
-// We define a static helper method to determine whether two vectors of tokens are equal.
-//
-// * std::vector<mark_sideways::Token> tokens1 - The first vector of tokens.
-// * std::vector<mark_sideways::Token> tokens2 - The second vector of tokens.
-// * return bool                               - True when the two vectors are equal; false otherwise.
-static bool tokens_equal(std::vector<mark_sideways::Token> tokens1, std::vector<mark_sideways::Token> tokens2)
-{
-    if (tokens1.size() != tokens2.size())
-    {
-        return false;
-    }
-    for (size_t i = 0; i < tokens1.size(); i++)
-    {
-        if (tokens1[i] != tokens2[i])
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
 // Test the constructor.
 // Ensures that the lexer does not throw an exception.
 TEST(EnumerateLexer, ConstructorNoFail)
@@ -71,14 +50,14 @@ TEST(EnumerateLexer, LexSingleEnumerateNoIndent)
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ENUMERATE, "1"));
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "List item."));
     std::vector<mark_sideways::Token> actual = enumerate.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     input = "2. List item.\n";
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ENUMERATE, "1"));
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "List item.\n"));
     actual = enumerate.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
@@ -93,14 +72,14 @@ TEST(EnumerateLexer, LexSingleEnumerateIndent)
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ENUMERATE, "2"));
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "List item."));
     std::vector<mark_sideways::Token> actual = enumerate.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     input = "    1. List item.\n";
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ENUMERATE, "3"));
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "List item.\n"));
     actual = enumerate.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
@@ -115,14 +94,14 @@ TEST(EnumerateLexer, LexEscapedEnumerate)
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, "1. "));
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "List item."));
     std::vector<mark_sideways::Token> actual = enumerate.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     input = "    \\1. List item.\n";
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, "1. "));
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "List item.\n"));
     actual = enumerate.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
@@ -138,13 +117,13 @@ TEST(EnumerateLexer, LexEnumerateInMathMode)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "1. List item."));
     std::vector<mark_sideways::Token> actual = enumerate.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     input = "    1. List item.\n";
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "    1. List item.\n"));
     actual = enumerate.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
@@ -160,11 +139,11 @@ TEST(EnumerateLexer, LexEnumerateInVerbatimMode)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "1. List item."));
     std::vector<mark_sideways::Token> actual = enumerate.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     input = "    1. List item.\n";
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "    1. List item.\n"));
     actual = enumerate.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }

@@ -1,5 +1,5 @@
 // src/lexer/lexers/section/section.test.cpp
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
 //   Date: 10/15/2021
@@ -29,27 +29,6 @@
 // The Section class.
 #include "section.hpp"
 
-// We define a static helper method to determine whether two vectors of tokens are equal.
-//
-// * std::vector<mark_sideways::Token> tokens1 - The first vector of tokens.
-// * std::vector<mark_sideways::Token> tokens2 - The second vector of tokens.
-// * return bool                               - True when the two vectors are equal; false otherwise.
-static bool tokens_equal(std::vector<mark_sideways::Token> tokens1, std::vector<mark_sideways::Token> tokens2)
-{
-    if (tokens1.size() != tokens2.size())
-    {
-        return false;
-    }
-    for (size_t i = 0; i < tokens1.size(); i++)
-    {
-        if (tokens1[i] != tokens2[i])
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
 // Test the constructor.
 // Ensures that the lexer does not throw an exception.
 TEST(SectionLexer, Constructor)
@@ -68,10 +47,10 @@ TEST(SectionLexer, SimpleHeadline)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=1,TITLE=Section."));
     std::vector<mark_sideways::Token> actual = section.lex("# Section.");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     actual = section.lex("# Section.\n");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
 
 // Test the Section lexer's method lex().
@@ -84,20 +63,20 @@ TEST(SectionLexer, SpecialSymbols)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=1,TITLE=Section with whitespace."));
     std::vector<mark_sideways::Token> actual = section.lex("# Section with whitespace.");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     actual = section.lex("# Section with whitespace.\n");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=1,TITLE=Section with *asterisks.*"));
     actual = section.lex("# Section with *asterisks.*");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=1,TITLE=Section with an arrow. ->"));
     actual = section.lex("# Section with an arrow. ->");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
 
 // Test the Section lexer's method lex().
@@ -110,27 +89,27 @@ TEST(SectionLexer, HeadlineLevels)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=1,TITLE=Section."));
     std::vector<mark_sideways::Token> actual = section.lex("# Section.");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=2,TITLE=Subsection."));
     actual = section.lex("## Subsection.");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=3,TITLE=Subsubsection."));
     actual = section.lex("### Subsubsection.");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=4,TITLE=Subsubsubsection."));
     actual = section.lex("#### Subsubsubsection.");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=5,TITLE=Subsubsubsubsection."));
     actual = section.lex("##### Subsubsubsubsection.");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
 
 // Test the Section lexer's method lex().
@@ -143,5 +122,5 @@ TEST(SectionLexer, NoHeadline)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "This is a paragraph."));
     std::vector<mark_sideways::Token> actual = section.lex("This is a paragraph.");
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }

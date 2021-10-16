@@ -1,5 +1,5 @@
 // src/lexer/lexers/arrow/arrow.test.cpp
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
 //   Date: 10/15/2021
@@ -29,27 +29,6 @@
 // The Arrow class.
 #include "lexer/lexers/arrow/arrow.hpp"
 
-// We define a static helper method to determine whether two vectors of tokens are equal.
-//
-// * std::vector<mark_sideways::Token> tokens1 - The first vector of tokens.
-// * std::vector<mark_sideways::Token> tokens2 - The second vector of tokens.
-// * return bool                               - True when the two vectors are equal; false otherwise.
-static bool tokens_equal(std::vector<mark_sideways::Token> tokens1, std::vector<mark_sideways::Token> tokens2)
-{
-    if (tokens1.size() != tokens2.size())
-    {
-        return false;
-    }
-    for (size_t i = 0; i < tokens1.size(); i++)
-    {
-        if (tokens1[i] != tokens2[i])
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
 // Test the constructor.
 // Ensures that the lexer does not throw an exception.
 TEST(ArrowLexer, ConstructorNoFail)
@@ -70,14 +49,14 @@ TEST(ArrowLexer, SimpleArrow)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "->"));
     std::vector<mark_sideways::Token> actual = arrow.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     input = "==>\n";
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "==>"));
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "\n"));
     actual = arrow.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
@@ -100,7 +79,7 @@ TEST(ArrowLexer, SingleArrowWhitespace)
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "==>"));
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "    \n"));
     actual = arrow.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
@@ -116,7 +95,7 @@ TEST(ArrowLexer, MultipleArrows)
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "->"));
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "->"));
     std::vector<mark_sideways::Token> actual = arrow.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     input = "==> -> ==>\n";
     expected.clear();
@@ -127,7 +106,7 @@ TEST(ArrowLexer, MultipleArrows)
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "==>"));
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "\n"));
     actual = arrow.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
@@ -147,7 +126,7 @@ TEST(ArrowLexer, MultipleArrowsDifferent)
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, " "));
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "<->"));
     std::vector<mark_sideways::Token> actual = arrow.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
@@ -161,11 +140,11 @@ TEST(ArrowLexer, EscapedArrow)
     std::vector<mark_sideways::Token> expected;
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, "->"));
     std::vector<mark_sideways::Token> actual = arrow.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 
     input = "\\==>";
     expected.clear();
     expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, "==>"));
     actual = arrow.lex(input);
-    EXPECT_TRUE(tokens_equal(expected, actual));
+    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
 }
