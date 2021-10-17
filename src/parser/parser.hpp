@@ -1,10 +1,10 @@
 // src/parser/parser.hpp
-// v. 0.6.0
+// v. 0.6.1
 //
 // Author: Cayden Lund
-//   Date: 10/06/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the Parser class.
@@ -25,16 +25,16 @@
 // We use the Lexer class to lex a line into tokens.
 #include "lexer/lexer.hpp"
 
-// The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
-namespace mark_sideways
+// The sparkdown namespace contains all the classes and methods of the sparkdown library.
+namespace sparkdown
 {
     // Parser.
-    // This class is used to parse a set of strings formatted as mark-sideways into a set of strings of LaTeX.
-    // The mark-sideways text is parsed line by line, and as we read each line, we update the state accordingly.
+    // This class is used to parse a set of strings formatted as sparkdown into a set of strings of LaTeX.
+    // The sparkdown text is parsed line by line, and as we read each line, we update the state accordingly.
     // Upon reading the line, we use the state to determine what to do with the line.
     // We then return a string of LaTeX to the caller.
     //
-    // The mark-sideways rules are as follows:
+    // The sparkdown rules are as follows:
     //
     //   1.  #  A headline.
     //       ## A sub-headline.
@@ -55,7 +55,7 @@ namespace mark_sideways
         // The constructor for the Parser class.
         // It accepts no arguments and has some default values.
         // Overrides of these defaults are specified
-        // inside the mark-sideways text itself.
+        // inside the sparkdown text itself.
         Parser();
 
         // The class destructor.

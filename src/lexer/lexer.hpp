@@ -1,10 +1,10 @@
 // src/lexer/lexer.hpp
-// v. 0.2.3
+// v. 0.2.4
 //
 // Author: Cayden Lund
-//   Date: 10/15/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the headers for the Lexer class.
@@ -39,8 +39,8 @@
 #include "lexer/lexers/bold/bold.hpp"
 #include "lexer/lexers/italic/italic.hpp"
 
-// The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
-namespace mark_sideways
+// The sparkdown namespace contains all the classes and methods of the sparkdown library.
+namespace sparkdown
 {
     // Lexer.
     // This class is used as an aggregate of all the sub-lexers.
@@ -50,8 +50,8 @@ namespace mark_sideways
         // The constructor saves a reference to the State object, which is used to store
         // the current state of the parser.
         //
-        // * mark_sideways::State state - The state object.
-        Lexer(mark_sideways::State *state);
+        // * sparkdown::State state - The state object.
+        Lexer(sparkdown::State *state);
 
         // The class destructor.
         virtual ~Lexer();
@@ -60,8 +60,8 @@ namespace mark_sideways
         // This method takes in a string and returns a new vector with the lexed tokens.
         //
         // * const std::string &line                  - The string to lex.
-        // * return std::vector<mark_sideways::Token> - The vector of tokens.
-        std::vector<mark_sideways::Token> lex(const std::string &line);
+        // * return std::vector<sparkdown::Token> - The vector of tokens.
+        std::vector<sparkdown::Token> lex(const std::string &line);
 
     private:
         // ====================
@@ -70,9 +70,9 @@ namespace mark_sideways
 
         // A recursive helper method to lex a single line.
         //
-        // * std::vector<mark_sideways::Token> &tokens - The vector of tokens.
-        // * return std::vector<mark_sideways::Token>  - The new vector of tokens.
-        std::vector<mark_sideways::Token> lex(std::vector<mark_sideways::Token> &tokens);
+        // * std::vector<sparkdown::Token> &tokens - The vector of tokens.
+        // * return std::vector<sparkdown::Token>  - The new vector of tokens.
+        std::vector<sparkdown::Token> lex(std::vector<sparkdown::Token> &tokens);
 
         // ===========================
         // | The various sub-lexers. |
@@ -80,35 +80,35 @@ namespace mark_sideways
 
         // The header lexer.
         //   $item: value
-        mark_sideways::lexers::Header *header;
+        sparkdown::lexers::Header *header;
 
         // The section lexer.
         //   # Headline.
-        mark_sideways::lexers::Section *section;
+        sparkdown::lexers::Section *section;
 
         // The verbatim block lexer.
         //   ```
-        mark_sideways::lexers::Verbatim *verbatim;
+        sparkdown::lexers::Verbatim *verbatim;
 
         // The arrow lexer.
         //   ->
-        mark_sideways::lexers::Arrow *arrow;
+        sparkdown::lexers::Arrow *arrow;
 
         // The enumerate lexer.
         //   \d. List item.
-        mark_sideways::lexers::Enumerate *enumerate;
+        sparkdown::lexers::Enumerate *enumerate;
 
         // The itemize lexer.
         //   * List item.
-        mark_sideways::lexers::Itemize *itemize;
+        sparkdown::lexers::Itemize *itemize;
 
         // The bold lexer.
         //   **Bold text.**
-        mark_sideways::lexers::Bold *bold;
+        sparkdown::lexers::Bold *bold;
 
         // The italic lexer.
         //   *Italic text.*
-        mark_sideways::lexers::Italic *italic;
+        sparkdown::lexers::Italic *italic;
     };
 }
 

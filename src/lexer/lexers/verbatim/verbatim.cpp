@@ -1,10 +1,10 @@
 // src/lexer/lexers/verbatim/verbatim.cpp
-// v. 0.1.1
+// v. 0.1.2
 //
 // Author: Cayden Lund
-//   Date: 10/15/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the implementation for the verbatim lexer.
@@ -25,8 +25,8 @@
 // The interface for a lexer.
 #include "lexer/lexers/abstract-lexer/abstract-lexer.hpp"
 
-// The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
-namespace mark_sideways
+// The sparkdown namespace contains all the classes and methods of the sparkdown library.
+namespace sparkdown
 {
     // The lexers namespace contains all the sub-lexer classes.
     namespace lexers
@@ -34,15 +34,15 @@ namespace mark_sideways
         // The constructor saves a reference to the State object, which is used to store
         // the current state of the parser.
         //
-        // mark_sideways::State state - The state object.
-        mark_sideways::lexers::Verbatim::Verbatim(mark_sideways::State *state) : AbstractLexer(state)
+        // sparkdown::State state - The state object.
+        sparkdown::lexers::Verbatim::Verbatim(sparkdown::State *state) : AbstractLexer(state)
         {
             // The regex for the lexer.
             this->match_regex = std::regex("^(\\s*)(```)[^\\n]*\\n?");
         }
 
         // The class destructor.
-        mark_sideways::lexers::Verbatim::~Verbatim()
+        sparkdown::lexers::Verbatim::~Verbatim()
         {
             // Nothing to do here.
         }
@@ -51,11 +51,11 @@ namespace mark_sideways
         // This method takes in a string and returns a new vector with the lexed tokens.
         //
         // * const std::string &line                  - The string to lex.
-        // * return std::vector<mark_sideways::Token> - The vector of tokens.
-        std::vector<mark_sideways::Token> mark_sideways::lexers::Verbatim::lex(const std::string &line)
+        // * return std::vector<sparkdown::Token> - The vector of tokens.
+        std::vector<sparkdown::Token> sparkdown::lexers::Verbatim::lex(const std::string &line)
         {
             // The vector of tokens to return.
-            std::vector<mark_sideways::Token> tokens;
+            std::vector<sparkdown::Token> tokens;
 
             // If we match the regex, we return a new token.
             if (std::regex_match(line, this->match_regex))
@@ -67,19 +67,19 @@ namespace mark_sideways
                 
                 this->state->toggle_verbatim();
                 
-                tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::VERB_BLOCK, value));
+                tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::VERB_BLOCK, value));
             }
             else
             {
                 if (this->state->is_verbatim())
                 {
                     // If we're inside of a verbatim block, we add the text back as text literal.
-                    tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, line));
+                    tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::TEXT_CONTENT, line));
                 }
                 else
                 {
                     // Otherwise, we add the text back as an unlexed token.
-                    tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, line));
+                    tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, line));
                 }
             }
             return tokens;

@@ -1,10 +1,10 @@
 // src/lexer/lexers/italic/italic.test.cpp
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
-//   Date: 10/15/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the unit tests for the Italic lexer class.
@@ -33,99 +33,99 @@
 // Ensures that the lexer does not throw an exception.
 TEST(ItalicLexer, ConstructorNoFail)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Italic italic(&state);
-    italic = mark_sideways::lexers::Italic(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Italic italic(&state);
+    italic = sparkdown::lexers::Italic(&state);
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly handles a single italic token.
 TEST(ItalicLexer, SimpleItalic)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Italic italic(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Italic italic(&state);
 
     std::string input = "*Italic text.*";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ITALIC, "Italic text."));
-    std::vector<mark_sideways::Token> actual = italic.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ITALIC, "Italic text."));
+    std::vector<sparkdown::Token> actual = italic.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     input += "\n";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ITALIC, "Italic text."));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "\n"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ITALIC, "Italic text."));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "\n"));
     actual = italic.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly handles a single italic with surrounding whitespace.
 TEST(ItalicLexer, SingleItalicWhitespace)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Italic italic(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Italic italic(&state);
 
     std::string input = "  *Italic text.*  ";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "  "));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ITALIC, "Italic text."));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "  "));
-    std::vector<mark_sideways::Token> actual = italic.lex(input);
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "  "));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ITALIC, "Italic text."));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "  "));
+    std::vector<sparkdown::Token> actual = italic.lex(input);
 
     input = "    *Italic text.*    \n";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "    "));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ITALIC, "Italic text."));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "    \n"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "    "));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ITALIC, "Italic text."));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "    \n"));
     actual = italic.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly handles multiple italics.
 TEST(ItalicLexer, MultipleItalics)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Italic italic(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Italic italic(&state);
 
     std::string input = "*1**2**3*";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ITALIC, "1"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ITALIC, "2"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ITALIC, "3"));
-    std::vector<mark_sideways::Token> actual = italic.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ITALIC, "1"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ITALIC, "2"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ITALIC, "3"));
+    std::vector<sparkdown::Token> actual = italic.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     input = "*1* *2* *3*\n";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ITALIC, "1"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, " "));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ITALIC, "2"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, " "));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ITALIC, "3"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "\n"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ITALIC, "1"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, " "));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ITALIC, "2"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, " "));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ITALIC, "3"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "\n"));
     actual = italic.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly ignores escaped italics.
 TEST(ItalicLexer, EscapedItalic)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Italic italic(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Italic italic(&state);
 
     std::string input = "\\*";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, "*"));
-    std::vector<mark_sideways::Token> actual = italic.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::TEXT_CONTENT, "*"));
+    std::vector<sparkdown::Token> actual = italic.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     input = "\\*Regular text.*";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, "*"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "Regular text.*"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::TEXT_CONTENT, "*"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "Regular text.*"));
     actual = italic.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }

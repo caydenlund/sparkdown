@@ -1,10 +1,10 @@
 // src/lexer/lexers/itemize/itemize.cpp
-// v. 0.3.2
+// v. 0.3.3
 //
 // Author: Cayden Lund
-//   Date: 10/15/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the implementation for the bullet point lexer.
@@ -25,8 +25,8 @@
 // The interface for a lexer.
 #include "lexer/lexers/abstract-lexer/abstract-lexer.hpp"
 
-// The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
-namespace mark_sideways
+// The sparkdown namespace contains all the classes and methods of the sparkdown library.
+namespace sparkdown
 {
     // The lexers namespace contains all the sub-lexer classes.
     namespace lexers
@@ -34,8 +34,8 @@ namespace mark_sideways
         // The constructor saves a reference to the State object, which is used to store
         // the current state of the parser.
         //
-        // mark_sideways::State state - The state object.
-        mark_sideways::lexers::Itemize::Itemize(mark_sideways::State *state) : AbstractLexer(state)
+        // sparkdown::State state - The state object.
+        sparkdown::lexers::Itemize::Itemize(sparkdown::State *state) : AbstractLexer(state)
         {
             // The regex for the bullet point lexer.
             this->match_regex = std::regex("^(\\s*)[-\\*]\\s+([^]*)$");
@@ -43,7 +43,7 @@ namespace mark_sideways
         }
 
         // The class destructor.
-        mark_sideways::lexers::Itemize::~Itemize()
+        sparkdown::lexers::Itemize::~Itemize()
         {
             // Nothing to do here.
         }
@@ -52,7 +52,7 @@ namespace mark_sideways
         //
         // * const std::string &line - The line to check.
         // * return bool             - True if the line is a bullet point.
-        bool mark_sideways::lexers::Itemize::is_bullet_point(const std::string &line)
+        bool sparkdown::lexers::Itemize::is_bullet_point(const std::string &line)
         {
             // To be a bullet point, the state must *not* be in the verbatim state and *not* be in the math state,
             // and the line must match the regular expression.
@@ -63,16 +63,16 @@ namespace mark_sideways
         // This method takes in a string and returns a new vector with the lexed tokens.
         //
         // * const std::string &line                  - The string to lex.
-        // * return std::vector<mark_sideways::Token> - The vector of tokens.
-        std::vector<mark_sideways::Token> mark_sideways::lexers::Itemize::lex(const std::string &line)
+        // * return std::vector<sparkdown::Token> - The vector of tokens.
+        std::vector<sparkdown::Token> sparkdown::lexers::Itemize::lex(const std::string &line)
         {
             // The vector of tokens to return.
-            std::vector<mark_sideways::Token> tokens;
+            std::vector<sparkdown::Token> tokens;
 
             // First, determine whether we are in a block of verbatim text or math mode.
             if (this->state->is_verbatim() || this->state->is_math())
             {
-                tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, line));
+                tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, line));
             }
             else
             {
@@ -86,10 +86,10 @@ namespace mark_sideways
                     std::string rest = std::regex_replace(line, this->match_regex, "$2");
 
                     // Add the bullet point token.
-                    tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::BULLET, std::to_string(bullet_point_level)));
+                    tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::BULLET, std::to_string(bullet_point_level)));
 
                     // Add the rest as an unlexed token.
-                    tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, rest));
+                    tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, rest));
                 }
                 else if (std::regex_match(line, this->escape_regex))
                 {
@@ -98,10 +98,10 @@ namespace mark_sideways
                     std::string rest = std::regex_replace(line, this->escape_regex, "$2");
 
                     // Add the text content token.
-                    tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, bullet_literal));
+                    tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::TEXT_CONTENT, bullet_literal));
 
                     // Add the rest as an unlexed token.
-                    tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, rest));
+                    tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, rest));
                 }
             }
             return tokens;

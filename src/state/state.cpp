@@ -1,10 +1,10 @@
 // src/state/state.cpp
-// v. 0.6.0
+// v. 0.6.1
 //
 // Author: Cayden Lund
-//   Date: 10/15/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the implementation of the State class.
@@ -19,8 +19,8 @@
 // The header file for the State class.
 #include "state.hpp"
 
-// The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
-namespace mark_sideways
+// The sparkdown namespace contains all the classes and methods of the sparkdown library.
+namespace sparkdown
 {
     // Constructor.
     State::State()

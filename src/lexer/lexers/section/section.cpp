@@ -1,10 +1,10 @@
 // src/lexer/lexers/section/section.cpp
-// v. 0.1.1
+// v. 0.1.2
 //
 // Author: Cayden Lund
-//   Date: 10/15/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the implementation for the section lexer.
@@ -25,8 +25,8 @@
 // The interface for a lexer.
 #include "lexer/lexers/abstract-lexer/abstract-lexer.hpp"
 
-// The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
-namespace mark_sideways
+// The sparkdown namespace contains all the classes and methods of the sparkdown library.
+namespace sparkdown
 {
     // The lexers namespace contains all the sub-lexer classes.
     namespace lexers
@@ -34,15 +34,15 @@ namespace mark_sideways
         // The constructor saves a reference to the State object, which is used to store
         // the current state of the parser.
         //
-        // mark_sideways::State state - The state object.
-        mark_sideways::lexers::Section::Section(mark_sideways::State *state) : AbstractLexer(state)
+        // sparkdown::State state - The state object.
+        sparkdown::lexers::Section::Section(sparkdown::State *state) : AbstractLexer(state)
         {
             this->match_regex = std::regex("^(#+) ([^\\n]+)\\n?$");
             this->escape_regex = std::regex("^\\\\(#+)([^]+)$");
         }
 
         // The class destructor.
-        mark_sideways::lexers::Section::~Section()
+        sparkdown::lexers::Section::~Section()
         {
             // Nothing to do here.
         }
@@ -51,11 +51,11 @@ namespace mark_sideways
         // This method takes in a string and returns a new vector with the lexed tokens.
         //
         // * const std::string &line                  - The string to lex.
-        // * return std::vector<mark_sideways::Token> - The vector of tokens.
-        std::vector<mark_sideways::Token> mark_sideways::lexers::Section::lex(const std::string &line)
+        // * return std::vector<sparkdown::Token> - The vector of tokens.
+        std::vector<sparkdown::Token> sparkdown::lexers::Section::lex(const std::string &line)
         {
             // The vector of tokens to return.
-            std::vector<mark_sideways::Token> tokens;
+            std::vector<sparkdown::Token> tokens;
 
             // If the line matches the regex, then we are lexing a section headline.
             if (std::regex_match(line, this->match_regex))
@@ -67,20 +67,20 @@ namespace mark_sideways
                 std::string section_title = std::regex_replace(line, this->match_regex, "$2");
 
                 // Add the section token.
-                tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=" + std::to_string(section_level) + ",TITLE=" + section_title));
+                tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::SECTION, "LEVEL=" + std::to_string(section_level) + ",TITLE=" + section_title));
             }
             else if (std::regex_match(line, this->escape_regex))
             {
                 std::string escaped_hashes = std::regex_replace(line, this->escape_regex, "$1");
                 std::string rest = std::regex_replace(line, this->escape_regex, "$2");
 
-                tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, escaped_hashes));
-                tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, rest));
+                tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::TEXT_CONTENT, escaped_hashes));
+                tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, rest));
             }
             else
             {
                 // If the line does not match the regex, then we add it back as an unlexed token.
-                tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, line));
+                tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, line));
             }
 
             return tokens;

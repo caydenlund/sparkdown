@@ -1,10 +1,10 @@
 // src/lexer/lexer.cpp
-// v. 0.2.3
+// v. 0.2.4
 //
 // Author: Cayden Lund
-//   Date: 10/15/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the implementation of the Lexer class.
@@ -39,27 +39,27 @@
 #include "lexer/lexers/bold/bold.hpp"
 #include "lexer/lexers/italic/italic.hpp"
 
-// The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
-namespace mark_sideways
+// The sparkdown namespace contains all the classes and methods of the sparkdown library.
+namespace sparkdown
 {
     // The class constructor.
     //
-    // * mark_sideways::State *state - The State object to use for keeping track of the state of the parser.
-    mark_sideways::Lexer::Lexer(mark_sideways::State *state) : mark_sideways::lexers::AbstractLexer(state)
+    // * sparkdown::State *state - The State object to use for keeping track of the state of the parser.
+    sparkdown::Lexer::Lexer(sparkdown::State *state) : sparkdown::lexers::AbstractLexer(state)
     {
         // The various sub-lexers.
-        this->header = new mark_sideways::lexers::Header(this->state);
-        this->section = new mark_sideways::lexers::Section(this->state);
-        this->verbatim = new mark_sideways::lexers::Verbatim(this->state);
-        this->arrow = new mark_sideways::lexers::Arrow(this->state);
-        this->enumerate = new mark_sideways::lexers::Enumerate(this->state);
-        this->itemize = new mark_sideways::lexers::Itemize(this->state);
-        this->bold = new mark_sideways::lexers::Bold(this->state);
-        this->italic = new mark_sideways::lexers::Italic(this->state);
+        this->header = new sparkdown::lexers::Header(this->state);
+        this->section = new sparkdown::lexers::Section(this->state);
+        this->verbatim = new sparkdown::lexers::Verbatim(this->state);
+        this->arrow = new sparkdown::lexers::Arrow(this->state);
+        this->enumerate = new sparkdown::lexers::Enumerate(this->state);
+        this->itemize = new sparkdown::lexers::Itemize(this->state);
+        this->bold = new sparkdown::lexers::Bold(this->state);
+        this->italic = new sparkdown::lexers::Italic(this->state);
     }
 
     // The class destructor.
-    mark_sideways::Lexer::~Lexer()
+    sparkdown::Lexer::~Lexer()
     {
         delete this->header;
         delete this->section;
@@ -76,21 +76,21 @@ namespace mark_sideways
     //
     // * const std::string &line - The line to lex.
     // * return std::string      - The lexed line.
-    std::vector<mark_sideways::Token> mark_sideways::Lexer::lex(const std::string &line)
+    std::vector<sparkdown::Token> sparkdown::Lexer::lex(const std::string &line)
     {
-        std::vector<mark_sideways::Token> tokens;
-        tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, line));
+        std::vector<sparkdown::Token> tokens;
+        tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, line));
         this->lex(tokens);
         return tokens;
     }
 
     // A recursive helper method to lex a single line.
     //
-    // * std::vector<mark_sideways::Token> &tokens - The vector of tokens.
-    // * return std::vector<mark_sideways::Token>  - The new vector of tokens.
-    std::vector<mark_sideways::Token> mark_sideways::Lexer::lex(std::vector<mark_sideways::Token> &tokens)
+    // * std::vector<sparkdown::Token> &tokens - The vector of tokens.
+    // * return std::vector<sparkdown::Token>  - The new vector of tokens.
+    std::vector<sparkdown::Token> sparkdown::Lexer::lex(std::vector<sparkdown::Token> &tokens)
     {
-        std::vector<mark_sideways::Token> new_tokens;
+        std::vector<sparkdown::Token> new_tokens;
         if (tokens.size() == 0)
         {
             return tokens;
@@ -98,7 +98,7 @@ namespace mark_sideways
         for (int i = 0; i < (int)tokens.size(); i++)
         {
             new_tokens.clear();
-            if (tokens[i].get_type() == mark_sideways::Token::token_type::UNLEXED)
+            if (tokens[i].get_type() == sparkdown::Token::token_type::UNLEXED)
             {
                 if (i == 0)
                 {
@@ -119,7 +119,7 @@ namespace mark_sideways
                     }
 
                     // If the first token is still UNLEXED, we pass it through the section lexer.
-                    if (tokens[0].get_type() == mark_sideways::Token::token_type::UNLEXED)
+                    if (tokens[0].get_type() == sparkdown::Token::token_type::UNLEXED)
                     {
                         new_tokens = this->section->lex(tokens[0].get_value());
                         tokens.erase(tokens.begin());
@@ -127,7 +127,7 @@ namespace mark_sideways
                     }
 
                     // If the first token is still UNLEXED, we pass it through the verbatim lexer.
-                    if (tokens[0].get_type() == mark_sideways::Token::token_type::UNLEXED)
+                    if (tokens[0].get_type() == sparkdown::Token::token_type::UNLEXED)
                     {
                         new_tokens = this->verbatim->lex(tokens[0].get_value());
                         tokens.erase(tokens.begin());
@@ -135,7 +135,7 @@ namespace mark_sideways
                     }
 
                     // If the first token is still UNLEXED, we pass it through the itemize lexer.
-                    if (tokens[0].get_type() == mark_sideways::Token::token_type::UNLEXED)
+                    if (tokens[0].get_type() == sparkdown::Token::token_type::UNLEXED)
                     {
                         new_tokens = this->itemize->lex(tokens[0].get_value());
                         tokens.erase(tokens.begin());
@@ -143,7 +143,7 @@ namespace mark_sideways
                     }
 
                     // If the first token is still UNLEXED, we pass it through the enumerate lexer.
-                    if (tokens[0].get_type() == mark_sideways::Token::token_type::UNLEXED)
+                    if (tokens[0].get_type() == sparkdown::Token::token_type::UNLEXED)
                     {
                         new_tokens = this->enumerate->lex(tokens[0].get_value());
                         tokens.erase(tokens.begin());
@@ -152,7 +152,7 @@ namespace mark_sideways
                 }
 
                 // If this token is still UNLEXED, we pass it through the arrow lexer.
-                if (tokens[i].get_type() == mark_sideways::Token::token_type::UNLEXED)
+                if (tokens[i].get_type() == sparkdown::Token::token_type::UNLEXED)
                 {
                     new_tokens = this->arrow->lex(tokens[i].get_value());
                     tokens.erase(tokens.begin() + i);
@@ -160,7 +160,7 @@ namespace mark_sideways
                 }
 
                 // If this token is still UNLEXED, we pass it through the bold lexer.
-                if (tokens[i].get_type() == mark_sideways::Token::token_type::UNLEXED)
+                if (tokens[i].get_type() == sparkdown::Token::token_type::UNLEXED)
                 {
                     new_tokens = this->bold->lex(tokens[i].get_value());
                     tokens.erase(tokens.begin() + i);
@@ -168,7 +168,7 @@ namespace mark_sideways
                 }
 
                 // If this token is still UNLEXED, we pass it through the italic lexer.
-                if (tokens[i].get_type() == mark_sideways::Token::token_type::UNLEXED)
+                if (tokens[i].get_type() == sparkdown::Token::token_type::UNLEXED)
                 {
                     new_tokens = this->italic->lex(tokens[i].get_value());
                     tokens.erase(tokens.begin() + i);

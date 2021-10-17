@@ -1,10 +1,10 @@
 // src/parser/parser-test.cpp
-// v. 0.3.1
+// v. 0.3.2
 //
 // Author: Cayden Lund
-//   Date: 10/07/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the unit tests for the Parser class.
@@ -17,7 +17,7 @@
 
 #include "parser.hpp"
 
-using namespace mark_sideways;
+using namespace sparkdown;
 
 // Test the Parser::Parser() zero-argument constructor.
 // This test is expected to pass unless the constructor throws an exception.

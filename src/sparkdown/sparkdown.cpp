@@ -1,14 +1,14 @@
-// src/mark-sideways/mark-sideways.cpp
-// v. 0.4.0
+// src/sparkdown/sparkdown.cpp
+// v. 0.4.1
 //
 // Author: Cayden Lund
-//   Date: 10/05/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the implementation of the functions
-// for the mark-sideways library.
+// for the sparkdown library.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT (https://opensource.org/licenses/MIT)
@@ -19,10 +19,10 @@
 #include <filesystem>
 
 #include "parser/parser.hpp"
-#include "mark-sideways.hpp"
+#include "sparkdown.hpp"
 
-// The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
-namespace mark_sideways
+// The sparkdown namespace contains all the classes and methods of the sparkdown library.
+namespace sparkdown
 {
     // Print usage information.
     //
@@ -44,11 +44,11 @@ namespace mark_sideways
         std::cout << "Cayden Lund <https://github.com/shrimpster00>" << std::endl;
     }
 
-    // Parse a mark-sideways file to stdout.
+    // Parse a sparkdown file to stdout.
     //
-    // * mark_sideways::Parser parser - The parser to handle the input file.
+    // * sparkdown::Parser parser - The parser to handle the input file.
     // * std::ifstream &input_file    - The file to parse.
-    void parse_file(mark_sideways::Parser parser, std::ifstream &input_file)
+    void parse_file(sparkdown::Parser parser, std::ifstream &input_file)
     {
         std::string line;
 
@@ -74,12 +74,12 @@ namespace mark_sideways
         std::cout << parser.end() << std::endl;
     }
 
-    // Parse a mark-sideways file to an output file.
+    // Parse a sparkdown file to an output file.
     //
-    // * mark_sideways::Parser parser - The parser to handle the input file.
+    // * sparkdown::Parser parser - The parser to handle the input file.
     // * std::ifstream &input_file    - The file to parse.
     // * std::ofstream &output_file   - The output file for the LaTeX code.
-    void parse_file(mark_sideways::Parser parser, std::ifstream &input_file, std::ofstream &output_file)
+    void parse_file(sparkdown::Parser parser, std::ifstream &input_file, std::ofstream &output_file)
     {
         std::string line;
 

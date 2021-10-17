@@ -1,10 +1,10 @@
-// src/mark-sideways/executable.cpp
-// v. 0.4.0
+// src/sparkdown/executable.cpp
+// v. 0.4.1
 //
 // Author: Cayden Lund
-//   Date: 10/05/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the main program entry point.
@@ -18,7 +18,7 @@
 #include <filesystem>
 
 // Include our helper functions.
-#include "mark-sideways.hpp"
+#include "sparkdown.hpp"
 
 // Main program entry point.
 int main(int argc, char *argv[])
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     // Make sure that the user provided at least one argument.
     if (argc < 2)
     {
-        mark_sideways::print_usage(argv[0]);
+        sparkdown::print_usage(argv[0]);
         return 1;
     }
 
@@ -42,12 +42,12 @@ int main(int argc, char *argv[])
         std::string arg = argv[i];
         if (arg == "-h" || arg == "--help")
         {
-            mark_sideways::print_usage(argv[0]);
+            sparkdown::print_usage(argv[0]);
             return 0;
         }
         else if (arg == "-v" || arg == "--version")
         {
-            mark_sideways::print_version();
+            sparkdown::print_version();
             return 0;
         }
         else if (arg == "-o" || arg == "--output")
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
     // Make sure that the user provided a file to parse.
     if (input == "")
     {
-        mark_sideways::print_usage(argv[0]);
+        sparkdown::print_usage(argv[0]);
         return 1;
     }
 
@@ -140,16 +140,16 @@ int main(int argc, char *argv[])
     }
 
     // Instantiate a new Parser object.
-    mark_sideways::Parser parser = mark_sideways::Parser();
+    sparkdown::Parser parser = sparkdown::Parser();
 
     // Parse the input file.
     if (output_stdout)
     {
-        mark_sideways::parse_file(parser, input_file);
+        sparkdown::parse_file(parser, input_file);
     }
     else
     {
-        mark_sideways::parse_file(parser, input_file, output_file);
+        sparkdown::parse_file(parser, input_file, output_file);
     }
 
     return 0;

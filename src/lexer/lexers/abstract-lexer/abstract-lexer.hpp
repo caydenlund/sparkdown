@@ -1,10 +1,10 @@
 // src/lexer/lexers/abstract-lexer.hpp
-// v. 0.6.2
+// v. 0.6.3
 //
 // Author: Cayden Lund
-//   Date: 10/15/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the headers for the AbstractLexer class.
@@ -25,8 +25,8 @@
 // We use the Token class to build a vector of tokens.
 #include "lexer/token/token.hpp"
 
-// The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
-namespace mark_sideways
+// The sparkdown namespace contains all the classes and methods of the sparkdown library.
+namespace sparkdown
 {
     // The lexers namespace contains all the lexer classes.
     namespace lexers
@@ -41,19 +41,19 @@ namespace mark_sideways
             // The constructor saves a reference to the State object, which is used to store
             // the current state of the parser.
             //
-            // mark_sideways::State state - The state object.
-            AbstractLexer(mark_sideways::State *state);
+            // sparkdown::State state - The state object.
+            AbstractLexer(sparkdown::State *state);
 
             // This method is the abstract lex() method, implemented by the various lexer classes.
             // This method takes in a string and returns a new string with the lexed tokens.
             //
             // * const std::string &line                  - The string to lex.
-            // * return std::vector<mark_sideways::Token> - The vector of tokens.
-            virtual std::vector<mark_sideways::Token> lex(const std::string &line) = 0;
+            // * return std::vector<sparkdown::Token> - The vector of tokens.
+            virtual std::vector<sparkdown::Token> lex(const std::string &line) = 0;
 
         protected:
             // The state object.
-            mark_sideways::State *state;
+            sparkdown::State *state;
         };
     }
 }

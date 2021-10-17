@@ -1,10 +1,10 @@
 // src/lexer/lexers/abstract-lexer.cpp
-// v. 0.6.1
+// v. 0.6.2
 //
 // Author: Cayden Lund
-//   Date: 10/07/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the headers for the AbstractLexer class.
@@ -22,8 +22,8 @@
 // The header for the AbstractLexer class.
 #include "abstract-lexer.hpp"
 
-// The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
-namespace mark_sideways
+// The sparkdown namespace contains all the classes and methods of the sparkdown library.
+namespace sparkdown
 {
     // The lexers namespace contains all the lexer classes.
     namespace lexers
@@ -36,8 +36,8 @@ namespace mark_sideways
         // The constructor saves a reference to the State object, which is used to store
         // the current state of the parser.
         //
-        // * mark_sideways::State state - The state object.
-        mark_sideways::lexers::AbstractLexer::AbstractLexer(mark_sideways::State *state)
+        // * sparkdown::State state - The state object.
+        sparkdown::lexers::AbstractLexer::AbstractLexer(sparkdown::State *state)
         {
             this->state = state;
         }

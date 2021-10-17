@@ -1,10 +1,10 @@
 // src/lexer/lexers/arrow/arrow.test.cpp
-// v. 0.1.1
+// v. 0.1.2
 //
 // Author: Cayden Lund
-//   Date: 10/15/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the unit tests for the Arrow lexer class.
@@ -33,118 +33,118 @@
 // Ensures that the lexer does not throw an exception.
 TEST(ArrowLexer, ConstructorNoFail)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Arrow arrow(&state);
-    arrow = mark_sideways::lexers::Arrow(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Arrow arrow(&state);
+    arrow = sparkdown::lexers::Arrow(&state);
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly handles a single right arrow.
 TEST(ArrowLexer, SimpleArrow)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Arrow arrow(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Arrow arrow(&state);
 
     std::string input = "->";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "->"));
-    std::vector<mark_sideways::Token> actual = arrow.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "->"));
+    std::vector<sparkdown::Token> actual = arrow.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     input = "==>\n";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "==>"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "\n"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "==>"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "\n"));
     actual = arrow.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly handles a single arrow with surrounding whitespace.
 TEST(ArrowLexer, SingleArrowWhitespace)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Arrow arrow(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Arrow arrow(&state);
 
     std::string input = "  ->  ";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "  "));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "->"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "  "));
-    std::vector<mark_sideways::Token> actual = arrow.lex(input);
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "  "));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "->"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "  "));
+    std::vector<sparkdown::Token> actual = arrow.lex(input);
 
     input = "    ==>    \n";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "    "));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "==>"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "    \n"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "    "));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "==>"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "    \n"));
     actual = arrow.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly handles multiple arrows.
 TEST(ArrowLexer, MultipleArrows)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Arrow arrow(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Arrow arrow(&state);
 
     std::string input = "->->->";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "->"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "->"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "->"));
-    std::vector<mark_sideways::Token> actual = arrow.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "->"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "->"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "->"));
+    std::vector<sparkdown::Token> actual = arrow.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     input = "==> -> ==>\n";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "==>"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, " "));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "->"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, " "));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "==>"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "\n"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "==>"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, " "));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "->"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, " "));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "==>"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "\n"));
     actual = arrow.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly handles multiple kinds of arrows.
 TEST(ArrowLexer, MultipleArrowsDifferent)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Arrow arrow(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Arrow arrow(&state);
 
     std::string input = "<- -> ==> <->";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "<-"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, " "));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "->"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, " "));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "==>"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, " "));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "<->"));
-    std::vector<mark_sideways::Token> actual = arrow.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "<-"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, " "));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "->"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, " "));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "==>"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, " "));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "<->"));
+    std::vector<sparkdown::Token> actual = arrow.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly ignores escaped arrows.
 TEST(ArrowLexer, EscapedArrow)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Arrow arrow(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Arrow arrow(&state);
 
     std::string input = "\\->";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, "->"));
-    std::vector<mark_sideways::Token> actual = arrow.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::TEXT_CONTENT, "->"));
+    std::vector<sparkdown::Token> actual = arrow.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     input = "\\==>";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, "==>"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::TEXT_CONTENT, "==>"));
     actual = arrow.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }

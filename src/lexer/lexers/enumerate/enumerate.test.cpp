@@ -1,10 +1,10 @@
 // src/lexer/lexers/enumerate/enumerate.test.cpp
-// v. 0.3.2
+// v. 0.3.3
 //
 // Author: Cayden Lund
-//   Date: 10/07/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the unit tests for the Enumerate lexer class.
@@ -33,117 +33,117 @@
 // Ensures that the lexer does not throw an exception.
 TEST(EnumerateLexer, ConstructorNoFail)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Enumerate enumerate(&state);
-    enumerate = mark_sideways::lexers::Enumerate(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Enumerate enumerate(&state);
+    enumerate = sparkdown::lexers::Enumerate(&state);
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly handles a single enumerate with no indentation.
 TEST(EnumerateLexer, LexSingleEnumerateNoIndent)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Enumerate enumerate(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Enumerate enumerate(&state);
 
     std::string input = "1. List item.";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ENUMERATE, "1"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "List item."));
-    std::vector<mark_sideways::Token> actual = enumerate.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ENUMERATE, "1"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "List item."));
+    std::vector<sparkdown::Token> actual = enumerate.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     input = "2. List item.\n";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ENUMERATE, "1"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "List item.\n"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ENUMERATE, "1"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "List item.\n"));
     actual = enumerate.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly handles a single enumerate with indentation.
 TEST(EnumerateLexer, LexSingleEnumerateIndent)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Enumerate enumerate(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Enumerate enumerate(&state);
 
     std::string input = "  1. List item.";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ENUMERATE, "2"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "List item."));
-    std::vector<mark_sideways::Token> actual = enumerate.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ENUMERATE, "2"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "List item."));
+    std::vector<sparkdown::Token> actual = enumerate.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     input = "    1. List item.\n";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ENUMERATE, "3"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "List item.\n"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ENUMERATE, "3"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "List item.\n"));
     actual = enumerate.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly handles an escaped enumerate.
 TEST(EnumerateLexer, LexEscapedEnumerate)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Enumerate enumerate(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Enumerate enumerate(&state);
 
     std::string input = "\\1. List item.";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, "1. "));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "List item."));
-    std::vector<mark_sideways::Token> actual = enumerate.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::TEXT_CONTENT, "1. "));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "List item."));
+    std::vector<sparkdown::Token> actual = enumerate.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     input = "    \\1. List item.\n";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, "1. "));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "List item.\n"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::TEXT_CONTENT, "1. "));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "List item.\n"));
     actual = enumerate.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly leaves a enumerate unmodified in math mode.
 TEST(EnumerateLexer, LexEnumerateInMathMode)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Enumerate enumerate(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Enumerate enumerate(&state);
 
     state.toggle_math();
 
     std::string input = "1. List item.";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "1. List item."));
-    std::vector<mark_sideways::Token> actual = enumerate.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "1. List item."));
+    std::vector<sparkdown::Token> actual = enumerate.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     input = "    1. List item.\n";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "    1. List item.\n"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "    1. List item.\n"));
     actual = enumerate.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly leaves a enumerate unmodified in verbatim mode.
 TEST(EnumerateLexer, LexEnumerateInVerbatimMode)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Enumerate enumerate(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Enumerate enumerate(&state);
 
     state.toggle_verbatim();
 
     std::string input = "1. List item.";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "1. List item."));
-    std::vector<mark_sideways::Token> actual = enumerate.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "1. List item."));
+    std::vector<sparkdown::Token> actual = enumerate.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     input = "    1. List item.\n";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "    1. List item.\n"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "    1. List item.\n"));
     actual = enumerate.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }

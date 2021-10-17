@@ -1,10 +1,10 @@
 // src/lexer/lexers/abstract-lexer/abstract-lexer.test.cpp
-// v. 0.4.4
+// v. 0.4.5
 //
 // Author: Cayden Lund
-//   Date: 10/15/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the unit tests for the AbstractLexer class.
@@ -31,11 +31,11 @@
 
 // Since the AbstractLexer class is abstract, we need to create a concrete
 // class to test it.
-class ConcreteLexer : public mark_sideways::lexers::AbstractLexer
+class ConcreteLexer : public sparkdown::lexers::AbstractLexer
 {
 public:
     // The constructor.
-    ConcreteLexer(mark_sideways::State *state) : mark_sideways::lexers::AbstractLexer(state) {}
+    ConcreteLexer(sparkdown::State *state) : sparkdown::lexers::AbstractLexer(state) {}
 
     // The destructor.
     virtual ~ConcreteLexer() {}
@@ -43,17 +43,17 @@ public:
     // The lex function.
     //
     // * const std::string &line   - The line to lex.
-    // * return std::vector<mark_sideways::Token> - The tokens found in the line.
-    std::vector<mark_sideways::Token> lex(const std::string &line)
+    // * return std::vector<sparkdown::Token> - The tokens found in the line.
+    std::vector<sparkdown::Token> lex(const std::string &line)
     {
-        std::vector<mark_sideways::Token> tokens;
+        std::vector<sparkdown::Token> tokens;
         if (state->is_verbatim())
         {
-            tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::VERB_BLOCK, line));
+            tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::VERB_BLOCK, line));
         }
         else
         {
-            tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, line));
+            tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::TEXT_CONTENT, line));
         }
         return tokens;
     }
@@ -63,7 +63,7 @@ public:
 TEST(AbstractLexer, ConstructorNoFail)
 {
     // Create a new state.
-    mark_sideways::State state;
+    sparkdown::State state;
 
     // Create a new lexer.
     ConcreteLexer lexer(&state);
@@ -75,20 +75,20 @@ TEST(AbstractLexer, ConstructorNoFail)
 TEST(AbstractLexer, AccessState)
 {
     // Create a new state.
-    mark_sideways::State state;
+    sparkdown::State state;
 
     // Create a new lexer.
     ConcreteLexer lexer(&state);
 
     std::string input = "Line";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, input));
-    std::vector<mark_sideways::Token> actual = lexer.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::TEXT_CONTENT, input));
+    std::vector<sparkdown::Token> actual = lexer.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     state.toggle_verbatim();
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::VERB_BLOCK, input));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::VERB_BLOCK, input));
     actual = lexer.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }

@@ -1,10 +1,10 @@
 // src/lexer/lexer.test.cpp
-// v. 0.2.2
+// v. 0.2.3
 //
 // Author: Cayden Lund
-//   Date: 10/15/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the unit tests for the Lexer class.
@@ -36,33 +36,33 @@
 // Ensures that the lexer does not throw an exception.
 TEST(Lexer, ConstructorNoFail)
 {
-    mark_sideways::State state;
-    mark_sideways::Lexer *lexer = new mark_sideways::Lexer(&state);
+    sparkdown::State state;
+    sparkdown::Lexer *lexer = new sparkdown::Lexer(&state);
     delete lexer;
-    lexer = new mark_sideways::Lexer(&state);
+    lexer = new sparkdown::Lexer(&state);
 }
 
 // Test the Lexer class's method lex().
 // Ensures that the lexer can correctly lex an indented bullet point with a single right arrow.
 TEST(Lexer, BulletArrow)
 {
-    mark_sideways::State state;
-    mark_sideways::Lexer lexer = mark_sideways::Lexer(&state);
+    sparkdown::State state;
+    sparkdown::Lexer lexer = sparkdown::Lexer(&state);
 
     std::string input = "  * Text. ->";
 
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::BULLET, "2"));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, "Text. "));
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::ARROW, "->"));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::BULLET, "2"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::TEXT_CONTENT, "Text. "));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "->"));
 
-    std::vector<mark_sideways::Token> actual = lexer.lex(input);
+    std::vector<sparkdown::Token> actual = lexer.lex(input);
 
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     input += "\n";
 
     actual = lexer.lex(input);
 
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }

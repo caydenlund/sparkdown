@@ -1,10 +1,10 @@
 // src/lexer/lexers/section/section.test.cpp
-// v. 0.1.1
+// v. 0.1.2
 //
 // Author: Cayden Lund
-//   Date: 10/15/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the unit tests for the Section lexer class.
@@ -33,94 +33,94 @@
 // Ensures that the lexer does not throw an exception.
 TEST(SectionLexer, Constructor)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Section section(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Section section(&state);
 }
 
 // Test the lexer's method lex().
 // Ensures that the lexer correctly lexes a simple section headline.
 TEST(SectionLexer, SimpleHeadline)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Section section(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Section section(&state);
 
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=1,TITLE=Section."));
-    std::vector<mark_sideways::Token> actual = section.lex("# Section.");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::SECTION, "LEVEL=1,TITLE=Section."));
+    std::vector<sparkdown::Token> actual = section.lex("# Section.");
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     actual = section.lex("# Section.\n");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the Section lexer's method lex().
 // Ensures that the lexer correctly lexes a header with internal symbols.
 TEST(SectionLexer, SpecialSymbols)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Section section(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Section section(&state);
 
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=1,TITLE=Section with whitespace."));
-    std::vector<mark_sideways::Token> actual = section.lex("# Section with whitespace.");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::SECTION, "LEVEL=1,TITLE=Section with whitespace."));
+    std::vector<sparkdown::Token> actual = section.lex("# Section with whitespace.");
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     actual = section.lex("# Section with whitespace.\n");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=1,TITLE=Section with *asterisks.*"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::SECTION, "LEVEL=1,TITLE=Section with *asterisks.*"));
     actual = section.lex("# Section with *asterisks.*");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=1,TITLE=Section with an arrow. ->"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::SECTION, "LEVEL=1,TITLE=Section with an arrow. ->"));
     actual = section.lex("# Section with an arrow. ->");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the Section lexer's method lex().
 // Ensures that the lexer correctly lexes various levels of headlines.
 TEST(SectionLexer, HeadlineLevels)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Section section(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Section section(&state);
 
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=1,TITLE=Section."));
-    std::vector<mark_sideways::Token> actual = section.lex("# Section.");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::SECTION, "LEVEL=1,TITLE=Section."));
+    std::vector<sparkdown::Token> actual = section.lex("# Section.");
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=2,TITLE=Subsection."));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::SECTION, "LEVEL=2,TITLE=Subsection."));
     actual = section.lex("## Subsection.");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=3,TITLE=Subsubsection."));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::SECTION, "LEVEL=3,TITLE=Subsubsection."));
     actual = section.lex("### Subsubsection.");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=4,TITLE=Subsubsubsection."));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::SECTION, "LEVEL=4,TITLE=Subsubsubsection."));
     actual = section.lex("#### Subsubsubsection.");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::SECTION, "LEVEL=5,TITLE=Subsubsubsubsection."));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::SECTION, "LEVEL=5,TITLE=Subsubsubsubsection."));
     actual = section.lex("##### Subsubsubsubsection.");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the Section lexer's method lex().
 // Ensures that the lexer correctly leaves the input string unmodified when given a string with no section headline.
 TEST(SectionLexer, NoHeadline)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Section section(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Section section(&state);
 
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "This is a paragraph."));
-    std::vector<mark_sideways::Token> actual = section.lex("This is a paragraph.");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "This is a paragraph."));
+    std::vector<sparkdown::Token> actual = section.lex("This is a paragraph.");
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }

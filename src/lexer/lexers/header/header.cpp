@@ -1,10 +1,10 @@
 // src/lexer/lexers/header/header.cpp
-// v. 0.1.2
+// v. 0.1.3
 //
 // Author: Cayden Lund
-//   Date: 10/15/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the implementation for the header lexer.
@@ -25,8 +25,8 @@
 // The interface for a lexer.
 #include "lexer/lexers/abstract-lexer/abstract-lexer.hpp"
 
-// The mark_sideways namespace contains all the classes and methods of the mark-sideways library.
-namespace mark_sideways
+// The sparkdown namespace contains all the classes and methods of the sparkdown library.
+namespace sparkdown
 {
     // The lexers namespace contains all the sub-lexer classes.
     namespace lexers
@@ -34,8 +34,8 @@ namespace mark_sideways
         // The constructor saves a reference to the State object, which is used to store
         // the current state of the parser.
         //
-        // mark_sideways::State state - The state object.
-        mark_sideways::lexers::Header::Header(mark_sideways::State *state) : AbstractLexer(state)
+        // sparkdown::State state - The state object.
+        sparkdown::lexers::Header::Header(sparkdown::State *state) : AbstractLexer(state)
         {
             this->match_regex = std::regex("^\\$([^:\\s]+):\\s*([^\\n]*)\\n?$");
             this->escape_regex = std::regex("^\\\\(\\$[^:\\s]+:\\s*[^\\n]*\\n?)$");
@@ -47,7 +47,7 @@ namespace mark_sideways
         }
 
         // The class destructor.
-        mark_sideways::lexers::Header::~Header()
+        sparkdown::lexers::Header::~Header()
         {
             // Nothing to do here.
         }
@@ -56,11 +56,11 @@ namespace mark_sideways
         // This method takes in a string and returns a new vector with the lexed tokens.
         //
         // * const std::string &line                  - The string to lex.
-        // * return std::vector<mark_sideways::Token> - The vector of tokens.
-        std::vector<mark_sideways::Token> mark_sideways::lexers::Header::lex(const std::string &line)
+        // * return std::vector<sparkdown::Token> - The vector of tokens.
+        std::vector<sparkdown::Token> sparkdown::lexers::Header::lex(const std::string &line)
         {
             // The vector of tokens to return.
-            std::vector<mark_sideways::Token> tokens;
+            std::vector<sparkdown::Token> tokens;
 
             // First, determine whether we are lexing the head of the document.
             if (this->state->is_head())
@@ -70,13 +70,13 @@ namespace mark_sideways
                 if (std::regex_match(line, this->match_regex))
                 {
                     std::string value = std::regex_replace(line, this->match_regex, "$1=$2");
-                    tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::HEADER, value));
+                    tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::HEADER, value));
                 }
                 // If it matches the escape regex, then we are no longer in the head of the document.
                 else if (std::regex_match(line, this->escape_regex))
                 {
                     std::string value = std::regex_replace(line, this->escape_regex, "$1");
-                    tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, value));
+                    tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, value));
 
                     this->state->end_head();
                 }
@@ -89,7 +89,7 @@ namespace mark_sideways
                 else if (!std::regex_match(line, this->whitespace_regex))
                 {
                     // Add the line back as an unlexed token.
-                    tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, line));
+                    tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, line));
 
                     this->state->end_head();
                 }
@@ -97,7 +97,7 @@ namespace mark_sideways
             else
             {
                 // If we are not in the head of the document, then we can just add the line as an unlexed token.
-                tokens.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, line));
+                tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, line));
             }
             return tokens;
         }

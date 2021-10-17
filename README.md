@@ -1,16 +1,16 @@
-# Mark-sideways
+# Sparkdown
 
 A new markup/markdown language for quickly taking notes.
 
-Mark-sideways is a C++ library and command-line executable that provides, a simple, powerful, and easy-to-use API
+Sparkdown is a C++ library and command-line executable that provides a simple, powerful, and easy-to-use API
 for transpiling notes into LaTeX code, which can then be compiled into a PDF.
 
 ## Motivation:
 
 Is LaTeX too verbose? Does markdown lack features?
 
-Enter mark-sideways, the new note-taking language.
-Mark-sideways is the perfect blend of simple, easy, and feature-rich.
+Enter sparkdown, the new note-taking language.
+Sparkdown is the perfect blend of simple, easy, and feature-rich.
 
 ## Features:
 
@@ -24,11 +24,11 @@ Mark-sideways is the perfect blend of simple, easy, and feature-rich.
 
 - Arrows!
 
-- All LaTeX code is valid in mark-sideways.
+- All LaTeX code is valid in sparkdown.
 
 ## Usage:
 
-    Usage: mark-sideways <file> [OPTIONS]
+    Usage: sparkdown <file> [OPTIONS]
       Options:
         -h, --help: 	    Print this help message.
         -v, --version:	  Print version information.

@@ -1,10 +1,10 @@
 // src/lexer/lexers/verbatim/verbatim.test.cpp
-// v. 0.1.1
+// v. 0.1.2
 //
 // Author: Cayden Lund
-//   Date: 10/15/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the unit tests for the Verbatim lexer class.
@@ -33,95 +33,95 @@
 // Ensures that the lexer does not throw an exception.
 TEST(VerbatimLexer, ConstructorNoFail)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Verbatim verbatim(&state);
-    verbatim = mark_sideways::lexers::Verbatim(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Verbatim verbatim(&state);
+    verbatim = sparkdown::lexers::Verbatim(&state);
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly handles a single verbatim command.
 TEST(VerbatimLexer, StartVerbatim)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Verbatim verbatim(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Verbatim verbatim(&state);
 
     std::string input = "```";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::VERB_BLOCK, "Start"));
-    std::vector<mark_sideways::Token> actual = verbatim.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::VERB_BLOCK, "Start"));
+    std::vector<sparkdown::Token> actual = verbatim.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly handles a single verbatim command with a trailing newline.
 TEST(VerbatimLexer, StartVerbatimNewline)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Verbatim verbatim(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Verbatim verbatim(&state);
 
     std::string input = "```\n";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::VERB_BLOCK, "Start"));
-    std::vector<mark_sideways::Token> actual = verbatim.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::VERB_BLOCK, "Start"));
+    std::vector<sparkdown::Token> actual = verbatim.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly handles a single verbatim command with leading whitespace.
 TEST(VerbatimLexer, StartVerbatimLeadingWhitespace)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Verbatim verbatim(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Verbatim verbatim(&state);
 
     std::string input = "   ```";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::VERB_BLOCK, "Start"));
-    std::vector<mark_sideways::Token> actual = verbatim.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::VERB_BLOCK, "Start"));
+    std::vector<sparkdown::Token> actual = verbatim.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly starts and ends a verbatim block.
 TEST(VerbatimLexer, StartEndVerbatim)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Verbatim verbatim(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Verbatim verbatim(&state);
 
     std::string input = "```";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::VERB_BLOCK, "Start"));
-    std::vector<mark_sideways::Token> actual = verbatim.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::VERB_BLOCK, "Start"));
+    std::vector<sparkdown::Token> actual = verbatim.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     input = "```";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::VERB_BLOCK, "End"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::VERB_BLOCK, "End"));
     actual = verbatim.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lex() function.
 // Ensures that the lexer correctly leaves text inside the verbatim block unaltered.
 TEST(VerbatimLexer, TextInsideVerbatim)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Verbatim verbatim(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Verbatim verbatim(&state);
 
     std::string input = "```\n";
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::VERB_BLOCK, "Start"));
-    std::vector<mark_sideways::Token> actual = verbatim.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::VERB_BLOCK, "Start"));
+    std::vector<sparkdown::Token> actual = verbatim.lex(input);
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     input = "    Text with leading whitespace.\n";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::TEXT_CONTENT, "    Text with leading whitespace.\n"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::TEXT_CONTENT, "    Text with leading whitespace.\n"));
     actual = verbatim.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 
     input = "```\n";
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::VERB_BLOCK, "End"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::VERB_BLOCK, "End"));
     actual = verbatim.lex(input);
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }

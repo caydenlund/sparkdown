@@ -1,10 +1,10 @@
 // src/lexer/lexers/header/header.test.cpp
-// v. 0.1.2
+// v. 0.1.3
 //
 // Author: Cayden Lund
-//   Date: 10/15/2021
+//   Date: 10/17/2021
 //
-// This file is part of mark-sideways, a new markup/markdown language
+// This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
 // This file contains the unit tests for the Header lexer class.
@@ -33,61 +33,61 @@
 // Ensures that the lexer does not throw an exception.
 TEST(HeaderLexer, ConstructorNoFail)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Header header(&state);
-    header = mark_sideways::lexers::Header(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Header header(&state);
+    header = sparkdown::lexers::Header(&state);
 }
 
 // Test the lexer's method lex().
 // Ensures that the lexer correctly lexes a simple header command.
 TEST(HeaderLexer, SimpleHeader)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Header header(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Header header(&state);
 
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::HEADER, "date=10-15-2021"));
-    std::vector<mark_sideways::Token> actual = header.lex("$date: 10-15-2021");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::HEADER, "date=10-15-2021"));
+    std::vector<sparkdown::Token> actual = header.lex("$date: 10-15-2021");
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lexer's method lex().
 // Ensures that the lexer correctly lexes a header command with a trailing newline.
 TEST(HeaderLexer, Newline)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Header header(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Header header(&state);
 
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::HEADER, "date=10-15-2021"));
-    std::vector<mark_sideways::Token> actual = header.lex("$date: 10-15-2021\n");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::HEADER, "date=10-15-2021"));
+    std::vector<sparkdown::Token> actual = header.lex("$date: 10-15-2021\n");
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lexer's method lex().
 // Ensures that the lexer correctly lexes a header command with special characters.
 TEST(HeaderLexer, SpecialCharacters)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Header header(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Header header(&state);
 
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::HEADER, "date=*10-15-2021*"));
-    std::vector<mark_sideways::Token> actual = header.lex("$date: *10-15-2021*");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::HEADER, "date=*10-15-2021*"));
+    std::vector<sparkdown::Token> actual = header.lex("$date: *10-15-2021*");
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lexer's method lex().
 // Ensures that the lexer correctly lexes an escaped header command.
 TEST(HeaderLexer, EscapedHeader)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Header header(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Header header(&state);
 
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "$date: 10-15-2021"));
-    std::vector<mark_sideways::Token> actual = header.lex("\\$date: 10-15-2021");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "$date: 10-15-2021"));
+    std::vector<sparkdown::Token> actual = header.lex("\\$date: 10-15-2021");
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
     EXPECT_FALSE(state.is_head());
 }
 
@@ -95,33 +95,33 @@ TEST(HeaderLexer, EscapedHeader)
 // Ensures that the lexer correctly ignores header commands after state.is_head() is false.
 TEST(HeaderLexer, IgnoreHeader)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Header header(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Header header(&state);
 
     state.end_head();
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "$date: 10-15-2021"));
-    std::vector<mark_sideways::Token> actual = header.lex("$date: 10-15-2021");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "$date: 10-15-2021"));
+    std::vector<sparkdown::Token> actual = header.lex("$date: 10-15-2021");
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
 }
 
 // Test the lexer's method lex().
 // Ensures that the lexer correctly calls state.end_head() when we are done with the header.
 TEST(HeaderLexer, EndHeader)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Header header(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Header header(&state);
 
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::HEADER, "date=10-15-2021"));
-    std::vector<mark_sideways::Token> actual = header.lex("$date: 10-15-2021\n");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::HEADER, "date=10-15-2021"));
+    std::vector<sparkdown::Token> actual = header.lex("$date: 10-15-2021\n");
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
     EXPECT_TRUE(state.is_head());
 
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::HEADER, "title=Title"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::HEADER, "title=Title"));
     actual = header.lex("$title: Title\n");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
     EXPECT_TRUE(state.is_head());
 
     header.lex("    \n");
@@ -129,9 +129,9 @@ TEST(HeaderLexer, EndHeader)
     EXPECT_TRUE(state.is_head());
 
     expected.clear();
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::UNLEXED, "Content.\n"));
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, "Content.\n"));
     actual = header.lex("Content.\n");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
     EXPECT_FALSE(state.is_head());
 }
 
@@ -139,17 +139,17 @@ TEST(HeaderLexer, EndHeader)
 // Ensures that the lexer correctly calls state.end_head() when we come across a line of '=' characters.
 TEST(HeaderLexer, EndHeaderOnEquals)
 {
-    mark_sideways::State state;
-    mark_sideways::lexers::Header header(&state);
+    sparkdown::State state;
+    sparkdown::lexers::Header header(&state);
 
-    std::vector<mark_sideways::Token> expected;
-    expected.push_back(mark_sideways::Token(mark_sideways::Token::token_type::HEADER, "date=10-15-2021"));
-    std::vector<mark_sideways::Token> actual = header.lex("$date: 10-15-2021\n");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    std::vector<sparkdown::Token> expected;
+    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::HEADER, "date=10-15-2021"));
+    std::vector<sparkdown::Token> actual = header.lex("$date: 10-15-2021\n");
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
     EXPECT_TRUE(state.is_head());
 
     expected.clear();
     actual = header.lex("=======\n");
-    EXPECT_TRUE(mark_sideways::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
     EXPECT_FALSE(state.is_head());
 }
