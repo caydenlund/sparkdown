@@ -1,0 +1,34 @@
+---
+title: Arrows
+---
+
+import ImageSwitcher from "/src/components/image-switcher/image-switcher";
+
+import * as rightarrowLight from "./arrow_assets/rightarrow_light.png";
+import * as rightarrowDark from "./arrow_assets/rightarrow_dark.png";
+
+import * as RightarrowLight from "./arrow_assets/Rightarrow_light.png";
+import * as RightarrowDark from "./arrow_assets/Rightarrow_dark.png";
+
+import * as longleftarrowLight from "./arrow_assets/longleftarrow_light.png";
+import * as longleftarrowDark from "./arrow_assets/longleftarrow_dark.png";
+
+import * as LongleftrightarrowLight from "./arrow_assets/Longleftrightarrow_light.png";
+import * as LongleftrightarrowDark from "./arrow_assets/Longleftrightarrow_dark.png";
+
+
+Arrows are very useful in note-taking.
+Sparkdown makes it easy to write them.
+
+The syntax is easy and intuitive:
+
+| Arrow | Result            |
+| ----- | ----------------- |
+| `->`  | <ImageSwitcher darkImage={rightarrowDark} lightImage={rightarrowLight} /> |
+| `=>`  | <ImageSwitcher darkImage={RightarrowDark} lightImage={RightarrowLight} /> |
+| `<--`  | <ImageSwitcher darkImage={longleftarrowDark} lightImage={longleftarrowLight} /> |
+| `<==>`  | <ImageSwitcher darkImage={LongleftrightarrowDark} lightImage={LongleftrightarrowLight} /> |
+
+Control the direction with `<` and `>` characters.
+Control the width with `-` and `=` characters.
+Control the length with the number of `-` and `=` characters.

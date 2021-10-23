@@ -1,0 +1,55 @@
+---
+title: Building Sparkdown
+---
+
+## Install Bazel
+
+[Bazel](https://bazel.build/) is the first thing that you need.
+
+Bazel is the open-source build tool developed by Google that simplifies
+the process of scaffolding and scaling large applications.
+
+Follow the [installation instructions](https://docs.bazel.build/versions/main/install.html) to install Bazel.
+On Linux, you can install Bazel from your package manager.
+
+Bazel will manage all other external dependencies; nothing else needs to be done.
+
+## Download the most recent version of Sparkdown
+
+You can download the most recent release of Sparkdown from the
+[GitHub releases page](https://github.com/shrimpster00/sparkdown/releases).
+
+Alternatively, clone the repository [from GitHub](https://github.com/shrimpster00/sparkdown) and build the most recent commit.
+
+:::caution
+
+Sparkdown is still considered a work in progress; as such, breaking changes are frequent and may occur at any time.
+
+Furthermore, the codebase does not build at this time (last updated 18 October, 2021). Only clone the repository if you know what you are doing!
+
+:::
+
+## Build Sparkdown
+
+```bash
+# First, cd into the `src` directory.
+[sparkdown-release-0.1.0] $ cd src/
+# Next, build the toolkit.
+[src] $ bazel build //sparkdown
+# After that, Sparkdown has been built. The binaries are located in the `bazel-bin/` directory.
+```
+
+## Install Sparkdown (optional)
+
+Installing Sparkdown is optional, but it makes it easy to use Sparkdown from the command line.
+
+The following instructions are relevant for UNIX and UNIX-like systems:
+
+```bash
+# First, cd into the `bazel-bin/sparkdown` directory.
+[src] $ cd bazel-bin/sparkdown
+# If we are installing for the user:
+[sparkdown] $ cp sparkdown ~/.local/bin
+# Alternatively, we can install system-wide:
+[sparkdown] $ sudo cp sparkdown /usr/local/bin
+```

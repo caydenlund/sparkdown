@@ -1,0 +1,29 @@
+---
+title: Command Line Interface
+---
+
+The command line interface is designed to be as straightforward as possible.
+
+The first argument is the input file, and the second is the output file.
+Either can be substituted with the special value `-` to indicate stdin/stdout,
+or omitted entirely for the same effect.
+
+## Options:
+
+-   `-h, --help`: Show the help message and exit.
+-   `-v, --version`: Show the version information and exit.
+-   `-o, --output [file]` (deprecated): The output file.
+    This option is for compatibility with the old command line interface,
+    and will be removed in a future release.
+-   `-w, --watch`: Watch the input file and re-render on file change.
+    This option makes use of the ![woof](https://github.com/shrimpster00/woof)
+    library, which is bundled with Sparkdown.
+-   `-c, --config [file]`: Load a configuration file. Defaults to
+    `~/.config/sparkdown/config.yaml`, if it exists.
+-   `-i, --confirm`: Prompt the user for confirmation
+    before overwriting the output file.
+-   `-s, --silent`: Don't print anything to stdout.
+-   `-l, --log [file]`: The log file. Defaults to `[filename].sparkdown.log`.
+-   `--log-level [level]`: Set the log level.
+    Valid levels are `debug`, `info`, `error`, and `silent`.
+    Defaults to `info`.

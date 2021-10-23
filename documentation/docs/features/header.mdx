@@ -1,0 +1,25 @@
+---
+title: File header
+---
+
+The file header contains optional metadata about the document.
+
+The syntax is `$variable: value`.
+
+Supported variables:
+
+| Variable   | Description                 |
+| ---------- | --------------------------- |
+| title      | The title of the document.  |
+| date       | The date of the document.   |
+| author     | The author of the document. |
+| usePackage | A LaTeX package to import.  |
+
+Example:
+
+```md
+$title: My Document
+$date: 2020-01-01
+$author: John Doe
+$usePackage: cleveref
+```

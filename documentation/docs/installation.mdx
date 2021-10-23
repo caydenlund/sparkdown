@@ -1,0 +1,102 @@
+---
+title: Installation
+---
+
+## Install Bazel
+
+Sparkdown is built with [Bazel](https://bazel.build/),
+the open-source build tool developed by Google that simplifies
+the process of scaffolding, scaling, building and testing large applications.
+
+Follow the
+[installation instructions](https://docs.bazel.build/versions/main/install.html)
+to install Bazel. On Linux, you can install it from your package manager.
+
+Bazel's documentation is quite thorough, and the installation instructions
+are not covered here.
+
+Bazel will manage all other external dependencies relevant to Sparkdown;
+nothing else needs to be done.
+
+## Download the most recent version of Sparkdown
+
+You can download the most recent release of Sparkdown from the
+[GitHub releases page](https://github.com/shrimpster00/sparkdown/releases).
+
+Alternatively, clone the repository
+[from GitHub](https://github.com/shrimpster00/sparkdown)
+and build the most recent commit.
+
+:::caution
+
+Sparkdown is still considered a work in progress; as such,
+breaking changes are frequent and may occur at any time.
+
+Furthermore, the codebase does not build at this time
+(last updated 18 October, 2021).
+
+:::
+
+## Build Sparkdown
+
+```bash
+# First, cd into the `src` directory.
+[sparkdown-release-0.1.0] $ cd src/
+# Next, run the build command.
+[src] $ bazel build //sparkdown
+```
+
+After that, Sparkdown has been built.
+The relevant binaries are placed in the `src/bazel-bin/sparkdown` directory.
+
+At the time of writing (18 October, 2021), Sparkdown does not come with
+an install script. However, you can still add the binaries
+to your `PATH` and use them from there.
+On UNIX and UNIX-like systems,
+convenient locations for binaries include `~/.local/bin/`
+(to install for the current user) and `/usr/local/bin/`
+(to install system-wide).
+
+```bash title="Linux and UNIX systems"
+# If we are installing for the user:
+[src] $ cp bazel-bin/sparkdown/sparkdown ~/.local/bin/
+# Alternatively, we can install system-wide:
+[src] $ sudo cp bazel-bin/sparkdown/sparkdown /usr/local/bin/
+```
+
+## Run the unit tests
+
+Sparkdown contains a host of unit tests that use the popular
+[GoogleTest](https://google.github.io/googletest/) testing framework.
+
+Bazel makes it very straightforward to run the unit tests; the command
+will automatically fetch the GoogleTest library, compile
+the necessary binaries, and run the tests.
+
+```bash
+# To run all tests,
+[src] $ bazel test //...
+# Alternatively, you can place further restrictions on the tests.
+[src] $ bazel test //lexer/...
+```
+
+See the project's source on
+[GitHub](https://github.com/shrimpster00/sparkdown/tree/main/src)
+to get a feel for the project's structure.
+
+```
+lexer
+|- lexers
+   |- abstract-lexer
+   |- arrow
+   |- bold
+   |- enumerate
+   |- header
+   |- italic
+   |- itemize
+   |- section
+   |- verbatim
+|- token
+sparkdown
+state
+```

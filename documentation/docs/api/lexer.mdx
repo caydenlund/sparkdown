@@ -1,0 +1,44 @@
+---
+title: Lexer
+---
+
+:::info NOTE
+
+These classes are primarily intended for internal use.
+
+:::
+
+## `AbstractLexer`
+
+The `AbstractLexer` class is an abstract class implemented by the various
+lexers.
+This class is the abstract lexer class, implemented by the various
+lexer classes. These lexers are then used by the Lexer class to parse the
+input line into tokens.
+It contains the following public instance methods:
+
+| Method          | Arguments                 | Returns                         | Description                                                                                                    |
+| --------------- | ------------------------- | ------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `AbstractLexer` | `sparkdown::State *state` | `AbstractLexer`                 | The constructor saves a reference to the State object, which is used to store the current state of the parser. |
+| `lex`           | `const std::string &line` | `std::vector<sparkdown::Token>` | This virtual method takes in a string and returns a new vector with the lexed tokens.                          |
+
+## `Lexer`
+
+The `Lexer` class is an aggregate of all the sub-lexers:
+
+-   `Arrow`, used to lex arrows.
+-   `Bold`, used to lex bold text.
+-   `Enumerate`, used to lex ordered list items.
+-   `Header`, used to lex document headers.
+-   `Italic`, used to lex italic text.
+-   `Itemize`, used to lex unordered list items.
+-   `Section`, used to lex section headlines.
+-   `Verbatim`, used to lex blocks of verbatim text.
+
+In addition to the methods of `AbstractLexer`, there are a couple
+other public instance methods:
+
+| Method                    | Arguments          | Returns | Description                                                 |
+| ------------------------- | ------------------ | ------- | ----------------------------------------------------------- |
+| `Enumerate::is_enumerate` | `std::string line` | `bool`  | Returns true when the given item is an ordered list item.   |
+| `Itemize::is_itemize`     | `std::string line` | `bool`  | Returns true when the given item is an unordered list item. |

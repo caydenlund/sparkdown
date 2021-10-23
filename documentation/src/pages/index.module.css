@@ -1,0 +1,43 @@
+/*
+src/pages/index.module.css
+v. 1.0.0
+
+Author: Cayden Lund
+  Date: 10/17/2021
+
+This file is part of Sparkdown, a new markup/markdown language
+for quickly writing and formatting notes.
+
+This file contains some additional styles for the index page.
+
+Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
+License: MIT <https://opensource.org/licenses/MIT>
+*/
+
+.heroBanner {
+    padding: 50px;
+    text-align: center;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button {
+    margin: 20px 0;
+    width: 100%;
+}
+
+.features {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.featureSVG {
+    padding: 50px 0 0;
+    height: 200px;
+    width: 200px;
+}
