@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksparkdown_docs=self.webpackChunksparkdown_docs||[]).push([[605],{5860:function(a){a.exports=JSON.parse('{"allTagsPath":"/sparkdown/blog/tags","slug":"/sparkdown/blog/tags/documentation","name":"documentation","count":1,"permalink":"/sparkdown/blog/tags/documentation"}')}}]);

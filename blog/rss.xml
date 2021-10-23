@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>Sparkdown Blog</title>
+        <link>https://shrimpster00.github.io/sparkdown/blog</link>
+        <description>Sparkdown Blog</description>
+        <lastBuildDate>Sun, 17 Oct 2021 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[First Blog Post]]></title>
+            <link>https://shrimpster00.github.io/sparkdown/blog/first-blog-post</link>
+            <guid>first-blog-post</guid>
+            <pubDate>Sun, 17 Oct 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[This is my first blog post.]]></description>
+            <content:encoded><![CDATA[<p>This is my first blog post.</p><p>I&#x27;m so excited for this project!</p><p>This branch contains the documentation for the Sparkdown toolkit.</p>]]></content:encoded>
+        </item>
+    </channel>
+</rss>

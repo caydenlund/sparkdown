@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!-- static/img/banner.svg                                                           -->
+<!-- v. 0.1.0                                                                        -->
+<!--                                                                                 -->
+<!-- Author: Cayden Lund                                                             -->
+<!--   Date: 10/17/2021                                                              -->
+<!--                                                                                 -->
+<!-- This file is part of Sparkdown, a new markup/markdown language                  -->
+<!-- for quickly writing and formatting notes.                                       -->
+<!--                                                                                 -->
+<!-- This file contains the banner SVG.                                              -->
+<!--                                                                                 -->
+<!-- Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>                -->
+<!-- License: MIT <https://opensource.org/licenses/MIT>                              -->
+<!--                                                                                 -->
+<!-- Created with Inkscape <http://www.inkscape.org/>                                -->
+<svg
+    width="1280"
+    height="640"
+    viewBox="0 0 338.66667 169.33333"
+    version="1.1"
+    id="svg5"
+    inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+    sodipodi:docname="banner.svg"
+    inkscape:export-filename="/home/cayden/banner.png"
+    inkscape:export-xdpi="96"
+    inkscape:export-ydpi="96"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+>
+  <sodipodi:namedview
+        id="namedview7"
+        pagecolor="#ffffff"
+        bordercolor="#666666"
+        borderopacity="1.0"
+        inkscape:pageshadow="2"
+        inkscape:pageopacity="0.0"
+        inkscape:pagecheckerboard="0"
+        inkscape:document-units="px"
+        showgrid="true"
+        inkscape:zoom="0.69298753"
+        inkscape:cx="628.43844"
+        inkscape:cy="445.89547"
+        inkscape:window-width="1920"
+        inkscape:window-height="994"
+        inkscape:window-x="0"
+        inkscape:window-y="0"
+        inkscape:window-maximized="1"
+        inkscape:current-layer="layer1"
+        width="720px"
+    >
+    <inkscape:grid
+            type="xygrid"
+            id="grid14246"
+            spacingx="5.2916666"
+            spacingy="5.2916666"
+            originx="0"
+            originy="-2.5878907e-07"
+            empspacing="4"
+        />
+  </sodipodi:namedview>
+  <defs id="defs2" />
+  <g
+        inkscape:label="Layer 1"
+        inkscape:groupmode="layer"
+        id="layer1"
+        transform="translate(0,-95.250008)"
+    >
+    <rect
+            style="fill:#34495e;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers;stop-color:#000000"
+            id="rect123"
+            width="338.66666"
+            height="169.33333"
+            x="0"
+            y="95.250008"
+        />
+    <g
+            id="g305"
+            transform="matrix(0.49999999,0,0,0.49999999,37.041668,132.29167)"
+            style="stroke:#e74c3c;stroke-width:5.29167;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+        >
+      <path
+                style="fill:none;stroke:#e74c3c;stroke-width:5.29167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                d="M 82.54977,34.395835 34.395608,107.95 h 73.554162 l -38.09999,48.15417"
+                id="path7673"
+                sodipodi:nodetypes="cccc"
+            />
+      <path
+                style="fill:none;stroke:#e74c3c;stroke-width:5.29167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                d="m 120.64977,34.395835 -38.1,48.154167 h 73.55417 l -48.15417,73.554168"
+                id="path7991"
+                sodipodi:nodetypes="cccc"
+            />
+    </g>
+    <text
+            xml:space="preserve"
+            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:27.7123px;line-height:69.2809px;font-family:'Exo 2';-inkscape-font-specification:'Exo 2, ';text-align:center;letter-spacing:5.19607px;word-spacing:0px;text-anchor:middle;fill:#c0392b;stroke-width:0.259803"
+            x="206.33342"
+            y="186.61531"
+            id="text2050"
+        ><tspan
+                sodipodi:role="line"
+                id="tspan2048"
+                style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:27.7123px;font-family:'Exo 2';-inkscape-font-specification:'Exo 2, ';fill:#c0392b;stroke-width:0.259803"
+                x="208.93146"
+                y="186.61531"
+            >parkdown</tspan></text>
+  </g>
+</svg>

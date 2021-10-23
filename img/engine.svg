@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!-- static/img/engine.svg                                                           -->
+<!-- v. 0.5.0                                                                        -->
+<!--                                                                                 -->
+<!-- Author: Cayden Lund                                                             -->
+<!--   Date: 10/18/2021                                                              -->
+<!--                                                                                 -->
+<!-- This file is part of Sparkdown, a new markup/markdown language                  -->
+<!-- for quickly writing and formatting notes.                                       -->
+<!--                                                                                 -->
+<!-- This file contains the engine SVG.                                              -->
+<!--                                                                                 -->
+<!-- Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>                -->
+<!-- License: MIT <https://opensource.org/licenses/MIT>                              -->
+<!--                                                                                 -->
+<!-- Created with Inkscape <http://www.inkscape.org/>                                -->
+<svg
+    width="720"
+    height="720"
+    viewBox="0 0 190.5 190.5"
+    version="1.1"
+    id="svg5"
+    inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+    sodipodi:docname="engine_05.svg"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+>
+  <sodipodi:namedview
+        id="namedview7"
+        pagecolor="#ffffff"
+        bordercolor="#666666"
+        borderopacity="1.0"
+        inkscape:pageshadow="2"
+        inkscape:pageopacity="0.0"
+        inkscape:pagecheckerboard="0"
+        inkscape:document-units="px"
+        showgrid="true"
+        inkscape:zoom="1.0301857"
+        inkscape:cx="259.66192"
+        inkscape:cy="346.53946"
+        inkscape:window-width="1920"
+        inkscape:window-height="994"
+        inkscape:window-x="0"
+        inkscape:window-y="0"
+        inkscape:window-maximized="1"
+        inkscape:current-layer="layer1"
+    >
+    <inkscape:grid
+            type="xygrid"
+            id="grid9422"
+            spacingx="5.2916667"
+            spacingy="5.2916667"
+            empspacing="4"
+        />
+  </sodipodi:namedview>
+  <defs id="defs2" />
+  <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
+    <circle
+            style="fill:#34495e;stroke:none;stroke-width:5.29167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:stroke fill markers;stop-color:#000000"
+            id="path10788"
+            cx="95.25"
+            cy="95.25"
+            r="95.25"
+        />
+    <g
+            id="g14149"
+            transform="matrix(0.64688568,0,0,0.64688568,-122.28678,64.431168)"
+            style="stroke:#7f8c8d;stroke-opacity:1;fill:#bdc3c7"
+        >
+      <path
+                style="fill:#bdc3c7;stroke:#7f8c8d;stroke-width:5.29167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                d="M 266.7,31.75 V 88.9 h 19.05 l 19.05,19.05 h 69.85 l 31.74999,-25.4 V 12.7 H 304.8 l -12.7,19.05 z"
+                id="path11765"
+            />
+      <g
+                id="g11263"
+                transform="matrix(1.5546218,0,0,1.5546218,188.73909,-100.15918)"
+                style="stroke:#7f8c8d;stroke-opacity:1;fill:#bdc3c7"
+            >
+        <g id="g10913" style="fill:#bdc3c7;stroke:#7f8c8d;stroke-opacity:1">
+          <path
+                        style="fill:#bdc3c7;stroke:#7f8c8d;stroke-width:3.43243;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+                        d="m 140.5581,89.071587 h 8.23784 v 8.23784 h -8.23784 v -8.23784"
+                        id="path9668"
+                    />
+          <path
+                        style="fill:#bdc3c7;stroke:#7f8c8d;stroke-width:3.40383;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                        d="m 49.941891,97.309427 h -8.237838 v 8.237843 h 8.237838 z"
+                        id="path10515"
+                    />
+          <path
+                        style="fill:#bdc3c7;stroke:#7f8c8d;stroke-width:3.40383;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                        d="M 41.704053,84.952667 V 117.90402 H 33.466215 V 84.952667 Z"
+                        id="path10583"
+                    />
+        </g>
+      </g>
+      <path
+                style="fill:#bdc3c7;stroke:#7f8c8d;stroke-width:5.29167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                d="m 336.55,0 v 12.7 h 12.7 V 0 Z"
+                id="path12541"
+            />
+      <path
+                style="fill:#bdc3c7;stroke:#7f8c8d;stroke-width:5.29167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                d="m 406.4,38.1 v 12.7 h 12.7 V 38.1 Z"
+                id="path12541-6"
+            />
+      <path
+                style="fill:#bdc3c7;stroke:#7f8c8d;stroke-width:5.29167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                d="M 317.5,-12.7 V 0 h 50.8 v -12.7 z"
+                id="path13407"
+            />
+      <path
+                style="fill:#bdc3c7;stroke:#7f8c8d;stroke-width:5.29167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                d="m 419.09999,12.7 v 63.499999 h 12.7 V 12.7 Z"
+                id="path13924"
+            />
+    </g>
+    <g
+            inkscape:label="Layer 1"
+            id="layer1-5"
+            transform="matrix(0.37500006,0,0,0.37500006,77.390121,78.380203)"
+        >
+      <path
+                style="fill:#f1c40f;fill-opacity:1;stroke:#f1c40f;stroke-width:8.81959;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+                d="M 70.557016,25.582862 46.744173,67.916799 H 65.265266 L 56.4457,101.43116 80.258536,59.097229 h -18.52109 z"
+                id="path117"
+                sodipodi:nodetypes="ccccccc"
+            />
+    </g>
+  </g>
+</svg>

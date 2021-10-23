@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksparkdown_docs=self.webpackChunksparkdown_docs||[]).push([[535],{5641:function(s){s.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"First Blog Post","permalink":"/sparkdown/blog/first-blog-post"}]}')}}]);
