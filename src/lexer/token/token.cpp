@@ -1,8 +1,8 @@
 // src/token/token.cpp
-// v. 0.2.1
+// v. 0.2.2
 //
 // Author: Cayden Lund
-//   Date: 10/17/2021
+//   Date: 10/24/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -14,6 +14,8 @@
 
 // System imports.
 #include <string>
+#include <sstream>
+#include <iostream>
 
 // The header for the Token class.
 #include "token.hpp"

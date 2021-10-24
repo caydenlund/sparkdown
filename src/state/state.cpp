@@ -1,8 +1,8 @@
 // src/state/state.cpp
-// v. 0.6.1
+// v. 0.6.2
 //
 // Author: Cayden Lund
-//   Date: 10/17/2021
+//   Date: 10/24/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -13,6 +13,7 @@
 // License: MIT (https://opensource.org/licenses/MIT)
 
 #include <string>
+#include <sstream>
 #include <regex>
 #include <stack>
 
