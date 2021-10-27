@@ -1,8 +1,8 @@
-// src/sparkdown/sparkdown.cpp
-// v. 0.4.1
+// //sparkdown:sparkdown.lib
+// v. 0.4.2
 //
 // Author: Cayden Lund
-//   Date: 10/17/2021
+//   Date: 10/27/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -11,7 +11,7 @@
 // for the sparkdown library.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
-// License: MIT (https://opensource.org/licenses/MIT)
+// License: MIT <https://opensource.org/licenses/MIT>
 
 #include <stdio.h>
 #include <iostream>

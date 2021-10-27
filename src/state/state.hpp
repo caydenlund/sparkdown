@@ -1,8 +1,8 @@
-// src/state/state.hpp
-// v. 0.6.1
+// //state
+// v. 0.6.2
 //
 // Author: Cayden Lund
-//   Date: 10/17/2021
+//   Date: 10/27/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -11,7 +11,7 @@
 // See state.cpp for implementation.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
-// License: MIT (https://opensource.org/licenses/MIT)
+// License: MIT <https://opensource.org/licenses/MIT>
 
 #ifndef STATE_HPP
 #define STATE_HPP

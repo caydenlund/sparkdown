@@ -1,8 +1,8 @@
-// src/lexer/lexers/bold/bold.test.cpp
-// v. 0.1.1
+// //lexer/lexers/bold:bold.test
+// v. 0.1.2
 //
 // Author: Cayden Lund
-//   Date: 10/17/2021
+//   Date: 10/27/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -10,7 +10,7 @@
 // This file contains the unit tests for the Bold lexer class.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
-// License: MIT (https://opensource.org/licenses/MIT)
+// License: MIT <https://opensource.org/licenses/MIT>
 
 // System imports.
 #include <string>

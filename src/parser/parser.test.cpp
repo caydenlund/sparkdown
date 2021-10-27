@@ -10,7 +10,7 @@
 // This file contains the unit tests for the Parser class.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
-// License: MIT (https://opensource.org/licenses/MIT)
+// License: MIT <https://opensource.org/licenses/MIT>
 
 #include <gtest/gtest.h>
 #include <string>

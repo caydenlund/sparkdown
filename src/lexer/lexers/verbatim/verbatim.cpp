@@ -1,8 +1,8 @@
-// src/lexer/lexers/verbatim/verbatim.cpp
-// v. 0.1.2
+// //lexer/lexers/verbatim
+// v. 0.1.3
 //
 // Author: Cayden Lund
-//   Date: 10/17/2021
+//   Date: 10/27/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -10,7 +10,7 @@
 // This file contains the implementation for the verbatim lexer.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
-// License: MIT (https://opensource.org/licenses/MIT)
+// License: MIT <https://opensource.org/licenses/MIT>
 
 // System imports.
 #include <string>

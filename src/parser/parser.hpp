@@ -11,7 +11,7 @@
 // See parser.cpp for implementation.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
-// License: MIT (https://opensource.org/licenses/MIT)
+// License: MIT <https://opensource.org/licenses/MIT>
 
 #ifndef PARSER_HPP
 #define PARSER_HPP

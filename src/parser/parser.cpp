@@ -10,7 +10,7 @@
 // This file contains the implementation of the Parser class.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
-// License: MIT (https://opensource.org/licenses/MIT)
+// License: MIT <https://opensource.org/licenses/MIT>
 
 // ==============
 // | Todo list: |

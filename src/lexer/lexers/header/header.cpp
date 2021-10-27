@@ -1,8 +1,8 @@
-// src/lexer/lexers/header/header.cpp
-// v. 0.1.3
+// //lexer/lexers/header
+// v. 0.1.4
 //
 // Author: Cayden Lund
-//   Date: 10/17/2021
+//   Date: 10/27/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -10,7 +10,7 @@
 // This file contains the implementation for the header lexer.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
-// License: MIT (https://opensource.org/licenses/MIT)
+// License: MIT <https://opensource.org/licenses/MIT>
 
 // System imports.
 #include <string>
