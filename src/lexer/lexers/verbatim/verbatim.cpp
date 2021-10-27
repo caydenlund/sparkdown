@@ -1,5 +1,5 @@
 // //lexer/lexers/verbatim
-// v. 0.1.3
+// v. 0.1.4
 //
 // Author: Cayden Lund
 //   Date: 10/27/2021
@@ -64,9 +64,9 @@ namespace sparkdown
 
                 if (this->state->is_verbatim())
                     value = "End";
-                
+
                 this->state->toggle_verbatim();
-                
+
                 tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::VERB_BLOCK, value));
             }
             else
