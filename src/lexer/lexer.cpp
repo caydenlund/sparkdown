@@ -1,5 +1,5 @@
 // //lexer
-// v. 0.3.0
+// v. 0.3.1
 //
 // Author: Cayden Lund
 //   Date: 10/27/2021
@@ -32,7 +32,7 @@
 // The various sub-lexers.
 #include "lexer/lexers/header/header.hpp"
 #include "lexer/lexers/section/section.hpp"
-#include "lexer/lexers/verbatim/verbatim.hpp"
+#include "lexer/lexers/verb-block/verb-block.hpp"
 #include "lexer/lexers/arrow/arrow.hpp"
 #include "lexer/lexers/enumerate/enumerate.hpp"
 #include "lexer/lexers/itemize/itemize.hpp"
@@ -50,7 +50,7 @@ namespace sparkdown
         // The various sub-lexers.
         this->header = new lexers::Header(this->state);
         this->section = new lexers::Section(this->state);
-        this->verbatim = new lexers::Verbatim(this->state);
+        this->verbBlock = new lexers::VerbBlock(this->state);
         this->arrow = new lexers::Arrow(this->state);
         this->enumerate = new lexers::Enumerate(this->state);
         this->itemize = new lexers::Itemize(this->state);
@@ -64,7 +64,7 @@ namespace sparkdown
     {
         delete this->header;
         delete this->section;
-        delete this->verbatim;
+        delete this->verbBlock;
         delete this->arrow;
         delete this->enumerate;
         delete this->itemize;
@@ -102,7 +102,7 @@ namespace sparkdown
                 this->apply_lexer(this->section, tokens, i);
 
                 // Verbatim block.
-                this->apply_lexer(this->verbatim, tokens, i);
+                this->apply_lexer(this->verbBlock, tokens, i);
 
                 // Itemize.
                 this->apply_lexer(this->itemize, tokens, i);

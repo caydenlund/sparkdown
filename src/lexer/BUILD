@@ -13,7 +13,7 @@ cc_library(
         "//lexer/lexers/itemize",
         "//lexer/lexers/section",
         "//lexer/lexers/text",
-        "//lexer/lexers/verbatim",
+        "//lexer/lexers/verb-block",
     ],
 )
 

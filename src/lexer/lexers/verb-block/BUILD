@@ -1,7 +1,7 @@
 cc_library(
-    name = "verbatim",
-    srcs = ["verbatim.cpp"],
-    hdrs = ["verbatim.hpp"],
+    name = "verb-block",
+    srcs = ["verb-block.cpp"],
+    hdrs = ["verb-block.hpp"],
     visibility = ["//lexer:__subpackages__"],
     deps = [
         "//lexer/lexers/abstract-lexer",
@@ -10,11 +10,11 @@ cc_library(
 )
 
 cc_test(
-    name = "verbatim.test",
+    name = "verb-block.test",
     size = "small",
-    srcs = ["verbatim.test.cpp"],
+    srcs = ["verb-block.test.cpp"],
     deps = [
-        ":verbatim",
+        ":verb-block",
         "//state",
         "@googletest//:gtest_main",
     ],

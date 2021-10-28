@@ -1,5 +1,5 @@
 // //lexer
-// v. 0.3.0
+// v. 0.3.1
 //
 // Author: Cayden Lund
 //   Date: 10/27/2021
@@ -32,7 +32,7 @@
 // The various sub-lexers.
 #include "lexer/lexers/header/header.hpp"
 #include "lexer/lexers/section/section.hpp"
-#include "lexer/lexers/verbatim/verbatim.hpp"
+#include "lexer/lexers/verb-block/verb-block.hpp"
 #include "lexer/lexers/arrow/arrow.hpp"
 #include "lexer/lexers/enumerate/enumerate.hpp"
 #include "lexer/lexers/itemize/itemize.hpp"
@@ -90,7 +90,7 @@ namespace sparkdown
 
         // The verbatim block lexer.
         //   ```
-        lexers::Verbatim *verbatim;
+        lexers::VerbBlock *verbBlock;
 
         // The arrow lexer.
         //   ->

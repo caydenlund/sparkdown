@@ -1,5 +1,5 @@
-// //lexer/lexers/verbatim
-// v. 0.1.3
+// //lexer/lexers/verb-block
+// v. 0.2.0
 //
 // Author: Cayden Lund
 //   Date: 10/27/2021
@@ -7,13 +7,13 @@
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
-// This file contains the headers for the verbatim lexer.
+// This file contains the headers for the verbatim block lexer.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT <https://opensource.org/licenses/MIT>
 
-#ifndef VERBATIM_HPP
-#define VERBATIM_HPP
+#ifndef VERB_BLOCK_HPP
+#define VERB_BLOCK_HPP
 
 // System imports.
 #include <string>
@@ -35,26 +35,26 @@ namespace sparkdown
     // The lexers namespace contains all the sub-lexer classes.
     namespace lexers
     {
-        // Verbatim.
+        // VerbBlock.
         // This class is used to lex blocks of verbatim text.
-        class Verbatim : public AbstractLexer
+        class VerbBlock : public AbstractLexer
         {
         public:
             // The constructor saves a reference to the State object, which is used to store
             // the current state of the parser.
             //
-            // * sparkdown::State state - The state object.
-            Verbatim(sparkdown::State *state);
+            // * State *state - The state object.
+            VerbBlock(State *state);
 
             // The class destructor.
-            virtual ~Verbatim();
+            virtual ~VerbBlock();
 
             // lex() is used to lex a single input line.
             // This method takes in a string and returns a new vector with the lexed tokens.
             //
-            // * const std::string &line                  - The string to lex.
-            // * return std::vector<sparkdown::Token> - The vector of tokens.
-            std::vector<sparkdown::Token> lex(const std::string &line);
+            // * const std::string &line   - The string to lex.
+            // * return std::vector<Token> - The vector of tokens.
+            std::vector<Token> lex(const std::string &line);
 
         private:
             // The regex used to lex verbatim blocks.

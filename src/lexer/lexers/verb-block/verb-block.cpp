@@ -1,5 +1,5 @@
-// //lexer/lexers/verbatim
-// v. 0.1.4
+// //lexer/lexers/verb-block
+// v. 0.2.0
 //
 // Author: Cayden Lund
 //   Date: 10/27/2021
@@ -17,7 +17,7 @@
 #include <regex>
 
 // The verbatim header file.
-#include "verbatim.hpp"
+#include "verb-block.hpp"
 
 // We use the State class to keep track of the current state of the parser.
 #include "state/state.hpp"
@@ -34,15 +34,15 @@ namespace sparkdown
         // The constructor saves a reference to the State object, which is used to store
         // the current state of the parser.
         //
-        // sparkdown::State state - The state object.
-        sparkdown::lexers::Verbatim::Verbatim(sparkdown::State *state) : AbstractLexer(state)
+        // State state - The state object.
+        VerbBlock::VerbBlock(State *state) : AbstractLexer(state)
         {
             // The regex for the lexer.
             this->match_regex = std::regex("^(\\s*)(```)[^\\n]*\\n?");
         }
 
         // The class destructor.
-        sparkdown::lexers::Verbatim::~Verbatim()
+        VerbBlock::~VerbBlock()
         {
             // Nothing to do here.
         }
@@ -50,12 +50,12 @@ namespace sparkdown
         // lex() is used to lex a single input line.
         // This method takes in a string and returns a new vector with the lexed tokens.
         //
-        // * const std::string &line                  - The string to lex.
-        // * return std::vector<sparkdown::Token> - The vector of tokens.
-        std::vector<sparkdown::Token> sparkdown::lexers::Verbatim::lex(const std::string &line)
+        // * const std::string &line   - The string to lex.
+        // * return std::vector<Token> - The vector of tokens.
+        std::vector<Token> VerbBlock::lex(const std::string &line)
         {
             // The vector of tokens to return.
-            std::vector<sparkdown::Token> tokens;
+            std::vector<Token> tokens;
 
             // If we match the regex, we return a new token.
             if (std::regex_match(line, this->match_regex))
@@ -67,19 +67,19 @@ namespace sparkdown
 
                 this->state->toggle_verbatim();
 
-                tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::VERB_BLOCK, value));
+                tokens.push_back(Token(Token::token_type::VERB_BLOCK, value));
             }
             else
             {
                 if (this->state->is_verbatim())
                 {
                     // If we're inside of a verbatim block, we add the text back as text literal.
-                    tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::TEXT_CONTENT, line));
+                    tokens.push_back(Token(Token::token_type::TEXT_CONTENT, line));
                 }
                 else
                 {
                     // Otherwise, we add the text back as an unlexed token.
-                    tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, line));
+                    tokens.push_back(Token(Token::token_type::UNLEXED, line));
                 }
             }
             return tokens;
