@@ -1,5 +1,5 @@
 // //lexer:lexer.test
-// v. 0.2.4
+// v. 0.2.5
 //
 // Author: Cayden Lund
 //   Date: 10/27/2021
@@ -32,37 +32,39 @@
 // The Lexer class.
 #include "lexer.hpp"
 
+using namespace sparkdown;
+
 // Test the constructor.
 // Ensures that the lexer does not throw an exception.
 TEST(Lexer, ConstructorNoFail)
 {
-    sparkdown::State state;
-    sparkdown::Lexer *lexer = new sparkdown::Lexer(&state);
+    State state;
+    Lexer *lexer = new Lexer(&state);
     delete lexer;
-    lexer = new sparkdown::Lexer(&state);
+    lexer = new Lexer(&state);
 }
 
 // Test the Lexer class's method lex().
 // Ensures that the lexer can correctly lex an indented bullet point with a single right arrow.
 TEST(Lexer, BulletArrow)
 {
-    sparkdown::State state;
-    sparkdown::Lexer lexer = sparkdown::Lexer(&state);
+    State state;
+    Lexer lexer = Lexer(&state);
 
     std::string input = "  * Text. ->";
 
-    std::vector<sparkdown::Token> expected;
-    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::BULLET, "2"));
-    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::TEXT_CONTENT, "Text. "));
-    expected.push_back(sparkdown::Token(sparkdown::Token::token_type::ARROW, "->"));
+    std::vector<Token> expected;
+    expected.push_back(Token(Token::token_type::BULLET, "2"));
+    expected.push_back(Token(Token::token_type::TEXT_CONTENT, "Text. "));
+    expected.push_back(Token(Token::token_type::ARROW, "->"));
 
-    std::vector<sparkdown::Token> actual = lexer.lex(input);
+    std::vector<Token> actual = lexer.lex(input);
 
-    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(Token::tokens_equal(expected, actual));
 
     input += "\n";
 
     actual = lexer.lex(input);
 
-    EXPECT_TRUE(sparkdown::Token::tokens_equal(expected, actual));
+    EXPECT_TRUE(Token::tokens_equal(expected, actual));
 }

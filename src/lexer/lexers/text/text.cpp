@@ -1,5 +1,5 @@
 // //lexer/lexers/text
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
 //   Date: 10/27/2021
@@ -57,7 +57,12 @@ namespace sparkdown
             // The vector of tokens to return.
             std::vector<Token> tokens;
 
-            tokens.push_back(Token(Token::token_type::TEXT_CONTENT, std::regex_replace(line, this->erase_regex, "")));
+            std::string new_string = std::regex_replace(line, this->erase_regex, "");
+
+            if (!new_string.empty())
+            {
+                tokens.push_back(Token(Token::token_type::TEXT_CONTENT, std::regex_replace(line, this->erase_regex, "")));
+            }
 
             return tokens;
         }

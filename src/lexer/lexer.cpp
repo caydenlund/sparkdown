@@ -1,5 +1,5 @@
 // //lexer
-// v. 0.2.5
+// v. 0.3.0
 //
 // Author: Cayden Lund
 //   Date: 10/27/2021
@@ -44,22 +44,23 @@ namespace sparkdown
 {
     // The class constructor.
     //
-    // * sparkdown::State *state - The State object to use for keeping track of the state of the parser.
-    sparkdown::Lexer::Lexer(sparkdown::State *state) : sparkdown::lexers::AbstractLexer(state)
+    // * State *state - The State object to use for keeping track of the state of the parser.
+    Lexer::Lexer(State *state) : lexers::AbstractLexer(state)
     {
         // The various sub-lexers.
-        this->header = new sparkdown::lexers::Header(this->state);
-        this->section = new sparkdown::lexers::Section(this->state);
-        this->verbatim = new sparkdown::lexers::Verbatim(this->state);
-        this->arrow = new sparkdown::lexers::Arrow(this->state);
-        this->enumerate = new sparkdown::lexers::Enumerate(this->state);
-        this->itemize = new sparkdown::lexers::Itemize(this->state);
-        this->bold = new sparkdown::lexers::Bold(this->state);
-        this->italic = new sparkdown::lexers::Italic(this->state);
+        this->header = new lexers::Header(this->state);
+        this->section = new lexers::Section(this->state);
+        this->verbatim = new lexers::Verbatim(this->state);
+        this->arrow = new lexers::Arrow(this->state);
+        this->enumerate = new lexers::Enumerate(this->state);
+        this->itemize = new lexers::Itemize(this->state);
+        this->bold = new lexers::Bold(this->state);
+        this->italic = new lexers::Italic(this->state);
+        this->text = new lexers::Text(this->state);
     }
 
     // The class destructor.
-    sparkdown::Lexer::~Lexer()
+    Lexer::~Lexer()
     {
         delete this->header;
         delete this->section;
@@ -69,6 +70,7 @@ namespace sparkdown
         delete this->itemize;
         delete this->bold;
         delete this->italic;
+        delete this->text;
     }
 
     // lex() is used to lex a single input line.
@@ -76,106 +78,72 @@ namespace sparkdown
     //
     // * const std::string &line - The line to lex.
     // * return std::string      - The lexed line.
-    std::vector<sparkdown::Token> sparkdown::Lexer::lex(const std::string &line)
+    std::vector<Token> Lexer::lex(const std::string &line)
     {
-        std::vector<sparkdown::Token> tokens;
-        tokens.push_back(sparkdown::Token(sparkdown::Token::token_type::UNLEXED, line));
-        this->lex(tokens);
+        std::vector<Token> tokens;
+        tokens.push_back(Token(Token::token_type::UNLEXED, line));
+        int i = 0;
+        while (i < (int)tokens.size())
+        {
+            if (i == 0)
+            {
+                // We are currently at the beginning of the line, and nothing has been lexed yet.
+                // Some rules apply only to the first token:
+                //   * Document header.
+                //   * Section header.
+                //   * Verbatim.
+                //   * Itemize.
+                //   * Enumerate.
+
+                // Document header.
+                this->apply_lexer(this->header, tokens, i);
+
+                // Section.
+                this->apply_lexer(this->section, tokens, i);
+
+                // Verbatim block.
+                this->apply_lexer(this->verbatim, tokens, i);
+
+                // Itemize.
+                this->apply_lexer(this->itemize, tokens, i);
+
+                // Enumerate.
+                this->apply_lexer(this->enumerate, tokens, i);
+            }
+
+            // Arrows.
+            this->apply_lexer(this->arrow, tokens, i);
+
+            // Bold.
+            this->apply_lexer(this->bold, tokens, i);
+
+            // Italics.
+            this->apply_lexer(this->italic, tokens, i);
+
+            // Text literal.
+            this->apply_lexer(this->text, tokens, i);
+
+            i++;
+        }
+
         return tokens;
     }
 
-    // A recursive helper method to lex a single line.
+    // A helper method to apply a given lexer to the token at the given index.
     //
-    // * std::vector<sparkdown::Token> &tokens - The vector of tokens.
-    // * return std::vector<sparkdown::Token>  - The new vector of tokens.
-    std::vector<sparkdown::Token> sparkdown::Lexer::lex(std::vector<sparkdown::Token> &tokens)
+    // * AbstractLexer *lexer       - The given lexer to apply.
+    // * std::vector<Token> &tokens - The vector of tokens.
+    // * int index                  - The index at which to apply the lexer.
+    void Lexer::apply_lexer(AbstractLexer *lexer, std::vector<Token> &tokens, int index)
     {
-        std::vector<sparkdown::Token> new_tokens;
-        if (tokens.size() == 0)
+        if (tokens[index].get_type() != Token::token_type::UNLEXED)
         {
-            return tokens;
+            return;
         }
-        for (int i = 0; i < (int)tokens.size(); i++)
-        {
-            new_tokens.clear();
-            if (tokens[i].get_type() == sparkdown::Token::token_type::UNLEXED)
-            {
-                if (i == 0)
-                {
-                    // We are currently at the beginning of the line, and nothing has been lexed yet.
-                    // Some rules apply only to the first token:
-                    //   * Document header.
-                    //   * Section header.
-                    //   * Verbatim.
-                    //   * Itemize.
-                    //   * Enumerate.
 
-                    // Document header.
-                    if (this->state->is_head())
-                    {
-                        new_tokens = this->header->lex(tokens[0].get_value());
-                        tokens.erase(tokens.begin());
-                        tokens.insert(tokens.begin(), new_tokens.begin(), new_tokens.end());
-                    }
+        std::vector<Token> new_tokens = lexer->lex(tokens[index].get_value());
+        tokens.erase(tokens.begin() + index);
 
-                    // If the first token is still UNLEXED, we pass it through the section lexer.
-                    if (tokens[0].get_type() == sparkdown::Token::token_type::UNLEXED)
-                    {
-                        new_tokens = this->section->lex(tokens[0].get_value());
-                        tokens.erase(tokens.begin());
-                        tokens.insert(tokens.begin(), new_tokens.begin(), new_tokens.end());
-                    }
-
-                    // If the first token is still UNLEXED, we pass it through the verbatim lexer.
-                    if (tokens[0].get_type() == sparkdown::Token::token_type::UNLEXED)
-                    {
-                        new_tokens = this->verbatim->lex(tokens[0].get_value());
-                        tokens.erase(tokens.begin());
-                        tokens.insert(tokens.begin(), new_tokens.begin(), new_tokens.end());
-                    }
-
-                    // If the first token is still UNLEXED, we pass it through the itemize lexer.
-                    if (tokens[0].get_type() == sparkdown::Token::token_type::UNLEXED)
-                    {
-                        new_tokens = this->itemize->lex(tokens[0].get_value());
-                        tokens.erase(tokens.begin());
-                        tokens.insert(tokens.begin(), new_tokens.begin(), new_tokens.end());
-                    }
-
-                    // If the first token is still UNLEXED, we pass it through the enumerate lexer.
-                    if (tokens[0].get_type() == sparkdown::Token::token_type::UNLEXED)
-                    {
-                        new_tokens = this->enumerate->lex(tokens[0].get_value());
-                        tokens.erase(tokens.begin());
-                        tokens.insert(tokens.begin(), new_tokens.begin(), new_tokens.end());
-                    }
-                }
-
-                // If this token is still UNLEXED, we pass it through the arrow lexer.
-                if (tokens[i].get_type() == sparkdown::Token::token_type::UNLEXED)
-                {
-                    new_tokens = this->arrow->lex(tokens[i].get_value());
-                    tokens.erase(tokens.begin() + i);
-                    tokens.insert(tokens.begin() + i, new_tokens.begin(), new_tokens.end());
-                }
-
-                // If this token is still UNLEXED, we pass it through the bold lexer.
-                if (tokens[i].get_type() == sparkdown::Token::token_type::UNLEXED)
-                {
-                    new_tokens = this->bold->lex(tokens[i].get_value());
-                    tokens.erase(tokens.begin() + i);
-                    tokens.insert(tokens.begin() + i, new_tokens.begin(), new_tokens.end());
-                }
-
-                // If this token is still UNLEXED, we pass it through the italic lexer.
-                if (tokens[i].get_type() == sparkdown::Token::token_type::UNLEXED)
-                {
-                    new_tokens = this->italic->lex(tokens[i].get_value());
-                    tokens.erase(tokens.begin() + i);
-                    tokens.insert(tokens.begin() + i, new_tokens.begin(), new_tokens.end());
-                }
-            }
-        }
-        return tokens;
+        tokens.insert(tokens.begin() + index, new_tokens.begin(), new_tokens.end());
     }
 }

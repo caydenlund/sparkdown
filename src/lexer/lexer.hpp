@@ -1,5 +1,5 @@
 // //lexer
-// v. 0.2.5
+// v. 0.3.0
 //
 // Author: Cayden Lund
 //   Date: 10/27/2021
@@ -38,6 +38,7 @@
 #include "lexer/lexers/itemize/itemize.hpp"
 #include "lexer/lexers/bold/bold.hpp"
 #include "lexer/lexers/italic/italic.hpp"
+#include "lexer/lexers/text/text.hpp"
 
 // The sparkdown namespace contains all the classes and methods of the sparkdown library.
 namespace sparkdown
@@ -50,8 +51,8 @@ namespace sparkdown
         // The constructor saves a reference to the State object, which is used to store
         // the current state of the parser.
         //
-        // * sparkdown::State state - The state object.
-        Lexer(sparkdown::State *state);
+        // * State state - The state object.
+        Lexer(State *state);
 
         // The class destructor.
         virtual ~Lexer();
@@ -60,19 +61,20 @@ namespace sparkdown
         // This method takes in a string and returns a new vector with the lexed tokens.
         //
         // * const std::string &line                  - The string to lex.
-        // * return std::vector<sparkdown::Token> - The vector of tokens.
-        std::vector<sparkdown::Token> lex(const std::string &line);
+        // * return std::vector<Token> - The vector of tokens.
+        std::vector<Token> lex(const std::string &line);
 
     private:
         // ====================
         // | Private methods. |
         // ====================
 
-        // A recursive helper method to lex a single line.
+        // A helper method to apply a given lexer to the token at the given index.
         //
-        // * std::vector<sparkdown::Token> &tokens - The vector of tokens.
-        // * return std::vector<sparkdown::Token>  - The new vector of tokens.
-        std::vector<sparkdown::Token> lex(std::vector<sparkdown::Token> &tokens);
+        // * AbstractLexer *lexer       - The given lexer to apply.
+        // * std::vector<Token> &tokens - The vector of tokens.
+        // * int index                  - The index at which to apply the lexer.
+        void apply_lexer(AbstractLexer *lexer, std::vector<Token> &tokens, int index);
 
         // ===========================
         // | The various sub-lexers. |
@@ -80,35 +82,39 @@ namespace sparkdown
 
         // The header lexer.
         //   $item: value
-        sparkdown::lexers::Header *header;
+        lexers::Header *header;
 
         // The section lexer.
         //   # Headline.
-        sparkdown::lexers::Section *section;
+        lexers::Section *section;
 
         // The verbatim block lexer.
         //   ```
-        sparkdown::lexers::Verbatim *verbatim;
+        lexers::Verbatim *verbatim;
 
         // The arrow lexer.
         //   ->
-        sparkdown::lexers::Arrow *arrow;
+        lexers::Arrow *arrow;
 
         // The enumerate lexer.
         //   \d. List item.
-        sparkdown::lexers::Enumerate *enumerate;
+        lexers::Enumerate *enumerate;
 
         // The itemize lexer.
         //   * List item.
-        sparkdown::lexers::Itemize *itemize;
+        lexers::Itemize *itemize;
 
         // The bold lexer.
         //   **Bold text.**
-        sparkdown::lexers::Bold *bold;
+        lexers::Bold *bold;
 
         // The italic lexer.
         //   *Italic text.*
-        sparkdown::lexers::Italic *italic;
+        lexers::Italic *italic;
+
+        // The text literal lexer.
+        //   Text content.
+        lexers::Text *text;
     };
 }
 

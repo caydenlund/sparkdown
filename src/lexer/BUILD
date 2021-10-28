@@ -12,6 +12,7 @@ cc_library(
         "//lexer/lexers/italic",
         "//lexer/lexers/itemize",
         "//lexer/lexers/section",
+        "//lexer/lexers/text",
         "//lexer/lexers/verbatim",
     ],
 )
