@@ -1,0 +1,33 @@
+---
+title: Unit Testing
+---
+
+Sparkdown comes with substantial unit testing for all of its components
+using the popular [GoogleTest](https://google.github.io/googletest/) framework.
+
+First, if you don't have [Bazel](https://bazel.build/) installed,
+[install it](https://docs.bazel.build/versions/main/install.html).
+
+Then, run the following command to build and run the unit tests:
+
+```bash
+# First, cd into the `src` directory.
+[sparkdown-release-0.1.0] $ cd src/
+# Now, run the unit tests.
+[src] $ bazel test //...
+```
+
+If you want to run specific tests, you can do so by passing the names
+or being more specific with the command:
+
+```bash
+[src] $ bazel test //lexer/lexers/...
+```
+
+:::warning
+
+Sparkdown is still considered a work in progress; as such, breaking changes are frequent and may occur at any time.
+
+Furthermore, the codebase does not build at this time (last updated 18 October, 2021).
+
+:::

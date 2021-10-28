@@ -13,6 +13,7 @@
 // License: MIT <https://opensource.org/licenses/MIT>
 
 #include <string>
+#include <sstream>
 #include <regex>
 #include <stack>
 

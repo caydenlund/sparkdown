@@ -14,6 +14,8 @@
 
 // System imports.
 #include <string>
+#include <sstream>
+#include <iostream>
 
 // The header for the Token class.
 #include "token.hpp"

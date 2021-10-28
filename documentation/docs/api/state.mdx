@@ -1,0 +1,34 @@
+---
+title: State
+---
+
+:::info NOTE
+
+This class is primarily intended for internal use in the Lexer and Parser classes.
+
+:::
+
+The `State` class is used to represent the state of the lexer
+and the parser.
+
+It comes with the enumeration `level_type`, which has two members:
+
+-   `itemize` - Represents an unordered list.
+-   `enumerate` - Represents an ordered list.
+
+## Instance Methods
+
+| Method                | Arguments                      | Returns       | Description                                                                           |
+| --------------------- | ------------------------------ | ------------- | ------------------------------------------------------------------------------------- |
+| `State`               | none                           | `State`       | The default constructor.                                                              |
+| `is_head`             | none                           | `bool`        | Returns `true` if the current parsing location is at the head of the document.        |
+| `end_head`            | none                           | `void`        | Reports to the `State` object that we are no longer parsing the head of the document. |
+| `is_verbatim`         | none                           | `bool`        | Returns `true`if verbatim mode is on.                                                 |
+| `toggle_verbatim`     | none                           | `void`        | Toggles verbatim mode.                                                                |
+| `is_math`             | none                           | `bool`        | Returns `true`if math mode is on.                                                     |
+| `toggle_math`         | none                           | `void`        | Toggles math mode.                                                                    |
+| `indent`              | none                           | `std::string` | Returns a string of spaces to indent the next line.                                   |
+| `decrease_list_level` | `int level`                    | `void`        | Decreases the list level to the given level.                                          |
+| `get_list_level`      | none                           | `int`         | Returns the current list level.                                                       |
+| `get_list_type`       | none                           | `level_type`  | Returns the current list type.                                                        |
+| `begin_list`          | `int level`, `level_type type` | `void`        | Begins a new list of the given type at the specified level.                           |

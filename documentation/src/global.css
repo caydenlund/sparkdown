@@ -1,0 +1,41 @@
+/*
+src/global.css
+v. 1.0.0
+
+Author: Cayden Lund
+  Date: 10/17/2021
+
+This file is part of Sparkdown, a new markup/markdown language
+for quickly writing and formatting notes.
+
+This file contains some global styles that are used throughout the site.
+
+Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
+License: MIT <https://opensource.org/licenses/MIT>
+*/
+
+/* Global Infima overrides. */
+:root {
+    --ifm-color-primary: #ea6456;
+    --ifm-color-primary-dark: #e64a3a;
+    --ifm-color-primary-darker: #e53d2b;
+    --ifm-color-primary-darkest: #c72919;
+    --ifm-color-primary-light: #ee7e72;
+    --ifm-color-primary-lighter: #ef8b81;
+    --ifm-color-primary-lightest: #f5b2ab;
+}
+
+html[data-theme="dark"] {
+    --ifm-background-color: #262a2b;
+}
+
+.docusaurus-highlight-code-line {
+    background-color: rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 calc(-1 * var(--ifm-pre-padding));
+    padding: 0 var(--ifm-pre-padding);
+}
+
+html[data-theme="dark"] .docusaurus-highlight-code-line {
+    background-color: rgba(255, 255, 255, 0.1);
+}
