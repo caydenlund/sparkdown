@@ -3,7 +3,6 @@ cc_library(
     srcs = ["token.cpp"],
     hdrs = ["token.hpp"],
     visibility = ["//lexer:__subpackages__"],
-    deps = ["//state"],
 )
 
 cc_test(
@@ -12,7 +11,6 @@ cc_test(
     srcs = ["token.test.cpp"],
     deps = [
         ":token",
-        "//state",
         "@googletest//:gtest_main",
     ],
 )
