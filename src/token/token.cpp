@@ -1,8 +1,8 @@
 // //token
-// v. 0.3.0
+// v. 0.4.0
 //
 // Author: Cayden Lund
-//   Date: 10/28/2021
+//   Date: 10/30/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -23,46 +23,69 @@
 // The sparkdown namespace contains all the classes and methods of the sparkdown library.
 namespace sparkdown
 {
+    // The one-argument constructor saves the type of the token.
+    //
+    // * const token_type &type - The type of the token.
+    Token::Token(const token_type &type) : type(type), value()
+    {
+    }
+
     // The constructor saves the type and value of the token.
     //
     // * const token_type &type        - The type of the token.
     // * const std::string_view &value - The value of the token.
-    Token::Token(const token_type &type, const std::string_view &value)
+    Token::Token(const token_type &type, const std::string &value) : type(type), value()
     {
-        this->type = type;
-        this->value = value;
+        this->value << value;
+    }
+
+    // The copy constructor saves the type and value of the token.
+    //
+    // * const Token &other - The token to copy.
+    Token::Token(const Token &other) : type(other.type), value()
+    {
+        this->value << other.value.str();
     }
 
     // The get_type method returns the type of the token.
     //
     // * return token_type - The type of the token.
-    token_type Token::get_type()
+    token_type Token::get_type() const
     {
         return this->type;
     }
 
     // The get_value method returns the value of the token.
     //
-    // * return std::string_view - The value of the token.
-    std::string_view Token::get_value()
+    // * return std::string - The value of the token.
+    std::string Token::get_value() const
     {
-        return this->value;
+        return this->value.str();
+    }
+
+    // Override the = operator to allow for assignment of a token.
+    //
+    // * const Token &other - The token to assign.
+    void Token::operator=(const Token &other)
+    {
+        this->type = other.type;
+        this->value << other.value.str();
     }
 
     // Override the == operator to compare two tokens.
     //
     // * Token other - The token to compare to.
     // * return bool  - Whether the two tokens are equal.
-    bool Token::operator==(const Token &other)
+    bool Token::operator==(const Token &other) const
     {
-        return this->type == other.type && this->value == other.value;
+        return this->type == other.type && this->value.str() == other.value.str();
     }
 
     // Override the != operator to compare two tokens.
     //
     // * Token other - The token to compare to.
     // * return bool  - Whether the two tokens are not equal.
-    bool Token::operator!=(const Token &other)
+    bool Token::operator!=(const Token &other) const
     {
         return !(*this == other);
     }
@@ -93,7 +116,7 @@ namespace sparkdown
             return "Backslash";
         case token_type::NUMBER:
             return "Number";
-        case token_type::IGNORE:
+        case token_type::TERMINAL:
             return "Literal";
         default:
             return "Unknown";
@@ -116,7 +139,7 @@ namespace sparkdown
 
         for (unsigned int i = 0; i < size; i++)
         {
-            if ((Token)tokens1[i] != (Token)tokens2[i])
+            if (tokens1[i] != tokens2[i])
                 return false;
         }
 
@@ -131,7 +154,7 @@ namespace sparkdown
     {
         std::stringstream ss;
         ss << "Tokens (" << tokens.size() << "):" << std::endl;
-        for (Token token : tokens)
+        for (const Token token : tokens)
         {
             ss << Token::get_token_type(token.get_type()) << ": \"" << token.get_value() << "\"" << std::endl;
         }

@@ -1,8 +1,8 @@
 // //token:token.test
-// v. 0.3.0
+// v. 0.4.0
 //
 // Author: Cayden Lund
-//   Date: 10/28/2021
+//   Date: 10/30/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -30,7 +30,7 @@ using namespace std::literals;
 TEST(Token, ConstructorNoFail)
 {
     sparkdown::Token token_a(sparkdown::token_type::STAR);
-    sparkdown::Token token_b(sparkdown::token_type::IGNORE, "A"sv);
+    sparkdown::Token token_b(sparkdown::token_type::TERMINAL, "A");
     sparkdown::Token *token_c = new sparkdown::Token(sparkdown::token_type::COLON);
     delete token_c;
 }
@@ -38,18 +38,18 @@ TEST(Token, ConstructorNoFail)
 // Test the Token class's method get_type().
 TEST(Token, GetType)
 {
-    sparkdown::Token token_a(sparkdown::token_type::IGNORE, "1"sv);
+    sparkdown::Token token_a(sparkdown::token_type::TERMINAL, "1");
 
-    EXPECT_EQ(sparkdown::token_type::IGNORE, token_a.get_type());
+    EXPECT_EQ(sparkdown::token_type::TERMINAL, token_a.get_type());
 }
 
 // Test the Token class's method get_value().
 TEST(Token, GetValue)
 {
-    sparkdown::Token token_a(sparkdown::token_type::IGNORE, "123"sv);
+    sparkdown::Token token_a(sparkdown::token_type::TERMINAL, "123");
 
-    std::string_view expected = "123"sv;
-    std::string_view actual = token_a.get_value();
+    std::string expected = "123";
+    std::string actual = token_a.get_value();
 
     EXPECT_EQ(expected, actual);
 }
@@ -57,28 +57,28 @@ TEST(Token, GetValue)
 // Test the Token class's overloaded operator ==.
 TEST(Token, OperatorEqual)
 {
-    sparkdown::Token token_a(sparkdown::token_type::IGNORE, "123"sv);
-    sparkdown::Token token_b(sparkdown::token_type::IGNORE, "123"sv);
+    sparkdown::Token token_a(sparkdown::token_type::TERMINAL, "123");
+    sparkdown::Token token_b(sparkdown::token_type::TERMINAL, "123");
 
     EXPECT_TRUE(token_a == token_b);
 
-    sparkdown::Token token_c(sparkdown::token_type::IGNORE, "1234"sv);
+    sparkdown::Token token_c(sparkdown::token_type::TERMINAL, "1234");
     sparkdown::Token token_d = token_c;
 
     EXPECT_TRUE(token_c == token_d);
 
-    sparkdown::Token token_e(sparkdown::token_type::IGNORE, "123"sv);
-    sparkdown::Token token_f(sparkdown::token_type::IGNORE, "1234"sv);
+    sparkdown::Token token_e(sparkdown::token_type::TERMINAL, "123");
+    sparkdown::Token token_f(sparkdown::token_type::TERMINAL, "1234");
 
     EXPECT_FALSE(token_e == token_f);
 
-    sparkdown::Token token_g(sparkdown::token_type::IGNORE, " "sv);
-    sparkdown::Token token_h(sparkdown::token_type::SPACE, " "sv);
+    sparkdown::Token token_g(sparkdown::token_type::TERMINAL, " ");
+    sparkdown::Token token_h(sparkdown::token_type::SPACE, " ");
 
     EXPECT_FALSE(token_g == token_h);
 
-    sparkdown::Token token_i(sparkdown::token_type::SPACE, " "sv);
-    sparkdown::Token token_j(sparkdown::token_type::SPACE, ""sv);
+    sparkdown::Token token_i(sparkdown::token_type::SPACE, " ");
+    sparkdown::Token token_j(sparkdown::token_type::SPACE, "");
 
     EXPECT_FALSE(token_i == token_j);
 }
@@ -86,28 +86,28 @@ TEST(Token, OperatorEqual)
 // Test the Token class's overloaded operator !=.
 TEST(Token, OperatorNotEqual)
 {
-    sparkdown::Token token_a(sparkdown::token_type::IGNORE, "123"sv);
-    sparkdown::Token token_b(sparkdown::token_type::IGNORE, "123"sv);
+    sparkdown::Token token_a(sparkdown::token_type::TERMINAL, "123");
+    sparkdown::Token token_b(sparkdown::token_type::TERMINAL, "123");
 
     EXPECT_FALSE(token_a != token_b);
 
-    sparkdown::Token token_c(sparkdown::token_type::IGNORE, "1234"sv);
+    sparkdown::Token token_c(sparkdown::token_type::TERMINAL, "1234");
     sparkdown::Token token_d = token_c;
 
     EXPECT_FALSE(token_c != token_d);
 
-    sparkdown::Token token_e(sparkdown::token_type::IGNORE, "123"sv);
-    sparkdown::Token token_f(sparkdown::token_type::IGNORE, "1234"sv);
+    sparkdown::Token token_e(sparkdown::token_type::TERMINAL, "123");
+    sparkdown::Token token_f(sparkdown::token_type::TERMINAL, "1234");
 
     EXPECT_TRUE(token_e != token_f);
 
-    sparkdown::Token token_g(sparkdown::token_type::IGNORE, " "sv);
-    sparkdown::Token token_h(sparkdown::token_type::SPACE, " "sv);
+    sparkdown::Token token_g(sparkdown::token_type::TERMINAL, " ");
+    sparkdown::Token token_h(sparkdown::token_type::SPACE, " ");
 
     EXPECT_TRUE(token_g != token_h);
 
-    sparkdown::Token token_i(sparkdown::token_type::SPACE, " "sv);
-    sparkdown::Token token_j(sparkdown::token_type::SPACE, ""sv);
+    sparkdown::Token token_i(sparkdown::token_type::SPACE, " ");
+    sparkdown::Token token_j(sparkdown::token_type::SPACE, "");
 
     EXPECT_TRUE(token_i != token_j);
 }

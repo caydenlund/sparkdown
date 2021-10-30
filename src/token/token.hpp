@@ -1,8 +1,8 @@
 // //token
-// v. 0.3.0
+// v. 0.4.0
 //
 // Author: Cayden Lund
-//   Date: 10/28/2021
+//   Date: 10/30/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -17,6 +17,7 @@
 
 // System imports.
 #include <string>
+#include <sstream>
 #include <regex>
 
 // The sparkdown namespace contains all the classes and methods of the sparkdown library.
@@ -25,16 +26,16 @@ namespace sparkdown
     // An enumeration of the possible token types.
     enum token_type
     {
-        SPACE,  // A space.
-        DOLLAR, // A dollar sign.
-        COLON,  // A colon.
-        HASH,   // A hash.
-        STAR,   // An asterisk.
-        DASH,   // A dash.
-        EQUALS, // An equals sign.
-        ESCAPE, // A backslash.
-        NUMBER, // A numeral.
-        IGNORE  // A string that should be passed through as-is.
+        SPACE,   // A space.
+        DOLLAR,  // A dollar sign.
+        COLON,   // A colon.
+        HASH,    // A hash.
+        STAR,    // An asterisk.
+        DASH,    // A dash.
+        EQUALS,  // An equals sign.
+        ESCAPE,  // A backslash.
+        NUMBER,  // A numeral.
+        TERMINAL // A string that should be passed through as-is.
     };
 
     // Token.
@@ -45,33 +46,48 @@ namespace sparkdown
     class Token
     {
     public:
-        // The constructor saves the type and value of the token.
+        // The one-argument constructor saves the type of the token.
+        //
+        // * const token_type &type - The type of the token.
+        Token(const token_type &type);
+
+        // The two-argument constructor saves the type and value of the token.
         //
         // * const token_type &type        - The type of the token.
         // * const std::string_view &value - The value of the token.
-        Token(const token_type &type, const std::string_view &value = "");
+        Token(const token_type &type, const std::string &value);
+
+        // The copy constructor saves the type and value of the token.
+        //
+        // * const Token &other - The token to copy.
+        Token(const Token &other);
 
         // The get_type method returns the type of the token.
         //
         // * return token_type - The type of the token.
-        token_type get_type();
+        token_type get_type() const;
 
-        // The get_value method returns the value of the token.
+        // The get_value method returns the string value of the token.
         //
-        // * return std::string_view - The value of the token.
-        std::string_view get_value();
+        // * return std::string - The value of the token.
+        std::string get_value() const;
+
+        // Override the = operator to allow for assignment of tokens.
+        //
+        // * const Token &other - The token to be assigned.
+        void operator=(const Token &other);
 
         // Override the == operator to compare two tokens.
         //
         // * Token other - The token to compare to.
-        // * return bool  - Whether the two tokens are equal.
-        bool operator==(const Token &other);
+        // * return bool - Whether the two tokens are equal.
+        bool operator==(const Token &other) const;
 
         // Override the != operator to compare two tokens.
         //
         // * Token other - The token to compare to.
-        // * return bool  - Whether the two tokens are not equal.
-        bool operator!=(const Token &other);
+        // * return bool - Whether the two tokens are not equal.
+        bool operator!=(const Token &other) const;
 
         // ==========================
         // | Public static methods. |
@@ -101,7 +117,7 @@ namespace sparkdown
         token_type type;
 
         // The value of the token.
-        std::string_view value;
+        std::stringstream value;
     };
 }
 
