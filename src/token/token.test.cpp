@@ -22,9 +22,6 @@
 // The Token header file.
 #include "token.hpp"
 
-// We use the std::literals namespace to create string_view literals on the fly.
-using namespace std::literals;
-
 // Test the Token class's constructor.
 // Ensure that it doesn't throw an exception.
 TEST(Token, ConstructorNoFail)
@@ -32,6 +29,7 @@ TEST(Token, ConstructorNoFail)
     sparkdown::Token token_a(sparkdown::token_type::STAR);
     sparkdown::Token token_b(sparkdown::token_type::TERMINAL, "A");
     sparkdown::Token *token_c = new sparkdown::Token(sparkdown::token_type::COLON);
+    sparkdown::Token token_d(sparkdown::token_type::TERMINAL, 'c');
     delete token_c;
 }
 

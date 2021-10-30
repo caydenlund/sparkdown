@@ -33,8 +33,14 @@ namespace sparkdown
     // The constructor saves the type and value of the token.
     //
     // * const token_type &type        - The type of the token.
+    //
     // * const std::string_view &value - The value of the token.
+    // * const char &value             - The value of the token.
     Token::Token(const token_type &type, const std::string &value) : type(type), value()
+    {
+        this->value << value;
+    }
+    Token::Token(const token_type &type, const char &value) : type(type), value()
     {
         this->value << value;
     }
