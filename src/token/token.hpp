@@ -1,5 +1,5 @@
 // //token
-// v. 0.4.1
+// v. 0.4.2
 //
 // Author: Cayden Lund
 //   Date: 10/30/2021
@@ -36,6 +36,8 @@ namespace sparkdown
         EQUALS,  // An equals sign.
         LT,      // A less-than sign. '<'
         GT,      // A greater-than sign. '>'
+        PIPE,    // A vertical bar.
+        TICK,    // A backtick.
         ESCAPE,  // A backslash.
         NUMBER,  // A numeral.
         TERMINAL // A string that should be passed through as-is.

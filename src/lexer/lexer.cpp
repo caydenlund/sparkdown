@@ -74,6 +74,12 @@ namespace sparkdown
             case '>':
                 tokens.push_back(Token(token_type::GT));
                 break;
+            case '|':
+                tokens.push_back(Token(token_type::PIPE));
+                break;
+            case '`':
+                tokens.push_back(Token(token_type::TICK));
+                break;
             case '\\':
                 tokens.push_back(Token(token_type::ESCAPE));
                 break;
