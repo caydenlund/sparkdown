@@ -1,5 +1,5 @@
 // //token
-// v. 0.4.0
+// v. 0.4.1
 //
 // Author: Cayden Lund
 //   Date: 10/30/2021
@@ -45,7 +45,6 @@ namespace sparkdown
     // This class is the token class, used to store the type and value of a token.
     // The Lexer class will create a list of tokens from a string.
     // These tokens are then used by the Parser class to parse the input line into LaTeX code.
-    // Tokens are immutable; once instantiated, their values are read-only.
     class Token
     {
     public:
@@ -67,6 +66,11 @@ namespace sparkdown
         //
         // * const Token &other - The token to copy.
         Token(const Token &other);
+
+        // The merge method merges two tokens together.
+        //
+        // * const Token &other - The token to merge with.
+        void merge(const Token &other);
 
         // The get_type method returns the type of the token.
         //

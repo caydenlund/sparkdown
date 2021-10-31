@@ -2,7 +2,10 @@ cc_library(
     name = "token",
     srcs = ["token.cpp"],
     hdrs = ["token.hpp"],
-    visibility = ["//lexer:__subpackages__"],
+    visibility = [
+        "//lexer:__subpackages__",
+        "//parser:__subpackages__",
+    ],
 )
 
 cc_test(

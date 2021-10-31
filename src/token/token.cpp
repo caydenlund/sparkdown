@@ -1,5 +1,5 @@
 // //token
-// v. 0.4.0
+// v. 0.4.1
 //
 // Author: Cayden Lund
 //   Date: 10/30/2021
@@ -31,7 +31,7 @@ namespace sparkdown
     {
     }
 
-    // The constructor saves the type and value of the token.
+    // The two-argument constructor saves the type and value of the token.
     //
     // * const token_type &type        - The type of the token.
     //
@@ -50,6 +50,14 @@ namespace sparkdown
     //
     // * const Token &other - The token to copy.
     Token::Token(const Token &other) : type(other.type), value()
+    {
+        this->value << other.value.str();
+    }
+
+    // The merge method merges two tokens together.
+    //
+    // * const Token &other - The token to merge with.
+    void Token::merge(const Token &other)
     {
         this->value << other.value.str();
     }
