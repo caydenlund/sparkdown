@@ -29,10 +29,14 @@ namespace sparkdown
         SPACE,   // A space.
         DOLLAR,  // A dollar sign.
         COLON,   // A colon.
+        LBRAC,   // A left bracket. '['
+        RBRAC,   // A right bracket. ']'
         HASH,    // A hash.
         STAR,    // An asterisk.
         DASH,    // A dash.
         EQUALS,  // An equals sign.
+        LT,      // A less-than sign. '<'
+        GT,      // A greater-than sign. '>'
         ESCAPE,  // A backslash.
         NUMBER,  // A numeral.
         TERMINAL // A string that should be passed through as-is.
