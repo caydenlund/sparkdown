@@ -4,16 +4,7 @@ cc_library(
     hdrs = ["lexer.hpp"],
     visibility = ["//parser:__subpackages__"],
     deps = [
-        "//lexer/lexers/abstract-lexer",
-        "//lexer/lexers/arrow",
-        "//lexer/lexers/bold",
-        "//lexer/lexers/enumerate",
-        "//lexer/lexers/header",
-        "//lexer/lexers/italic",
-        "//lexer/lexers/itemize",
-        "//lexer/lexers/section",
-        "//lexer/lexers/text",
-        "//lexer/lexers/verb-block",
+        "//token",
     ],
 )
 
@@ -23,7 +14,6 @@ cc_test(
     srcs = ["lexer.test.cpp"],
     deps = [
         ":lexer",
-        "//state",
         "@googletest//:gtest_main",
     ],
 )
