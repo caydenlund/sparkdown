@@ -18,7 +18,6 @@
 // System imports.
 #include <string>
 #include <sstream>
-#include <regex>
 
 // The sparkdown namespace contains all the classes and methods of the sparkdown library.
 namespace sparkdown

@@ -14,7 +14,6 @@
 
 // System imports.
 #include <string>
-#include <regex>
 
 // The GTest testing framework.
 #include <gtest/gtest.h>
