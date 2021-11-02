@@ -1,14 +1,13 @@
-// src/parser/parser.hpp
-// v. 0.6.1
+// //parser
+// v. 0.7.0
 //
 // Author: Cayden Lund
-//   Date: 10/17/2021
+//   Date: 11/02/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
 //
-// This file contains the Parser class.
-// See parser.cpp for implementation.
+// This file contains the headers for the Parser class.
 //
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT <https://opensource.org/licenses/MIT>
@@ -16,135 +15,123 @@
 #ifndef PARSER_HPP
 #define PARSER_HPP
 
+// System imports.
 #include <string>
-#include <regex>
+#include <sstream>
+#include <iostream>
 
-// We use the State class to keep track of the current state of the parser.
-#include "state.hpp"
-
-// We use the Lexer class to lex a line into tokens.
-#include "lexer/lexer.hpp"
+// We use the Token class to represent a single token.
+#include "token/token.hpp"
 
 // The sparkdown namespace contains all the classes and methods of the sparkdown library.
 namespace sparkdown
 {
-    // Parser.
-    // This class is used to parse a set of strings formatted as sparkdown into a set of strings of LaTeX.
-    // The sparkdown text is parsed line by line, and as we read each line, we update the state accordingly.
-    // Upon reading the line, we use the state to determine what to do with the line.
-    // We then return a string of LaTeX to the caller.
+    // The Parser class is the class used to parse a string of sparkdown
+    // into a string of LaTeX.
     //
-    // The sparkdown rules are as follows:
+    // There are two ways to use the Parser class.
     //
-    //   1.  #  A headline.
-    //       ## A sub-headline.
-    //   2.  *  A bullet point.
-    //       -  A bullet point.
-    //   3.  1. Item of a numbered list.
-    //   4.  **Inline bold text.**
-    //   5.  *Inline italic text.*
-    //   6.  ```
-    //       Block of verbatim text.
-    //       ```
-    //   7.  |Inline verbatim text.|
-    //   8.  -> Rightarrow.
-    //       => Rightarrow.
+    //   1. Use the parse() method:
+    //
+    //        Parser parser;
+    //        std::string latex = parser.parse("# Hello, World!");
+    //
+    //   2. Use the << operator:
+    //
+    //        Parser parser;
+    //        std::stringstream ss;
+    //        "# Hello, World!" >> parser;
+    //        ss << parser;
+    //        std::string latex = ss.str();
     class Parser
     {
     public:
-        // The constructor for the Parser class.
-        // It accepts no arguments and has some default values.
-        // Overrides of these defaults are specified
-        // inside the sparkdown text itself.
+        // The class constructor.
         Parser();
 
-        // The class destructor.
-        ~Parser();
+        // Parse the given string.
+        //
+        // * const std::string &input - The string to parse.
+        // * return std::string       - The parsed string.
+        std::string parse(const std::string &input);
 
-        // Returns the LaTeX headers for a new file,
-        // using our `title`, `author`, and `date` instance variables.
-        std::string start();
+        // The input stream operator.
+        //
+        //   Parser parser;
+        //   "# Hello, World!" >> parser;
+        //
+        // * std::istream &in     - The input stream.
+        // * Parser &parser       - The parser.
+        // * return std::istream& - The input stream.
+        friend std::istream &operator>>(std::istream &is, Parser &parser);
 
-        // Returns the footers for a new file.
-        std::string end();
+        // The output stream operator.
+        //
+        //   Parser parser;
+        //   // ...
+        //   std::cout << parser;
+        //
+        // * std::ostream &out    - The output stream.
+        // * const Parser &parser - The parser.
+        // * return std::ostream& - The output stream.
+        friend std::ostream &operator<<(std::ostream &os, const Parser &parser);
 
-        // Returns true while we are currently parsing the head of the file.
+        // Indicates whether we are still parsing the head of the document.
+        //
+        // * return bool - True when we are still parsing the head of the document.
         bool is_head();
 
-        // Parse a single line from the head of the file.
+        // Indicate to the parser that the file has finished parsing.
         //
-        // * std::string line - The line to parse.
-        void parse_headline(std::string line);
+        // * return std::string - The necessary \end{document} to be added to the foot of the output.
+        std::string end();
 
-        // Parse a single line from the body of the file.
+    private:
+        // Parse the given vector of tokens.
         //
-        // * std::string line - The line to parse.
-        std::string parse_line(std::string line);
+        // * std::vector<Token> &tokens - The vector of tokens.
+        // * return std::string         - The parsed string.
+        std::string parse(std::vector<Token> &tokens);
 
-    protected:
-        // ====================
-        // | Private methods. |
-        // ====================
+        // Consolidate the given vector of tokens.
+        // Concatenate adjacent corresponding tokens into one.
+        //
+        // * std::vector<Token> &tokens - The vector of tokens.
+        static void consolidate(std::vector<Token> &tokens);
 
-        // Parse headlines.
-        void parse_section();
+        // In a given vector of tokens, check whether the token at the given index
+        // and the following token are both of the given type.
+        // If they are, concatenate them into one token.
+        //
+        // * std::vector<Token> &tokens - The vector of tokens.
+        // * const size_t &index        - The index of the token to merge.
+        // * const token_type &type     - The type of the token to check.
+        static void merge_next(std::vector<Token> &tokens, const size_t &index, const token_type &type);
 
-        // Parse indentation.
-        void parse_indentation();
+        // In a given vector of tokens, delete the token at the given index
+        // and escape the following token.
+        //
+        // * std::vector<Token> &tokens - The vector of tokens.
+        // * size_t index               - The index of the token to delete.
+        static void escape_next(std::vector<Token> &tokens, size_t index);
 
-        // Parse bold text.
-        void parse_bold();
+        // The object that holds the unflushed LaTeX.
+        std::stringstream latex;
 
-        // Parse italic text.
-        void parse_italics();
+        // Whether we have yet flushed the beginning and end of the output.
+        bool flushed_beginning;
+        bool flushed_end;
 
-        // Parse inline verbatim text.
-        void parse_verb();
+        // Whether we are still in the head of the document.
+        bool in_head;
 
-        // Parse block verbatim text.
-        void parse_verbatim();
+        // Whether we are currently parsing math text.
+        bool in_block_math;
+        bool in_inline_math;
 
-        // Parse rightarrows.
-        void parse_arrow();
-
-        // =======================
-        // | Instance variables. |
-        // =======================
-
-        // ===== Some regular expressions to match various things. =====
-
-        std::regex headline_regex;
-        std::regex title_regex;
-        std::regex author_regex;
-        std::regex date_regex;
-        std::regex section_regex;
-        std::regex indentation_regex;
-        std::regex bold_regex;
-        std::regex italic_regex;
-        std::regex verb_regex;
-        std::regex verbatim_regex;
-        std::regex arrow_regex;
-        std::regex section_char_regex;
-
-        // ===== Misc. =====
-
-        // The current state of the parser.
-        State *state;
-
-        // The line lexer.
-        Lexer *lexer;
-
-        // Whether or not we are currently parsing the head of the file.
-        bool head;
-
-        // The title of the document.
-        std::string title;
-
-        // The author of the document.
-        std::string author;
-
-        // The date of the document.
-        std::string date;
+        // Whether we are currently parsing verbatim text.
+        bool in_block_verbatim;
+        bool in_inline_verbatim;
     };
 }
 
