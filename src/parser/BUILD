@@ -2,17 +2,17 @@ cc_library(
     name = "parser",
     srcs = ["parser.cpp"],
     hdrs = ["parser.hpp"],
-    visibility = ["//visibility:public"],
+    visibility = ["//sparkdown:__subpackages__"],
     deps = [
         "//lexer",
-        "//state",
+        "//token",
     ],
 )
 
 cc_test(
-    name = "parser.test",
+    name = "parser.header.test",
     size = "small",
-    srcs = ["parser.test.cpp"],
+    srcs = ["parser.header.test.cpp"],
     deps = [
         ":parser",
         "@googletest//:gtest_main",
