@@ -1,8 +1,8 @@
 // //token
-// v. 0.4.2
+// v. 0.4.3
 //
 // Author: Cayden Lund
-//   Date: 10/30/2021
+//   Date: 11/02/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -25,22 +25,35 @@ namespace sparkdown
     // An enumeration of the possible token types.
     enum token_type
     {
-        SPACE,   // A space.
-        DOLLAR,  // A dollar sign.
-        COLON,   // A colon.
-        LBRAC,   // A left bracket. '['
-        RBRAC,   // A right bracket. ']'
-        HASH,    // A hash.
-        STAR,    // An asterisk.
-        DASH,    // A dash.
-        EQUALS,  // An equals sign.
-        LT,      // A less-than sign. '<'
-        GT,      // A greater-than sign. '>'
-        PIPE,    // A vertical bar.
-        TICK,    // A backtick.
-        ESCAPE,  // A backslash.
-        NUMBER,  // A numeral.
-        TERMINAL // A string that should be passed through as-is.
+        // Tokens that are used in the lexer and the parser.
+        SPACE,    // A space.             [ \t]+
+        DOLLAR,   // A dollar sign.       $
+        COLON,    // A colon.             :
+        LBRAC,    // A left bracket.      [
+        RBRAC,    // A right bracket.     ]
+        HASH,     // A hash.              #
+        STAR,     // An asterisk.         *
+        DASH,     // A dash.              [-]+
+        EQUALS,   // An equals sign.      [=]+
+        LT,       // A less-than sign.    <
+        GT,       // A greater-than sign. >
+        PIPE,     // A vertical bar.      |
+        TICK,     // A backtick.          [`]+
+        ESCAPE,   // A backslash.
+        NUMBER,   // A numeral.           [0-9]+
+        TERMINAL, // A string that should be passed through as-is.
+
+        // The following tokens are not used by the lexer;
+        // rather, they have special syntactic meaning and are created by the parser.
+        HEADER,      // A header command.
+        SECTION,     // A section headline.
+        ARROW,       // An arrow.
+        BULLET,      // A bullet point.
+        NUMBERED,    // A numbered list item.
+        BOLD,        // Bold text.
+        ITALIC,      // Italic text.
+        INLINE_MATH, // An inline math block.
+        INLINE_VERB  // An inline verbatim block.
     };
 
     // Token.
