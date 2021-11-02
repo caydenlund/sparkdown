@@ -10,6 +10,16 @@ cc_library(
 )
 
 cc_test(
+    name = "parser.arrow.test",
+    size = "small",
+    srcs = ["parser.arow.test.cpp"],
+    deps = [
+        ":parser",
+        "@googletest//:gtest_main",
+    ],
+)
+
+cc_test(
     name = "parser.header.test",
     size = "small",
     srcs = ["parser.header.test.cpp"],
