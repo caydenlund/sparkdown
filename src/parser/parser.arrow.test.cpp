@@ -28,6 +28,8 @@
 TEST(ParserArrow, Simple)
 {
     sparkdown::Parser parser;
+    // Pass an empty string so that we don't include the header in the output.
+    parser.parse("");
 
     std::string input = "->";
 
@@ -43,6 +45,8 @@ TEST(ParserArrow, Simple)
 TEST(ParserArrow, Multiple)
 {
     sparkdown::Parser parser;
+    // Pass an empty string so that we don't include the header in the output.
+    parser.parse("");
 
     std::string input = "=> <-- <==>";
 
@@ -58,6 +62,8 @@ TEST(ParserArrow, Multiple)
 TEST(ParserArrow, MathInline)
 {
     sparkdown::Parser parser;
+    // Pass an empty string so that we don't include the header in the output.
+    parser.parse("");
 
     std::string input = "-> $->$ $3 -> 5$";
 
@@ -89,6 +95,8 @@ TEST(ParserArrow, MathBlock)
 TEST(ParserArrow, VerbInline)
 {
     sparkdown::Parser parser;
+    // Pass an empty string so that we don't include the header in the output.
+    parser.parse("");
 
     std::string input = "|->|";
 
@@ -120,6 +128,8 @@ TEST(ParserArrow, VerbBlock)
 TEST(ParserArrow, Escaped)
 {
     sparkdown::Parser parser;
+    // Pass an empty string so that we don't include the header in the output.
+    parser.parse("");
 
     std::string input = "\\-> $\\->$ |\\->|";
 
