@@ -1,8 +1,8 @@
 // //parser:parser.header.test
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
-//   Date: 11/02/2021
+//   Date: 11/03/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -54,6 +54,7 @@ std::string build_document_head(const std::string &title = "Notes",
          << std::endl
          << std::endl
          << "\\maketitle" << std::endl
+         << std::endl
          << std::endl;
     return head.str();
 }
@@ -82,6 +83,7 @@ TEST(ParserTest, BuildDocumentHead)
              << std::endl
              << std::endl
              << "\\maketitle" << std::endl
+             << std::endl
              << std::endl;
 
     std::stringstream extra;

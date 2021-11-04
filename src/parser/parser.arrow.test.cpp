@@ -1,8 +1,8 @@
 // //parser:parser.arrow.test
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
-//   Date: 11/02/2021
+//   Date: 11/03/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -33,7 +33,7 @@ TEST(ParserArrow, Simple)
 
     std::string input = "->";
 
-    std::string expected = "$\\rightarrow$";
+    std::string expected = "$\\rightarrow$\n";
 
     std::string actual = parser.parse(input);
 
@@ -50,7 +50,7 @@ TEST(ParserArrow, Multiple)
 
     std::string input = "=> <-- <==>";
 
-    std::string expected = "$\\Rightarrow$ $\\longleftarrow$ $Longleftrightarrow$";
+    std::string expected = "$\\Rightarrow$ $\\longleftarrow$ $Longleftrightarrow$\n";
 
     std::string actual = parser.parse(input);
 
@@ -67,7 +67,7 @@ TEST(ParserArrow, MathInline)
 
     std::string input = "-> $->$ $3 -> 5$";
 
-    std::string expected = "$\\rightarrow$ $\\rightarrow$ $3 \\rightarrow 5$";
+    std::string expected = "$\\rightarrow$ $\\rightarrow$ $3 \\rightarrow 5$\n";
 
     std::string actual = parser.parse(input);
 
@@ -83,7 +83,7 @@ TEST(ParserArrow, MathBlock)
 
     std::string input = "->";
 
-    std::string expected = "\\rightarrow";
+    std::string expected = "\\rightarrow\n";
 
     std::string actual = parser.parse(input);
 
@@ -100,7 +100,7 @@ TEST(ParserArrow, VerbInline)
 
     std::string input = "|->|";
 
-    std::string expected = "\\verb|->|";
+    std::string expected = "\\verb|->|\n";
 
     std::string actual = parser.parse(input);
 
@@ -116,7 +116,7 @@ TEST(ParserArrow, VerbBlock)
 
     std::string input = "->";
 
-    std::string expected = "->";
+    std::string expected = "->\n";
 
     std::string actual = parser.parse(input);
 
@@ -133,7 +133,7 @@ TEST(ParserArrow, Escaped)
 
     std::string input = "\\-> $\\->$ |\\->|";
 
-    std::string expected = "-> $->$ \\verb|\\->|";
+    std::string expected = "-> $->$ \\verb|\\->|\n";
 
     std::string actual = parser.parse(input);
 
