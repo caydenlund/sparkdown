@@ -12,7 +12,7 @@ cc_library(
 cc_test(
     name = "parser.arrow.test",
     size = "small",
-    srcs = ["parser.arow.test.cpp"],
+    srcs = ["tests/arrow.test.cpp"],
     deps = [
         ":parser",
         "@googletest//:gtest_main",
@@ -22,7 +22,7 @@ cc_test(
 cc_test(
     name = "parser.header.test",
     size = "small",
-    srcs = ["parser.header.test.cpp"],
+    srcs = ["tests/header.test.cpp"],
     deps = [
         ":parser",
         "@googletest//:gtest_main",
@@ -32,7 +32,7 @@ cc_test(
 cc_test(
     name = "parser.itemize.test",
     size = "small",
-    srcs = ["parser.itemize.test.cpp"],
+    srcs = ["tests/itemize.test.cpp"],
     deps = [
         ":parser",
         "@googletest//:gtest_main",

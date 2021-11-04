@@ -1,5 +1,5 @@
 // //parser:parser.arrow.test
-// v. 0.1.1
+// v. 0.1.2
 //
 // Author: Cayden Lund
 //   Date: 11/03/2021
@@ -21,7 +21,7 @@
 #include <gtest/gtest.h>
 
 // The Parser header file.
-#include "parser.hpp"
+#include "parser/parser.hpp"
 
 // Test the Parser#parse() function.
 // Ensure that the parser can correctly parse a single simple arrow.

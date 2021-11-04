@@ -1,5 +1,5 @@
 // //parser:parser.header.test
-// v. 0.1.1
+// v. 0.1.2
 //
 // Author: Cayden Lund
 //   Date: 11/03/2021
@@ -21,7 +21,7 @@
 #include <gtest/gtest.h>
 
 // The Parser header file.
-#include "parser.hpp"
+#include "parser/parser.hpp"
 
 // A helper method that builds the expected document head from the given inputs.
 //
@@ -93,7 +93,7 @@ TEST(ParserTest, BuildDocumentHead)
     // The actual method output.
     std::string actual = build_document_head("Lecture Notes", "John Doe", "2021-11-02", extra.str());
 
-    EXPECT_EQ(expected, actual);
+    EXPECT_EQ(expected.str(), actual);
 }
 
 // Test the Parser class's method parse().

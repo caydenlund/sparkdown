@@ -1,5 +1,5 @@
 // //parser:parser.itemize.test
-// v. 0.1.0
+// v. 0.1.2
 //
 // Author: Cayden Lund
 //   Date: 11/03/2021
@@ -21,7 +21,7 @@
 #include <gtest/gtest.h>
 
 // The Parser header file.
-#include "parser.hpp"
+#include "parser/parser.hpp"
 
 // Test the Parser#parse() method.
 // Ensure that the parser can correctly parse a single bullet point.
