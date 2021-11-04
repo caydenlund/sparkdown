@@ -54,7 +54,8 @@ TEST(ParserItemize, Double)
 
       std::stringstream expected;
       expected << "\\begin{itemize}" << std::endl
-               << "    \\item Bullet." << std::endl;
+               << "    \\item Bullet 1." << std::endl
+               << "    \\item Bullet 2." << std::endl;
 
       std::string actual = parser.parse(input.str());
 
