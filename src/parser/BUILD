@@ -20,6 +20,16 @@ cc_test(
 )
 
 cc_test(
+    name = "parser.enumerate.test",
+    size = "small",
+    srcs = ["tests/enumerate.test.cpp"],
+    deps = [
+        ":parser",
+        "@googletest//:gtest_main",
+    ],
+)
+
+cc_test(
     name = "parser.header.test",
     size = "small",
     srcs = ["tests/header.test.cpp"],
