@@ -28,3 +28,13 @@ cc_test(
         "@googletest//:gtest_main",
     ],
 )
+
+cc_test(
+    name = "parser.itemize.test",
+    size = "small",
+    srcs = ["parser.itemize.test.cpp"],
+    deps = [
+        ":parser",
+        "@googletest//:gtest_main",
+    ],
+)
