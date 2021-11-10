@@ -48,3 +48,23 @@ cc_test(
         "@googletest//:gtest_main",
     ],
 )
+
+cc_test(
+    name = "parser.math.inline.test",
+    size = "small",
+    srcs = ["tests/math.inline.test.cpp"],
+    deps = [
+        ":parser",
+        "@googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "parser.verb.inline.test",
+    size = "small",
+    srcs = ["tests/verb.inline.test.cpp"],
+    deps = [
+        ":parser",
+        "@googletest//:gtest_main",
+    ],
+)
