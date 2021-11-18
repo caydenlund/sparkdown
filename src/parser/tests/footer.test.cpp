@@ -25,7 +25,7 @@
 
 // Test the Parser#end() function.
 // Ensure that the parser can correctly return the footer of a simple (empty) file.
-TEST(Parser, EndEmpty)
+TEST(ParserFooter, EndEmpty)
 {
     sparkdown::Parser parser;
     parser.parse("");
@@ -37,7 +37,7 @@ TEST(Parser, EndEmpty)
 
 // Test the Parser#end() function.
 // Ensure that the parser can correctly return the footer of a file with an unterminated bulleted list.
-TEST(Parser, EndBulletedList)
+TEST(ParserFooter, EndBulletedList)
 {
     sparkdown::Parser parser;
     parser.parse("* Bullet point.");
@@ -52,7 +52,7 @@ TEST(Parser, EndBulletedList)
 
 // Test the Parser#end() function.
 // Ensure that the parser can correctly return the hfooter of a file with nested unterminated lists.
-TEST(Parser, EndNestedLists)
+TEST(ParserFooter, EndNestedLists)
 {
     sparkdown::Parser parser;
     parser.parse("* Bullet point.");

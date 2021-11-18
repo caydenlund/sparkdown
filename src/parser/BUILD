@@ -30,6 +30,16 @@ cc_test(
 )
 
 cc_test(
+    name = "parser.footer.test",
+    size = "small",
+    srcs = ["tests/footer.test.cpp"],
+    deps = [
+        ":parser",
+        "@googletest//:gtest_main",
+    ],
+)
+
+cc_test(
     name = "parser.header.test",
     size = "small",
     srcs = ["tests/header.test.cpp"],
