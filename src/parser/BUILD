@@ -50,6 +50,16 @@ cc_test(
 )
 
 cc_test(
+    name = "parser.headline.test",
+    size = "small",
+    srcs = ["tests/headline.test.cpp"],
+    deps = [
+        ":parser",
+        "@googletest//:gtest_main",
+    ],
+)
+
+cc_test(
     name = "parser.itemize.test",
     size = "small",
     srcs = ["tests/itemize.test.cpp"],
