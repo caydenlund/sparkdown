@@ -1,8 +1,8 @@
 // //parser:parser.math.inline.test
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
-//   Date: 11/10/2021
+//   Date: 11/18/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -25,9 +25,10 @@
 
 // Test the Parser#parse() function.
 // Ensure that the parser can correctly parse a single simple inline math expression.
-TEST(ParserMathInline, Simple) {
+TEST(ParserMathInline, Simple)
+{
     // Create a Parser object.
-    Parser parser;
+    sparkdown::Parser parser;
     parser.parse("");
 
     std::string input = "$1 + 2 + 3$";
@@ -39,9 +40,10 @@ TEST(ParserMathInline, Simple) {
 
 // Test the Parser#parse() function.
 // Ensure that the parser correctly ignores special symbols in inline math expressions.
-TEST(ParserMathInline, SymbolsInside) {
+TEST(ParserMathInline, SymbolsInside)
+{
     // Create a Parser object.
-    Parser parser;
+    sparkdown::Parser parser;
     parser.parse("");
 
     std::string input = "$1*2*3$";
@@ -53,9 +55,10 @@ TEST(ParserMathInline, SymbolsInside) {
 
 // Test the Parser#parse() function.
 // Ensure that the parser correctly parses special symbols between inline math expressions.
-TEST(ParserMathInline, SymbolsBetween) {
+TEST(ParserMathInline, SymbolsBetween)
+{
     // Create a Parser object.
-    Parser parser;
+    sparkdown::Parser parser;
     parser.parse("");
 
     std::string input = "$1*2*3$ *4* $5*6*7$";
@@ -67,9 +70,10 @@ TEST(ParserMathInline, SymbolsBetween) {
 
 // Test the Parser#parse() function.
 // Ensure that the parser correctly ignores escaped dollar signs in inline math expressions.
-TEST(ParserMathInline, EscapedDollar) {
+TEST(ParserMathInline, EscapedDollar)
+{
     // Create a Parser object.
-    Parser parser;
+    sparkdown::Parser parser;
     parser.parse("");
 
     std::string input = "$\\$1*2*3$";
@@ -81,9 +85,10 @@ TEST(ParserMathInline, EscapedDollar) {
 
 // Test the Parser#parse() function.
 // Ensure that the parser correctly ignores escaped dollar signs outside of inline math expressions.
-TEST(ParserMathInline, EscapedDollarOutside) {
+TEST(ParserMathInline, EscapedDollarOutside)
+{
     // Create a Parser object.
-    Parser parser;
+    sparkdown::Parser parser;
     parser.parse("");
 
     std::string input = "\\$*1*$2*3*4$";

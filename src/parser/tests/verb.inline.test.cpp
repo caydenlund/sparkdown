@@ -1,8 +1,8 @@
 // //parser:parser.verb.inline.test
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
-//   Date: 11/10/2021
+//   Date: 11/18/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -25,9 +25,10 @@
 
 // Test the Parser#parse() function.
 // Ensure that the parser can correctly parse a single simple inline verbatim expression.
-TEST(ParserVerbInline, Simple) {
+TEST(ParserVerbInline, Simple)
+{
     // Create a Parser object.
-    Parser parser;
+    sparkdown::Parser parser;
     parser.parse("");
 
     std::string input = "|1 + 2 + 3|";
@@ -39,9 +40,10 @@ TEST(ParserVerbInline, Simple) {
 
 // Test the Parser#parse() function.
 // Ensure that the parser correctly ignores special symbols in inline verbatim expressions.
-TEST(ParserVerbInline, SymbolsInside) {
+TEST(ParserVerbInline, SymbolsInside)
+{
     // Create a Parser object.
-    Parser parser;
+    sparkdown::Parser parser;
     parser.parse("");
 
     std::string input = "|1*2*3|";
@@ -53,9 +55,10 @@ TEST(ParserVerbInline, SymbolsInside) {
 
 // Test the Parser#parse() function.
 // Ensure that the parser correctly parses special symbols between inline verbatim expressions.
-TEST(ParserVerbInline, SymbolsBetween) {
+TEST(ParserVerbInline, SymbolsBetween)
+{
     // Create a Parser object.
-    Parser parser;
+    sparkdown::Parser parser;
     parser.parse("");
 
     std::string input = "|1*2*3| *4* |5*6*7|";
@@ -67,9 +70,10 @@ TEST(ParserVerbInline, SymbolsBetween) {
 
 // Test the Parser#parse() function.
 // Ensure that the parser correctly ignores escaped pipes outside of inline verbatim expressions.
-TEST(ParserVerbInline, EscapedPipeOutside) {
+TEST(ParserVerbInline, EscapedPipeOutside)
+{
     // Create a Parser object.
-    Parser parser;
+    sparkdown::Parser parser;
     parser.parse("");
 
     std::string input = "\\|*1*|2*3*4|";
