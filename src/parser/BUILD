@@ -90,6 +90,16 @@ cc_test(
 )
 
 cc_test(
+    name = "parser.misc.test",
+    size = "small",
+    srcs = ["tests/misc.test.cpp"],
+    deps = [
+        ":parser",
+        "@googletest//:gtest_main",
+    ],
+)
+
+cc_test(
     name = "parser.verb.block.test",
     size = "small",
     srcs = ["tests/verb.block.test.cpp"],

@@ -1,5 +1,5 @@
 // //parser:parser.footer.test
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
 //   Date: 11/18/2021
@@ -47,7 +47,7 @@ TEST(ParserFooter, EndBulletedList)
              << std::endl
              << "\\end{document}" << std::endl;
 
-    EXPECT_EQ(expected, parser.end());
+    EXPECT_EQ(expected.str(), parser.end());
 }
 
 // Test the Parser#end() function.
@@ -64,5 +64,5 @@ TEST(ParserFooter, EndNestedLists)
              << std::endl
              << "\\end{document}" << std::endl;
 
-    EXPECT_EQ(expected, parser.end());
+    EXPECT_EQ(expected.str(), parser.end());
 }
