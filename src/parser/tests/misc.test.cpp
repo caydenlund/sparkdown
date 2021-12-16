@@ -1,8 +1,8 @@
 // //parser:parser.misc.test
-// v. 0.1.0
+// v. 0.1.1
 //
 // Author: Cayden Lund
-//   Date: 11/18/2021
+//   Date: 12/16/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -71,3 +71,28 @@ TEST(Parser, TerminatingNewLines)
 
 // Test the Parser#parse() function.
 // Ensure that output is identical between the parse() and string operator variants.
+TEST(Parser, StreamOperatorEquivalence)
+{
+    sparkdown::Parser parser;
+    parser.parse("");
+
+    std::stringstream input;
+    input << "Line.";
+
+    std::string expected = parser.parse(input.str());
+
+    std::stringstream actual;
+    input >> parser;
+    actual << parser;
+
+    EXPECT_EQ(expected, actual.str());
+
+    input << "\n";
+    expected = parser.parse(input.str());
+
+    actual.str("");
+    input >> parser;
+    actual << parser;
+
+    EXPECT_EQ(expected, actual.str());
+}
