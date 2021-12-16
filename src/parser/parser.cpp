@@ -77,7 +77,7 @@ namespace sparkdown
     // * return bool - True when we are still parsing the head of the document.
     bool Parser::is_head()
     {
-        return false;
+        return this->in_head;
     }
 
     // Indicate to the parser that the file has finished parsing.
