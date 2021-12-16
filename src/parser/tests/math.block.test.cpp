@@ -106,5 +106,5 @@ TEST(ParserMathBlock, EscapedSymbols)
 
     std::string output = parser.parse(input.str());
 
-    EXPECT_EQ(expected, output);
+    EXPECT_EQ(expected.str(), output);
 }
