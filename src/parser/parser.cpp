@@ -27,6 +27,11 @@
 // The sparkdown namespace contains all the classes and methods of the sparkdown library.
 namespace sparkdown
 {
+
+    // =======================
+    // ||  Public methods:  ||
+    // =======================
+
     // The class constructor.
     Parser::Parser() : latex()
     {
@@ -41,6 +46,51 @@ namespace sparkdown
         std::vector<Token> tokens = lex(input);
         return this->parse(tokens);
     }
+
+    // The input stream operator.
+    //
+    //   Parser parser;
+    //   "# Hello, World!" >> parser;
+    //
+    // * std::istream &in     - The input stream.
+    // * Parser &parser       - The parser.
+    // * return std::istream& - The input stream.
+    std::istream &operator>>(std::istream &is, Parser &parser)
+    {
+    }
+
+    // The output stream operator.
+    //
+    //   Parser parser;
+    //   // ...
+    //   std::cout << parser;
+    //
+    // * std::ostream &out    - The output stream.
+    // * const Parser &parser - The parser.
+    // * return std::ostream& - The output stream.
+    std::ostream &operator<<(std::ostream &os, const Parser &parser)
+    {
+    }
+
+    // Indicates whether we are still parsing the head of the document.
+    //
+    // * return bool - True when we are still parsing the head of the document.
+    bool Parser::is_head()
+    {
+        return false;
+    }
+
+    // Indicate to the parser that the file has finished parsing.
+    //
+    // * return std::string - The necessary \end{document} to be added to the foot of the output.
+    std::string Parser::end()
+    {
+        return "";
+    }
+
+    // ========================
+    // ||  Private methods:  ||
+    // ========================
 
     // Parse the given vector of tokens.
     //
@@ -125,31 +175,6 @@ namespace sparkdown
             }
         }
         return this->parse(tokens);
-    }
-
-    // The input stream operator.
-    //
-    //   Parser parser;
-    //   "# Hello, World!" >> parser;
-    //
-    // * std::istream &in     - The input stream.
-    // * Parser &parser       - The parser.
-    // * return std::istream& - The input stream.
-    std::istream &operator>>(std::istream &is, Parser &parser)
-    {
-    }
-
-    // The output stream operator.
-    //
-    //   Parser parser;
-    //   // ...
-    //   std::cout << parser;
-    //
-    // * std::ostream &out    - The output stream.
-    // * const Parser &parser - The parser.
-    // * return std::ostream& - The output stream.
-    std::ostream &operator<<(std::ostream &os, const Parser &parser)
-    {
     }
 
     // Consolidate the given vector of tokens.
