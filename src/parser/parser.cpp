@@ -1,8 +1,8 @@
-// src/parser/parser.cpp
-// v. 0.6.1
+// //parser
+// v. 0.7.0
 //
 // Author: Cayden Lund
-//   Date: 10/17/2021
+//   Date: 12/16/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -12,399 +12,225 @@
 // Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
 // License: MIT <https://opensource.org/licenses/MIT>
 
-// ==============
-// | Todo list: |
-// ==============
-// - Correct \item indentation.
-// - Correct ``` indentation.
-// - Ignore symbols in math mode.
-// - Ignore symbols in verbatim mode.
-// - Ignore symbols inside of headlines.
-// - Use stringstream for parsing.
-
-#include <iostream>
-#include <fstream>
+// System imports.
 #include <string>
-#include <regex>
+#include <vector>
+#include <sstream>
+#include <iostream>
 
-// The header file for the Parser class.
-#include "parser.hpp"
-
-// We use the State class to keep track of the current state of the parser.
-#include "state.hpp"
-
-// We use the Lexer class to lex a line into tokens.
+// We use the lex() method to lex the input string.
 #include "lexer/lexer.hpp"
+
+// The header for the Parser class.
+#include "parser.hpp"
 
 // The sparkdown namespace contains all the classes and methods of the sparkdown library.
 namespace sparkdown
 {
-    // Parser.
-    // This class is used to parse a set of strings formatted as sparkdown into a set of strings of LaTeX.
-    // The sparkdown text is parsed line by line, and as we read each line, we update the state accordingly.
-    // Upon reading the line, we use the state to determine what to do with the line.
-    // We then return a string of LaTeX to the caller.
+    // The class constructor.
+    Parser::Parser() : latex()
+    {
+    }
+
+    // Parse the given string.
     //
-    // The sparkdown rules are as follows:
+    // * const std::string &input - The string to parse.
+    // * return std::string       - The parsed string.
+    std::string Parser::parse(const std::string &input)
+    {
+        std::vector<Token> tokens = lex(input);
+        return this->parse(tokens);
+    }
+
+    // Parse the given vector of tokens.
     //
-    //   1.  #  A headline.
-    //       ## A sub-headline.
-    //   2.  *  A bullet point.
-    //       -  A bullet point.
-    //   3.  1. Item of a numbered list.
-    //   4.  **Inline bold text.**
-    //   5.  *Inline italic text.*
-    //   6.  ```
-    //       Block of verbatim text.
-    //       ```
-    //   7.  |Inline verbatim text.|
-    //   8.  -> Rightarrow.
-    //       => Rightarrow.
-
-    // The constructor for the Parser class.
-    // It accepts no arguments and has some default values.
-    // Overrides of these defaults are specified
-    // inside the sparkdown text itself.
-    Parser::Parser()
+    // * std::vector<Token> &tokens - The vector of tokens to parse.
+    // * return std::string         - The parsed string.
+    std::string Parser::parse(std::vector<Token> &tokens)
     {
-        // Set the default Parser state.
-        state = new State();
+        // First, consolidate the tokens.
+        Parser::consolidate(tokens);
 
-        // Instantiate a new Lexer.
-        this->lexer = new sparkdown::Lexer(state);
+        size_t size = tokens.size();
 
-        // Assume at first that we are reading overrides for the head of the document.
-        head = true;
-        // Default values.
-        title = "Notes";
-        author = "Cayden Lund";
-        date = "";
+        // Our base cases: the size of the vector is 0 or 1.
+        if (size == 0)
+            return "";
+        if (size == 1 && tokens[0].get_type() == token_type::TERMINAL)
+            return tokens[0].get_value();
 
-        // A line starting with '=' signals that we are no longer reading overrides
-        // in the head of the document.
-        headline_regex = std::regex("^=+");
-
-        // We use $title, $author, and $date commands to set the title, author, and date of the document.
-        title_regex = std::regex("^\\$title: ");
-        author_regex = std::regex("^\\$author: ");
-        date_regex = std::regex("^\\$date: ");
-
-        // 1. # Headline.
-        section_regex = std::regex("^(\\#+) ");
-
-        // (Handle indentation.)
-        indentation_regex = std::regex("^(\\s*)(\\S+?)");
-
-        // 4. **Bold text.**
-        bold_regex = std::regex("\\*\\*(.*?)\\*\\*");
-
-        // 5. *Italic text.*
-        italic_regex = std::regex("\\*(.*?)\\*");
-
-        // 6. ```
-        //    Block of verbatim text.
-        //    ```
-        verbatim_regex = std::regex("```");
-
-        // 7. |Inline verbatim text.|
-        verb_regex = std::regex("([\\|])(.*?)\\1");
-
-        // 8. -> Rightarrow.
-        arrow_regex = std::regex("[\\-=]+>");
-
-        // We use the section symbol internally to indicate
-        // sections of the string as we parse it.
-        section_char_regex = std::regex("§");
-    }
-
-    // The destructor for the Parser class.
-    Parser::~Parser()
-    {
-        delete lexer;
-    }
-
-    // Returns the LaTeX headers for a new file,
-    // using our `title`, `author`, and `date` instance variables.
-    std::string Parser::start()
-    {
-        std::string header = "";
-
-        // \title{Notes}
-        header += "\\title{" + title + "}\n";
-
-        // \author{Cayden Lund}
-        header += "\\author{" + author + "}\n";
-
-        // \date{}
-        header += "\\date{" + date + "}\n\n";
-
-        // \documentclass[12pt, letterpaper]{article}
-        header += "\\documentclass[12pt, letterpaper]{article}\n\n\n";
-
-        // \usepackage{graphicx}
-        // This allows us to include images.
-        header += "\\usepackage{graphicx}\n";
-        // \graphicspath{{.}}
-        header += "\\graphicspath{{.}}\n\n";
-
-        // \usepackage[utf8]{inputenc}
-        // This allows us to use UTF-8 characters.
-        header += "\\usepackage[utf8]{inputenc}\n\n";
-
-        // \usepackage{tabularx}
-        // For better tables.
-        header += "\\usepackage{tabularx}\n\n";
-
-        // \usepackage{amsmath}
-        // For math mode.
-        header += "\\usepackage{amsmath}\n\n\n";
-
-        // \begin{document}
-        header += "\\begin{document}\n\n\n";
-
-        // \maketitle
-        header += "\\maketitle\n\n";
-
-        return header;
-    }
-
-    // Returns the footers for a new file.
-    std::string Parser::end()
-    {
-        std::string footer = "";
-
-        // Tell the state to add the closing tags
-        // for any unclosed lists (i.e., bullet points and numbered lists).
-        state.begin_itemize(0);
-        footer += state.get_product();
-
-        // \end{document}
-        footer += "\n\n\\end{document}";
-
-        return footer;
-    }
-
-    // Returns true while we are currently parsing the head of the file.
-    bool Parser::is_head()
-    {
-        return head;
-    }
-
-    // Parse headlines.
-    void Parser::parse_section()
-    {
-        // Get the line from the state.
-        std::string line = state.get_line();
-
-        // If the line is in the format `#[#...] ...`,
-        // then we are in a headline.
-        std::smatch match;
-        if (std::regex_search(line, match, section_regex))
+        if (this->in_head)
         {
-            std::string section = "\\";
-
-            // Calculate whether we are in a sub-headline (or a sub-sub-headline, etc.) ...
-            int level = match.str(1).length();
-            // ... and add the appropriate number of 'sub's to the LaTeX command.
-            for (int i = 0; i < level - 1; i++)
+            // Parse header commands.
+            if (size > 3 &&
+                tokens[0].get_type() == token_type::DOLLAR &&
+                tokens[1].get_type() == token_type::TERMINAL &&
+                tokens[2].get_type() == COLON)
             {
-                section += "sub";
-            }
+                // Replace the first three tokens with a new header token.
+                tokens[0] = Token(token_type::HEADER, tokens[1].get_value());
+                tokens.erase(tokens.begin() + 1, tokens.begin() + 3);
 
-            // Replace `line` with the LaTeX command for the headline:
-            // \[sub]section*{...}
-            section += "section*{";
-            line = std::regex_replace(line, section_regex, section);
-            line += "}";
-        }
-
-        state.set_line(line);
-    }
-
-    // Parse indentation.
-    void Parser::parse_indentation()
-    {
-        // Get the line from the state.
-        std::string line = state.get_line();
-
-        std::smatch match;
-        if (std::regex_search(line, match, indentation_regex) && !itemize->is_bullet_point(line) && !enumerate->is_enumerate(line))
-        {
-            int indentation = match.str(1).length() / 2;
-            state.set_indentation(indentation);
-            std::regex_replace(line, indentation_regex, "$2");
-        }
-
-        state.set_line(line);
-    }
-
-    // Replace all bold text with LaTeX code.
-    void Parser::parse_bold()
-    {
-        // Get the line from the state.
-        std::string line = state.get_line();
-
-        // Replace all bold text with LaTeX code:
-        //
-        // ``As long as there is still a part of the string
-        //   that matches the pattern **...**, replace it
-        //   with the LaTeX command for bold text.''
-        //
-        while (std::regex_search(line, bold_regex))
-        {
-            // \textbf{...}
-            line = std::regex_replace(line, bold_regex, "\\textbf{$1}");
-        }
-
-        state.set_line(line);
-    }
-
-    // Replace all italic text with LaTeX code.
-    void Parser::parse_italics()
-    {
-        // Get the line from the state.
-        std::string line = state.get_line();
-
-        // Replace all italic text with LaTeX code:
-        //
-        // ``As long as there is still a part of the string
-        //   that matches the pattern *...*, replace it
-        //   with the LaTeX command for italic text.''
-        //
-        while (std::regex_search(line, italic_regex))
-        {
-            // \textit{...}
-            line = std::regex_replace(line, italic_regex, "\\textit{$1}");
-        }
-
-        state.set_line(line);
-    }
-
-    // Replace all inline verbatim text with LaTeX code.
-    void Parser::parse_verb()
-    {
-        // Get the line from the state.
-        std::string line = state.get_line();
-
-        // Replace all inline verbatim text with LaTeX code:
-        //
-        // ``As long as there is still a part of the string
-        //   that matches the pattern |...|, replace it
-        //   with the LaTeX command for inline verbatim text.''
-        //
-        while (std::regex_search(line, verb_regex))
-        {
-            // \verb§...§
-            // Note: The '|' is escaped with '§'.
-            //       This is because the '|' is used in the regex.
-            //       We do this in an effort to prevent an infinite loop.
-            line = std::regex_replace(line, verb_regex, "\\verb§$2§");
-        }
-
-        // And now that we're out of the loop, we can replace the '§' with '|':
-        // \verb|...|
-        state.set_line(std::regex_replace(line, section_char_regex, "|"));
-    }
-
-    // Replace all blocks of verbatim text with LaTeX code.
-    void Parser::parse_verbatim()
-    {
-        // Get the line from the state.
-        std::string line = state.get_line();
-        while (std::regex_search(line, verbatim_regex))
-        {
-            // We tell the state to begin a verbatim block, or to end one if it is already in one.
-            // \begin{verbatim}
-            // \end{verbatim}
-            line = std::regex_replace(line, verbatim_regex, state.toggle_verbatim());
-        }
-        state.set_line(line);
-    }
-
-    // Parse for arrows.
-    void Parser::parse_arrow()
-    {
-        // Get the line from the state.
-        std::string line = state.get_line();
-
-        // \rightarrow is only valid in the context of a formula.
-        // That means that we need to determine whether we are in a formula,
-        // and if we aren't, we need to start one.
-        std::smatch match;
-        int i = 0;
-        bool in_math_mode = false;
-        while (std::regex_search(line, match, arrow_regex))
-        {
-            int position = match.position();
-            // We iterate through the line until the index of the arrow,
-            // toggling the math mode flag whenever we encounter a '$'.
-            for (; i < position; i++)
-            {
-                if (line[i] == '$')
+                // If the second token is now a space, erase it.
+                if (tokens[1].get_type() == token_type::SPACE)
                 {
-                    in_math_mode = !in_math_mode;
+                    tokens.erase(tokens.begin() + 1);
                 }
             }
-            if (in_math_mode)
+            // A nonempty line that doesn't follow the above format signals the end of the header.
+            else if (size > 0)
             {
-                // We don't need to start a new equation if we're already in one;
-                // we just need to add the arrow.
-                // \rightarrow
-                line = std::regex_replace(line, arrow_regex, "\\rightarrow");
-            }
-            else
-            {
-                // We do need to start a new equation if we're not already in one.
-                // $\rightarrow$
-                line = std::regex_replace(line, arrow_regex, "$\\rightarrow$");
+                this->in_head = false;
+                // A line of three or more equals characters or hyphens
+                // can optionally serve as a divider between the header and the content.
+                if (
+                    (tokens[0].get_type() == token_type::EQUALS || tokens[0].get_type() == token_type::DASH) &&
+                    tokens[0].get_value().size() >= 3)
+                {
+                    return "";
+                }
             }
         }
 
-        state.set_line(line);
+        size_t index = 0;
+        while (index++ < size)
+        {
+            if (index + 1 < size)
+            {
+                // If this token is an escape token, we may need to merge it with the next token.
+                if (tokens[index].get_type() == token_type::ESCAPE)
+                {
+                    switch (tokens[index + 1].get_type())
+                    {
+                    // Tokens that we escape:
+                    case token_type::DOLLAR:
+                    case token_type::STAR:
+                    case token_type::DASH:
+                    case token_type::EQUALS:
+                    case token_type::LT:
+                    case token_type::GT:
+                    case token_type::PIPE:
+                    case token_type::TICK:
+                        this->escape_next(tokens, index);
+                        break;
+                    // Tokens that we don't escape:
+                    default:
+                        tokens[index] = Token(token_type::TERMINAL, '\\');
+                        break;
+                    }
+                    size = tokens.size();
+                    // Since this token is now terminal, we go back to the top of the loop.
+                    continue;
+                }
+            }
+        }
+        return this->parse(tokens);
     }
 
-    // Parse a single line from the head of the file.
+    // The input stream operator.
     //
-    // * std::string line - The line to parse.
-    void Parser::parse_headline(std::string line)
+    //   Parser parser;
+    //   "# Hello, World!" >> parser;
+    //
+    // * std::istream &in     - The input stream.
+    // * Parser &parser       - The parser.
+    // * return std::istream& - The input stream.
+    std::istream &operator>>(std::istream &is, Parser &parser)
     {
-        if (std::regex_search(line, headline_regex))
+    }
+
+    // The output stream operator.
+    //
+    //   Parser parser;
+    //   // ...
+    //   std::cout << parser;
+    //
+    // * std::ostream &out    - The output stream.
+    // * const Parser &parser - The parser.
+    // * return std::ostream& - The output stream.
+    std::ostream &operator<<(std::ostream &os, const Parser &parser)
+    {
+    }
+
+    // Consolidate the given vector of tokens.
+    // Concatenate adjacent corresponding tokens into one.
+    //
+    // * std::vector<Token> &tokens - The vector of tokens.
+    void Parser::consolidate(std::vector<Token> &tokens)
+    {
+        // Iterate through the tokens in the given vector by index.
+        for (size_t index = 0; index + 1 < tokens.size(); index++)
         {
-            head = false;
-            return;
-        }
-        if (std::regex_search(line, title_regex))
-        {
-            title = std::regex_replace(line, title_regex, "");
-        }
-        else if (std::regex_search(line, author_regex))
-        {
-            author = std::regex_replace(line, author_regex, "");
-        }
-        else if (std::regex_search(line, date_regex))
-        {
-            date = std::regex_replace(line, date_regex, "");
+            // For the following types of tokens, if this token and the next token are both
+            // of this type of token, merge them together.
+            Parser::merge_next(tokens, index, token_type::TERMINAL);
+            Parser::merge_next(tokens, index, token_type::SPACE);
+            Parser::merge_next(tokens, index, token_type::EQUALS);
+            Parser::merge_next(tokens, index, token_type::TICK);
+            Parser::merge_next(tokens, index, token_type::NUMBER);
         }
     }
 
-    // Parse a single line from the input file.
+    // In a given vector of tokens, check whether the token at the given index
+    // and the following token are both of the given type.
+    // If they are, concatenate them into one token.
     //
-    // * std::string line - The line to parse.
-    std::string Parser::parse_line(std::string line)
+    // * std::vector<Token> &tokens - The vector of tokens.
+    // * const size_t &index        - The index of the token to merge.
+    // * const token_type &type     - The type of the token to check.
+    void Parser::merge_next(std::vector<Token> &tokens, const size_t &index, const token_type &type)
     {
-        state.set_line(line);
-        state.set_line(itemize->lex(state.get_line()));
-        state.set_line(enumerate->lex(state.get_line()));
-        parse_verbatim();
-        if (!state.is_verbatim())
+        if (index + 1 < tokens.size())
         {
-            parse_section();
-            parse_indentation();
-            parse_bold();
-            parse_italics();
-            parse_verb();
-            parse_arrow();
+            if (tokens[index].get_type() == type && tokens[index + 1].get_type() == type)
+            {
+                tokens[index].merge(tokens[index + 1]);
+                tokens.erase(tokens.begin() + index);
+            }
         }
-        return state.get_product();
+    }
+
+    // In a given vector of tokens, delete the token at the given index
+    // and escape the following token.
+    //
+    // * std::vector<Token> &tokens - The vector of tokens.
+    // * size_t index               - The index of the token to delete.
+    void Parser::escape_next(std::vector<Token> &tokens, size_t index)
+    {
+        if (index + 1 < tokens.size() && tokens[index].get_type() == token_type::ESCAPE)
+        {
+            tokens.erase(tokens.begin() + index);
+            char escaped;
+            switch (tokens[index].get_type())
+            {
+            case token_type::DOLLAR:
+                escaped = '$';
+                break;
+            case token_type::STAR:
+                escaped = '*';
+                break;
+            case token_type::DASH:
+                escaped = '-';
+                break;
+            case token_type::EQUALS:
+                escaped = '=';
+                break;
+            case token_type::LT:
+                escaped = '<';
+                break;
+            case token_type::GT:
+                escaped = '>';
+                break;
+            case token_type::PIPE:
+                escaped = '|';
+                break;
+            case token_type::TICK:
+                escaped = '`';
+                break;
+            default:
+                throw std::runtime_error("Trying to escape a token that cannot be escaped!");
+            }
+            tokens[index] = Token(token_type::TERMINAL, escaped);
+        }
     }
 }
