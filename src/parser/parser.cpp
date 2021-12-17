@@ -33,8 +33,9 @@ namespace sparkdown
     // =======================
 
     // The class constructor.
-    Parser::Parser() : latex()
+    Parser::Parser() : latex(), packages()
     {
+        packages.insert("amsmath");
     }
 
     // Parse the given string.
@@ -175,6 +176,31 @@ namespace sparkdown
             }
         }
         return this->parse(tokens);
+    }
+
+    // Set a property.
+    // Used by header commands.
+    //
+    // * const std::string &property - The property to set.
+    // * const std::string &value    - The new value of the property.
+    void Parser::set_property(const std::string &property, const std::string &value)
+    {
+        if (property == "author")
+        {
+            this->author = value;
+        }
+        else if (property == "title")
+        {
+            this->title = value;
+        }
+        else if (property == "date")
+        {
+            this->date = value;
+        }
+        else if (property == "usepackage" || property == "usePackage")
+        {
+            this->packages.insert(value);
+        }
     }
 
     // Consolidate the given vector of tokens.

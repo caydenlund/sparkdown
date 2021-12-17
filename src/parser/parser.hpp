@@ -19,6 +19,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <set>
 
 // We use the Token class to represent a single token.
 #include "token/token.hpp"
@@ -93,6 +94,13 @@ namespace sparkdown
         // * return std::string         - The parsed string.
         std::string parse(std::vector<Token> &tokens);
 
+        // Set a property.
+        // Used by header commands.
+        //
+        // * const std::string &property - The property to set.
+        // * const std::string &value    - The new value of the property.
+        void set_property(const std::string &property, const std::string &value);
+
         // Consolidate the given vector of tokens.
         // Concatenate adjacent corresponding tokens into one.
         //
@@ -132,6 +140,18 @@ namespace sparkdown
         // Whether we are currently parsing verbatim text.
         bool in_block_verbatim;
         bool in_inline_verbatim;
+
+        // The author of the document.
+        std::string author;
+
+        // The title of the document.
+        std::string title;
+
+        // The date of the document.
+        std::string date;
+
+        // The packages used by the document.
+        std::set<std::string> packages;
     };
 }
 
