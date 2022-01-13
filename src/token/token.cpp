@@ -1,8 +1,6 @@
 // //token
-// v. 0.4.1
 //
 // Author: Cayden Lund
-//   Date: 10/30/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -21,22 +19,23 @@
 // The header for the Token class.
 #include "token.hpp"
 
-// The sparkdown namespace contains all the classes and methods of the sparkdown library.
 namespace sparkdown
 {
-    // The one-argument constructor saves the type of the token.
+    // constructor
+    //    The one-argument constructor saves the type of the token.
     //
-    // * const token_type &type - The type of the token.
-    Token::Token(const token_type &type) : type(type), value()
-    {
-    }
+    // Parameters:
+    //    const token_type &type - The type of the token.
+    Token::Token(const token_type &type) : type(type), value() {}
 
-    // The two-argument constructor saves the type and value of the token.
+    // constructor
+    //    The two-argument constructor saves the type and value of the token.
     //
-    // * const token_type &type        - The type of the token.
-    //
-    // * const std::string_view &value - The value of the token.
-    // * const char &value             - The value of the token.
+    // Parameters:
+    //    const token_type &type        - The type of the token.
+    //    const std::string_view &value - The value of the token.
+    //       OR
+    //    const char &value             - The value of the token.
     Token::Token(const token_type &type, const std::string &value) : type(type), value()
     {
         this->value << value;
@@ -46,69 +45,91 @@ namespace sparkdown
         this->value << value;
     }
 
-    // The copy constructor saves the type and value of the token.
+    // constructor
+    //    The copy constructor saves the type and value of the token.
     //
-    // * const Token &other - The token to copy.
+    // Parameters:
+    //    const Token &other - The token to copy.
     Token::Token(const Token &other) : type(other.type), value()
     {
         this->value << other.value.str();
     }
 
-    // The merge method merges two tokens together.
+    // merge
+    //    Merges two tokens together.
     //
-    // * const Token &other - The token to merge with.
+    // Parameters:
+    //    const Token &other - The token to merge with.
     void Token::merge(const Token &other)
     {
         this->value << other.value.str();
     }
 
-    // The get_type method returns the type of the token.
+    // get_type
+    //    Returns the type of the token.
     //
-    // * return token_type - The type of the token.
+    // Returns:
+    //    token_type - The type of the token.
     token_type Token::get_type() const
     {
         return this->type;
     }
 
-    // The get_value method returns the value of the token.
+    // get_value
+    //    Returns the string value of the token.
     //
-    // * return std::string - The value of the token.
+    // Returns:
+    //    std::string - The value of the token.
     std::string Token::get_value() const
     {
         return this->value.str();
     }
 
-    // Override the = operator to allow for assignment of a token.
+    // = operator
+    //    Allow for assignment of tokens.
     //
-    // * const Token &other - The token to assign.
+    // Parameters:
+    //    const Token &other - The token to assign.
     void Token::operator=(const Token &other)
     {
         this->type = other.type;
         this->value << other.value.str();
     }
 
-    // Override the == operator to compare two tokens.
+    // == operator
+    //    Compare two tokens for equality.
     //
-    // * Token other - The token to compare to.
-    // * return bool  - Whether the two tokens are equal.
+    // Parameters:
+    //    const Token &other - The token with which to compare.
+    //
+    // Returns:
+    //    bool - True when the tokens are equal.
     bool Token::operator==(const Token &other) const
     {
         return this->type == other.type && this->value.str() == other.value.str();
     }
 
-    // Override the != operator to compare two tokens.
+    // != operator
+    //    Compare two tokens for inequality.
     //
-    // * Token other - The token to compare to.
-    // * return bool  - Whether the two tokens are not equal.
+    // Parameters:
+    //    const Token &other - The token with which to compare.
+    //
+    // Returns:
+    //    bool - True when the tokens are not equal.
     bool Token::operator!=(const Token &other) const
     {
         return !(*this == other);
     }
 
-    // The get_token_type method returns the string representation of the token type.
+    // get_token_type
+    //    Returns the string representation of the token type.
     //
-    // * const token_type &type    - The type of the token.
-    // * return std::string                              - The string representation of the token type.
+    // Parameters:
+    //    const token_type &type - The type of the token.
+    //
+    // Returns:
+    //    std::string - The string representation of the token type.
     std::string Token::get_token_type(const token_type &type)
     {
         switch (type)
@@ -138,11 +159,16 @@ namespace sparkdown
         }
     }
 
-    // The tokens_equal method returns whether two vectors of tokens are equal.
+    // tokens_equal
+    //    Returns true when two vectors of tokens are equal.
+    //    Used heavily in unit tests.
     //
-    // * const std::vector<Token> &tokens1 - The first vector of tokens.
-    // * const std::vector<Token> &tokens2 - The second vector of tokens.
-    // * return bool                       - Whether the two vectors of tokens are equal.
+    // Parameters:
+    //    const std::vector<Token> &tokens1 - The first vector of tokens.
+    //    const std::vector<Token> &tokens2 - The second vector of tokens.
+    //
+    // Returns:
+    //    bool - True when the two vectors of tokens are equal.
     bool Token::tokens_equal(const std::vector<Token> &tokens1, const std::vector<Token> &tokens2)
     {
         if (tokens1.size() != tokens2.size())
@@ -161,10 +187,14 @@ namespace sparkdown
         return true;
     }
 
-    // The print_tokens method returns the string representation of a vector of tokens.
+    // print_tokens
+    //    Returns a string representation of a vector of tokens.
     //
-    // * const std::vector<Token> & tokens - The vector of tokens to print.
-    // * return std::string                - The string representation of the vector of tokens.
+    // Parameters:
+    //    const std::vector<Token> &tokens - The vector of tokens.
+    //
+    // Returns:
+    //    std::string - The string representation of the vector of tokens.
     std::string Token::print_tokens(const std::vector<Token> &tokens)
     {
         std::stringstream ss;

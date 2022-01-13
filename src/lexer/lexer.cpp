@@ -21,70 +21,72 @@
 // The header for the lex() method.
 #include "lexer.hpp"
 
-// merge_next
-//    If the two given tokens are both of the same type and that type is in the following list,
-//    then merge the two tokens into one.
-//
-//    Mergeable types (sparkdown::token_type):
-//       * TERMINAL
-//       * SPACE
-//       * EQUALS
-//       * TICK
-//       * NUMBER
-//
-// Parameters:
-//    sparkdown::Token &new_token        - The token to be merged with the next token.
-//    const sparkdown::Token &next_token - The next token to be merged with the new token.
-//
-// Returns:
-//    bool - True when the two tokens are merged.
-bool merge_next(sparkdown::Token &new_token, const sparkdown::Token &next_token)
-{
-    // If the two tokens are both of the same type and that type is in the following list,
-    // then merge the two tokens into one.
-    if (new_token.get_type() == next_token.get_type() &&
-        (new_token.get_type() == sparkdown::token_type::TERMINAL ||
-         new_token.get_type() == sparkdown::token_type::SPACE ||
-         new_token.get_type() == sparkdown::token_type::EQUALS ||
-         new_token.get_type() == sparkdown::token_type::TICK ||
-         new_token.get_type() == sparkdown::token_type::NUMBER))
-    {
-        // Merge the two tokens into one.
-        new_token.merge(next_token);
-        return true;
-    }
-    return false;
-}
-
-// consolidate
-//    Consolidates a vector of tokens into fewer, parsable tokens.
-//
-// Parameters:
-//    const std::vector<sparkdown::Token> &tokens: The vector of tokens to consolidate.
-//
-// Returns:
-//    std::vector<sparkdown::Token>: The consolidated vector of tokens.
-std::vector<sparkdown::Token> consolidate(const std::vector<sparkdown::Token> &tokens)
-{
-    std::vector<sparkdown::Token> consolidated_tokens;
-    size_t size = tokens.size();
-    for (size_t i = 0; i < size; i++)
-    {
-        if (consolidated_tokens.size() == 0 || !merge_next(consolidated_tokens.back(), tokens[i]))
-        {
-            consolidated_tokens.push_back(tokens[i]);
-        }
-    }
-    return consolidated_tokens;
-}
-
-// The sparkdown namespace contains all the classes and methods of the sparkdown library.
 namespace sparkdown
 {
-    // The lex() method is used to lex a line for parsing.
+    // merge_next
+    //    If the two given tokens are both of the same type and that type is in the following list,
+    //    then merge the two tokens into one.
     //
-    // * const std::string &line  - The line to lex.
-    // * return std::vector<Token> - A vector of tokens.
+    //    Mergeable types (token_type):
+    //       * TERMINAL
+    //       * SPACE
+    //       * EQUALS
+    //       * TICK
+    //       * NUMBER
+    //
+    // Parameters:
+    //    Token &new_token        - The token to be merged with the next token.
+    //    const Token &next_token - The next token to be merged with the new token.
+    //
+    // Returns:
+    //    bool - True when the two tokens are merged.
+    bool merge_next(Token &new_token, const Token &next_token)
+    {
+        // If the two tokens are both of the same type and that type is in the following list,
+        // then merge the two tokens into one.
+        if (new_token.get_type() == next_token.get_type() &&
+            (new_token.get_type() == token_type::TERMINAL ||
+             new_token.get_type() == token_type::SPACE ||
+             new_token.get_type() == token_type::EQUALS ||
+             new_token.get_type() == token_type::TICK ||
+             new_token.get_type() == token_type::NUMBER))
+        {
+            // Merge the two tokens into one.
+            new_token.merge(next_token);
+            return true;
+        }
+        return false;
+    }
+
+    // consolidate
+    //    Consolidates a vector of tokens into fewer, parsable tokens.
+    //
+    // Parameters:
+    //    const std::vector<Token> &tokens - The vector of tokens to consolidate.
+    //
+    // Returns:
+    //    std::vector<Token> - The consolidated vector of tokens.
+    std::vector<Token> consolidate(const std::vector<Token> &tokens)
+    {
+        std::vector<Token> consolidated_tokens;
+        size_t size = tokens.size();
+        for (size_t i = 0; i < size; i++)
+        {
+            // If the tokens can't be merged, push it to the back.
+            if (consolidated_tokens.size() == 0 || !merge_next(consolidated_tokens.back(), tokens[i]))
+                consolidated_tokens.push_back(tokens[i]);
+        }
+        return consolidated_tokens;
+    }
+
+    // lex
+    //    Used to lex a line for parsing.
+    //
+    // Parameters:
+    //    const std::string &line  - The line to lex.
+    //
+    // Returns:
+    //    std::vector<Token> - A vector of tokens.
     std::vector<Token> lex(const std::string &line)
     {
         // The vector of tokens to return.

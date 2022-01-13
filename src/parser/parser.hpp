@@ -15,113 +15,121 @@
 
 // System imports.
 #include <string>
+#include <vector>
+#include <set>
 #include <sstream>
 #include <iostream>
-#include <set>
 
 // We use the Token class to represent a single token.
 #include "token/token.hpp"
 
-// The sparkdown namespace contains all the classes and methods of the sparkdown library.
 namespace sparkdown
 {
-    // The Parser class is the class used to parse a string of sparkdown
-    // into a string of LaTeX.
+    // Parser
+    //    Used to parse a string of sparkdown into a string of LaTeX.
     //
-    // There are two ways to use the Parser class.
-    //
-    //   1. Use the parse() method:
-    //
-    //        Parser parser;
-    //        std::string latex = parser.parse("# Hello, World!");
-    //
-    //   2. Use the << operator:
-    //
-    //        Parser parser;
-    //        std::stringstream ss;
-    //        "# Hello, World!" >> parser;
-    //        ss << parser;
-    //        std::string latex = ss.str();
+    //    There are two ways to use the Parser class:
+    //       1. Use the parse() method:
+    //             Parser parser;
+    //             std::string latex = parser.parse("# Hello, World!") + parser.end();
+    //       2. Use the stream operators:
+    //             Parser parser;
+    //             std::stringstream ss;
+    //             "# Hello, World!" >> parser;
+    //             ss << parser << parser.end();
+    //             std::string latex = ss.str();
     class Parser
     {
     public:
-        // The class constructor.
+        // constructor
+        //    Takes no arguments.
         Parser();
 
-        // Parse the given string.
+        // parse
+        //    Takes a string of sparkdown and returns a string of LaTeX.
         //
-        // * const std::string &input - The string to parse.
-        // * return std::string       - The parsed string.
+        // Arguments:
+        //    const std::string &line - The string of sparkdown to parse.
+        //
+        // Returns:
+        //    std::string - The string of LaTeX.
         std::string parse(const std::string &input);
 
-        // The input stream operator.
+        // operator >>
+        //    The stream operator for parsing.
         //
-        //   Parser parser;
-        //   "# Hello, World!" >> parser;
+        // Example:
+        //    Parser parser;
+        //    "# Hello, World!" >> parser;
         //
-        // * std::istream &in     - The input stream.
-        // * Parser &parser       - The parser.
-        // * return std::istream& - The input stream.
+        // Parameters:
+        //    std::istream &is - The input stream.
+        //    Parser &parser   - The parser in action.
+        //
+        // Returns:
+        //    std::istream & - The input stream.
         friend std::istream &operator>>(std::istream &is, Parser &parser);
 
-        // The output stream operator.
+        // operator <<
+        //    The stream operator for output.
         //
-        //   Parser parser;
-        //   // ...
-        //   std::cout << parser;
+        // Example:
+        //    Parser parser;
+        //    // ...
+        //    std::cout << parser << parser.end();
         //
-        // * std::ostream &out    - The output stream.
-        // * const Parser &parser - The parser.
-        // * return std::ostream& - The output stream.
+        // Parameters:
+        //    std::ostream &os     - The output stream.
+        //    const Parser &parser - The parser in action.
+        //
+        // Returns:
+        //    std::ostream & - The output stream.
         friend std::ostream &operator<<(std::ostream &os, const Parser &parser);
 
-        // Indicates whether we are still parsing the head of the document.
+        // is_head
+        //    Indicates whether or not we are still parsing the head of the document.
         //
-        // * return bool - True when we are still parsing the head of the document.
+        // Returns:
+        //    bool - True when we are still parsing the head of the document.
         bool is_head();
 
-        // Indicate to the parser that the file has finished parsing.
+        // end
+        //    Indicates to the parser that the file has finished being read.
         //
-        // * return std::string - The necessary \end{document} to be added to the foot of the output.
+        // Returns:
+        //    std::string - The ending LaTeX (including the `\end{document}`).
         std::string end();
 
     private:
-        // Parse the given vector of tokens.
+        // parse
+        //    Parses the given vector of tokens.
         //
-        // * std::vector<Token> &tokens - The vector of tokens.
-        // * return std::string         - The parsed string.
+        // Arguments:
+        //    std::vector<Token> &tokens - The vector of tokens to parse.
+        //
+        // Returns:
+        //    std::string - The LaTeX.
         std::string parse(std::vector<Token> &tokens);
 
-        // Set a property.
-        // Used by header commands.
+        // set_property
+        //    Sets a property of the document.
         //
-        // * const std::string &property - The property to set.
-        // * const std::string &value    - The new value of the property.
+        // Arguments:
+        //    const std::string &property - The property to set.
+        //    const std::string &value    - The new value of the property.
         void set_property(const std::string &property, const std::string &value);
 
-        // Consolidate the given vector of tokens.
-        // Concatenate adjacent corresponding tokens into one.
+        // escape_next
+        //    In a given vector of tokens, deletes the token at the given index
+        //    and escapes the following token.
         //
-        // * std::vector<Token> &tokens - The vector of tokens.
-        static void consolidate(std::vector<Token> &tokens);
-
-        // In a given vector of tokens, check whether the token at the given index
-        // and the following token are both of the given type.
-        // If they are, concatenate them into one token.
-        //
-        // * std::vector<Token> &tokens - The vector of tokens.
-        // * const size_t &index        - The index of the token to merge.
-        // * const token_type &type     - The type of the token to check.
-        static void merge_next(std::vector<Token> &tokens, const size_t &index, const token_type &type);
-
-        // In a given vector of tokens, delete the token at the given index
-        // and escape the following token.
-        //
-        // * std::vector<Token> &tokens - The vector of tokens.
-        // * size_t index               - The index of the token to delete.
+        // Arguments:
+        //    std::vector<Token> &tokens - The vector of tokens.
+        //    const size_t &index        - The index of the token to escape.
         static void escape_next(std::vector<Token> &tokens, size_t index);
 
         // The object that holds the unflushed LaTeX.
+        // Here, "unflushed" refers to the LaTeX that has not been written to the output stream.
         std::stringstream latex;
 
         // Whether we have yet flushed the beginning and end of the output.

@@ -1,8 +1,6 @@
 // //token
-// v. 0.4.3
 //
 // Author: Cayden Lund
-//   Date: 11/02/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -19,7 +17,6 @@
 #include <string>
 #include <sstream>
 
-// The sparkdown namespace contains all the classes and methods of the sparkdown library.
 namespace sparkdown
 {
     // An enumeration of the possible token types.
@@ -56,85 +53,120 @@ namespace sparkdown
         INLINE_VERB  // An inline verbatim block.
     };
 
-    // Token.
-    // This class is the token class, used to store the type and value of a token.
-    // The Lexer class will create a list of tokens from a string.
-    // These tokens are then used by the Parser class to parse the input line into LaTeX code.
+    // Token
+    //    This class is the token class, used to store the type and value of a token.
+    //    The Lexer class will create a list of tokens from a string.
+    //    These tokens are then used by the Parser class to parse the input line into LaTeX code.
     class Token
     {
     public:
-        // The one-argument constructor saves the type of the token.
+        // constructor
+        //    The one-argument constructor saves the type of the token.
         //
-        // * const token_type &type - The type of the token.
+        // Parameters:
+        //    const token_type &type - The type of the token.
         Token(const token_type &type);
 
-        // The two-argument constructor saves the type and value of the token.
+        // constructor
+        //    The two-argument constructor saves the type and value of the token.
         //
-        // * const token_type &type        - The type of the token.
-        //
-        // * const std::string_view &value - The value of the token.
-        // * const char &value             - The value of the token.
+        // Parameters:
+        //    const token_type &type        - The type of the token.
+        //    const std::string_view &value - The value of the token.
+        //       OR
+        //    const char &value             - The value of the token.
         Token(const token_type &type, const std::string &value);
         Token(const token_type &type, const char &value);
 
-        // The copy constructor saves the type and value of the token.
+        // constructor
+        //    The copy constructor saves the type and value of the token.
         //
-        // * const Token &other - The token to copy.
+        // Parameters:
+        //    const Token &other - The token to copy.
         Token(const Token &other);
 
-        // The merge method merges two tokens together.
+        // merge
+        //    Merges two tokens together.
         //
-        // * const Token &other - The token to merge with.
+        // Parameters:
+        //    const Token &other - The token to merge with.
         void merge(const Token &other);
 
-        // The get_type method returns the type of the token.
+        // get_type
+        //    Returns the type of the token.
         //
-        // * return token_type - The type of the token.
+        // Returns:
+        //    token_type - The type of the token.
         token_type get_type() const;
 
-        // The get_value method returns the string value of the token.
+        // get_value
+        //    Returns the string value of the token.
         //
-        // * return std::string - The value of the token.
+        // Returns:
+        //    std::string - The value of the token.
         std::string get_value() const;
 
-        // Override the = operator to allow for assignment of tokens.
+        // = operator
+        //    Allow for assignment of tokens.
         //
-        // * const Token &other - The token to be assigned.
+        // Parameters:
+        //    const Token &other - The token to assign.
         void operator=(const Token &other);
 
-        // Override the == operator to compare two tokens.
+        // == operator
+        //    Compare two tokens for equality.
         //
-        // * Token other - The token to compare to.
-        // * return bool - Whether the two tokens are equal.
+        // Parameters:
+        //    const Token &other - The token with which to compare.
+        //
+        // Returns:
+        //    bool - True when the tokens are equal.
         bool operator==(const Token &other) const;
 
-        // Override the != operator to compare two tokens.
+        // != operator
+        //    Compare two tokens for inequality.
         //
-        // * Token other - The token to compare to.
-        // * return bool - Whether the two tokens are not equal.
+        // Parameters:
+        //    const Token &other - The token with which to compare.
+        //
+        // Returns:
+        //    bool - True when the tokens are not equal.
         bool operator!=(const Token &other) const;
 
-        // ==========================
-        // | Public static methods. |
-        // ==========================
+        // ===========================
+        // || Public static methods ||
+        // ===========================
 
-        // The get_token_type method returns the string representation of the token type.
+        // get_token_type
+        //    Returns the string representation of the token type.
         //
-        // * const token_type &type    - The type of the token.
-        // * return std::string - The string representation of the token type.
+        // Parameters:
+        //    const token_type &type - The type of the token.
+        //
+        // Returns:
+        //    std::string - The string representation of the token type.
         static std::string get_token_type(const token_type &type);
 
-        // The tokens_equal method returns whether two vectors of tokens are equal.
+        // tokens_equal
+        //    Returns true when two vectors of tokens are equal.
+        //    Used heavily in unit tests.
         //
-        // * const std::vector<Token> &tokens1 - The first vector of tokens.
-        // * const std::vector<Token> &tokens2 - The second vector of tokens.
-        // * return bool                       - Whether the two vectors of tokens are equal.
+        // Parameters:
+        //    const std::vector<Token> &tokens1 - The first vector of tokens.
+        //    const std::vector<Token> &tokens2 - The second vector of tokens.
+        //
+        // Returns:
+        //    bool - True when the two vectors of tokens are equal.
         static bool tokens_equal(const std::vector<Token> &tokens1, const std::vector<Token> &tokens2);
 
-        // The print_tokens method returns the string representation of a vector of tokens.
+        // print_tokens
+        //    Returns a string representation of a vector of tokens.
         //
-        // * const std::vector<Token> &tokens - The vector of tokens to print.
-        // * return std::string               - The string representation of the vector of tokens.
+        // Parameters:
+        //    const std::vector<Token> &tokens - The vector of tokens.
+        //
+        // Returns:
+        //    std::string - The string representation of the vector of tokens.
         static std::string print_tokens(const std::vector<Token> &tokens);
 
     protected:

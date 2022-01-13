@@ -1,8 +1,6 @@
 // //token:token.test
-// v. 0.4.1
 //
 // Author: Cayden Lund
-//   Date: 10/30/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.

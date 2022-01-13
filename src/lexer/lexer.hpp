@@ -24,10 +24,14 @@
 // The sparkdown namespace contains all the classes and methods of the sparkdown library.
 namespace sparkdown
 {
-    // The lex() method is used to lex a line for parsing.
+    // lex
+    //    Used to lex a line for parsing.
     //
-    // * const std::string &line  - The line to lex.
-    // * return std::vector<Token> - A vector of tokens.
+    // Parameters:
+    //    const std::string &line  - The line to lex.
+    //
+    // Returns:
+    //    std::vector<Token> - A vector of tokens.
     std::vector<Token> lex(const std::string &line);
 }
 
