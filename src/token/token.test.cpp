@@ -119,6 +119,14 @@ TEST(Token, MergeTokens)
 
     EXPECT_EQ(sparkdown::token_type::TERMINAL, token_a.get_type());
     EXPECT_EQ("123456", token_a.get_value());
+
+    sparkdown::Token token_c(sparkdown::token_type::SPACE, " ");
+    sparkdown::Token token_d(sparkdown::token_type::SPACE, "\t");
+
+    token_c.merge(token_d);
+
+    EXPECT_EQ(sparkdown::token_type::SPACE, token_c.get_type());
+    EXPECT_EQ(" \t", token_c.get_value());
 }
 
 // Test the Token class's static method get_token_type().
