@@ -1,8 +1,6 @@
 // //lexer:lexer.test
-// v. 0.3.0
 //
 // Author: Cayden Lund
-//   Date: 10/30/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -54,9 +52,7 @@ TEST(Lexer, Terminal)
     std::string input = "abc";
 
     std::vector<Token> expected;
-    expected.push_back(Token(token_type::TERMINAL, 'a'));
-    expected.push_back(Token(token_type::TERMINAL, 'b'));
-    expected.push_back(Token(token_type::TERMINAL, 'c'));
+    expected.push_back(Token(token_type::TERMINAL, "abc"));
 
     std::vector<Token> actual = lex(input);
 
@@ -87,8 +83,7 @@ TEST(Lexer, Spaces)
     std::string input = " \t";
 
     std::vector<Token> expected;
-    expected.push_back(Token(token_type::SPACE, ' '));
-    expected.push_back(Token(token_type::SPACE, '\t'));
+    expected.push_back(Token(token_type::SPACE, " \t"));
 
     std::vector<Token> actual = lex(input);
 

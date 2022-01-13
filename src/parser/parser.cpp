@@ -1,8 +1,6 @@
 // //parser
-// v. 0.7.0
 //
 // Author: Cayden Lund
-//   Date: 12/16/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -99,9 +97,6 @@ namespace sparkdown
     // * return std::string         - The parsed string.
     std::string Parser::parse(std::vector<Token> &tokens)
     {
-        // First, consolidate the tokens.
-        Parser::consolidate(tokens);
-
         size_t size = tokens.size();
 
         // Our base cases: the size of the vector is 0 or 1.
@@ -200,44 +195,6 @@ namespace sparkdown
         else if (property == "usepackage" || property == "usePackage")
         {
             this->packages.insert(value);
-        }
-    }
-
-    // Consolidate the given vector of tokens.
-    // Concatenate adjacent corresponding tokens into one.
-    //
-    // * std::vector<Token> &tokens - The vector of tokens.
-    void Parser::consolidate(std::vector<Token> &tokens)
-    {
-        // Iterate through the tokens in the given vector by index.
-        for (size_t index = 0; index + 1 < tokens.size(); index++)
-        {
-            // For the following types of tokens, if this token and the next token are both
-            // of this type of token, merge them together.
-            Parser::merge_next(tokens, index, token_type::TERMINAL);
-            Parser::merge_next(tokens, index, token_type::SPACE);
-            Parser::merge_next(tokens, index, token_type::EQUALS);
-            Parser::merge_next(tokens, index, token_type::TICK);
-            Parser::merge_next(tokens, index, token_type::NUMBER);
-        }
-    }
-
-    // In a given vector of tokens, check whether the token at the given index
-    // and the following token are both of the given type.
-    // If they are, concatenate them into one token.
-    //
-    // * std::vector<Token> &tokens - The vector of tokens.
-    // * const size_t &index        - The index of the token to merge.
-    // * const token_type &type     - The type of the token to check.
-    void Parser::merge_next(std::vector<Token> &tokens, const size_t &index, const token_type &type)
-    {
-        if (index + 1 < tokens.size())
-        {
-            if (tokens[index].get_type() == type && tokens[index + 1].get_type() == type)
-            {
-                tokens[index].merge(tokens[index + 1]);
-                tokens.erase(tokens.begin() + index);
-            }
         }
     }
 
