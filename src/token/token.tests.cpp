@@ -1,4 +1,4 @@
-// //token:token.test
+// //token:token.tests
 //
 // Author: Cayden Lund
 //

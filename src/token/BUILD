@@ -9,9 +9,9 @@ cc_library(
 )
 
 cc_test(
-    name = "token.test",
+    name = "token.tests",
     size = "small",
-    srcs = ["token.test.cpp"],
+    srcs = ["token.tests.cpp"],
     deps = [
         ":token",
         "@googletest//:gtest_main",
