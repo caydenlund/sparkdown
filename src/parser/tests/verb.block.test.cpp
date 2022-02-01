@@ -1,8 +1,6 @@
 // //parser:parser.verbatim.block.test
-// v. 0.1.1
 //
 // Author: Cayden Lund
-//   Date: 12/16/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.

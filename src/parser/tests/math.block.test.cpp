@@ -1,8 +1,6 @@
 // //parser:parser.math.block.test
-// v. 0.1.0
 //
 // Author: Cayden Lund
-//   Date: 11/10/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.

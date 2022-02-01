@@ -1,8 +1,6 @@
 // //sparkdown:sparkdown.lib
-// v. 0.4.2
 //
 // Author: Cayden Lund
-//   Date: 10/27/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
