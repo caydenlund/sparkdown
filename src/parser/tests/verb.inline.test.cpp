@@ -1,4 +1,4 @@
-// //parser:parser.verb.inline.test
+// //parser/tests:parser.tests.verb.inline
 //
 // Author: Cayden Lund
 //

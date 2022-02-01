@@ -1,4 +1,4 @@
-// //parser:parser.verbatim.block.test
+// //parser/tests:parser.tests.verbatim.block
 //
 // Author: Cayden Lund
 //

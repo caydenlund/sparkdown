@@ -1,4 +1,4 @@
-// //parser:parser.misc.test
+// //parser/tests:parser.tests.misc
 //
 // Author: Cayden Lund
 //

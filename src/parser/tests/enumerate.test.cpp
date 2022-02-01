@@ -1,4 +1,4 @@
-// //parser:parser.enumerate.test
+// //parser/tests:parser.tests.enumerate
 //
 // Author: Cayden Lund
 //
