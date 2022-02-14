@@ -1,8 +1,6 @@
-// //token:token.test
-// v. 0.4.0
+// //token:token.tests
 //
 // Author: Cayden Lund
-//   Date: 10/30/2021
 //
 // This file is part of sparkdown, a new markup/markdown language
 // for quickly writing and formatting notes.
@@ -107,6 +105,26 @@ TEST(Token, OperatorNotEqual)
     sparkdown::Token token_j(sparkdown::token_type::SPACE, "");
 
     EXPECT_TRUE(token_i != token_j);
+}
+
+// Test the Token class's merge method.
+TEST(Token, MergeTokens)
+{
+    sparkdown::Token token_a(sparkdown::token_type::TERMINAL, "123");
+    sparkdown::Token token_b(sparkdown::token_type::TERMINAL, "456");
+
+    token_a.merge(token_b);
+
+    EXPECT_EQ(sparkdown::token_type::TERMINAL, token_a.get_type());
+    EXPECT_EQ("123456", token_a.get_value());
+
+    sparkdown::Token token_c(sparkdown::token_type::SPACE, " ");
+    sparkdown::Token token_d(sparkdown::token_type::SPACE, "\t");
+
+    token_c.merge(token_d);
+
+    EXPECT_EQ(sparkdown::token_type::SPACE, token_c.get_type());
+    EXPECT_EQ(" \t", token_c.get_value());
 }
 
 // Test the Token class's static method get_token_type().

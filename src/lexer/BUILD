@@ -9,9 +9,9 @@ cc_library(
 )
 
 cc_test(
-    name = "lexer.test",
+    name = "lexer.tests",
     size = "small",
-    srcs = ["lexer.test.cpp"],
+    srcs = ["lexer.tests.cpp"],
     deps = [
         ":lexer",
         "@googletest//:gtest_main",
