@@ -15,7 +15,7 @@
  * @copyright 2021-2022 by Cayden Lund <https://github.com/caydenlund>
  */
 
-// TODO: Remove these temporary pragmas once we no longer need them.
+// TODO: Remove temporary pragmas once we no longer need them.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunknown-pragmas"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
