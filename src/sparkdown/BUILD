@@ -3,11 +3,14 @@ cc_library(
     srcs = ["sparkdown.cpp"],
     hdrs = ["sparkdown.hpp"],
     visibility = ["//visibility:public"],
-    deps = ["//parser"],
+    deps = [],
 )
 
 cc_binary(
     name = "sparkdown",
     srcs = ["executable.cpp"],
-    deps = [":sparkdown.lib"],
+    deps = [
+        ":sparkdown.lib",
+        "@cpp_utilities//:argh",
+    ],
 )

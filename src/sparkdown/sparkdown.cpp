@@ -1,105 +1,83 @@
-// //sparkdown:sparkdown.lib
-//
-// Author: Cayden Lund
-//
-// This file is part of sparkdown, a new markup/markdown language
-// for quickly writing and formatting notes.
-//
-// This file contains the implementation of the functions
-// for the sparkdown library.
-//
-// Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
-// License: MIT <https://opensource.org/licenses/MIT>
+/**
+ * @file sparkdown/sparkdown.cpp
+ * @package //sparkdown:sparkdown.lib
+ * @author Cayden Lund <cayden.lund@utah.edu>
+ * @brief `sparkdown` class definition.
+ * @details This project is part of Sparkdown, a new markup language
+ *     for quickly writing and formatting notes.
+ *
+ *     This file implements the `sparkdown` class, which serves as the public
+ *     interface to the Sparkdown library.
+ *
+ *     See the header file for documentation.
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @copyright 2021-2022 by Cayden Lund <https://github.com/caydenlund>
+ */
 
-#include <stdio.h>
-#include <iostream>
-#include <fstream>
-#include <filesystem>
+// TODO: Remove these temporary definitions.
+#define c_green "\e[0;32m"
+#define c_reset "\e[0m"
+#define dbg std::cout << c_green << "[DEBUG]  " << c_reset
 
-#include "parser/parser.hpp"
 #include "sparkdown.hpp"
 
-// The sparkdown namespace contains all the classes and methods of the sparkdown library.
-namespace sparkdown
-{
-    // Print usage information.
-    //
-    // * std::string program_name - The name of the program being executed.
-    void print_usage(std::string program_name)
-    {
-        std::cout << "Usage: " << program_name << " <file> [OPTIONS]" << std::endl;
-        std::cout << "  Options:" << std::endl;
-        std::cout << "    -h, --help: \tPrint this help message." << std::endl;
-        std::cout << "    -v, --version: \tPrint version information." << std::endl;
-        std::cout << "    -o, --output: \tOutput file." << std::endl;
-        std::cout << "    -w, --overwrite: \tOverwrite output file if it exists." << std::endl;
+#include <iostream>
+
+sparkdown::sparkdown(const std::string &input_file,
+                     const std::string &output_file) {
+    if (input_file == "") {
+        // TODO: stdin.
     }
 
-    // Print version information.
-    void print_version()
-    {
-        std::cout << "notes-parser v0.2.0" << std::endl;
-        std::cout << "Cayden Lund <https://github.com/shrimpster00>" << std::endl;
+    if (!std::filesystem::exists(input_file)) {
+        std::cerr << "Error: input file \"" << input_file
+                  << "\" does not exist. Exiting." << std::endl;
+        exit(1);
     }
 
-    // Parse a sparkdown file to stdout.
-    //
-    // * sparkdown::Parser parser - The parser to handle the input file.
-    // * std::ifstream &input_file    - The file to parse.
-    void parse_file(sparkdown::Parser parser, std::ifstream &input_file)
-    {
-        std::string line;
-
-        std::getline(input_file, line);
-        input_file.seekg(0);
-
-        if (line[0] == '$')
-        {
-            while (parser.is_head())
-            {
-                std::getline(input_file, line);
-                parser.parse_headline(line);
-            }
-        }
-
-        std::cout << parser.start() << std::endl;
-
-        while (std::getline(input_file, line))
-        {
-            std::cout << parser.parse_line(line) << std::endl;
-        }
-
-        std::cout << parser.end() << std::endl;
+    if (std::filesystem::is_directory(input_file)) {
+        std::cerr << "Error: input file \"" << input_file
+                  << "\" is a directory. Exiting." << std::endl;
+        exit(1);
     }
 
-    // Parse a sparkdown file to an output file.
-    //
-    // * sparkdown::Parser parser - The parser to handle the input file.
-    // * std::ifstream &input_file    - The file to parse.
-    // * std::ofstream &output_file   - The output file for the LaTeX code.
-    void parse_file(sparkdown::Parser parser, std::ifstream &input_file, std::ofstream &output_file)
-    {
-        std::string line;
+    this->_input_file = std::filesystem::path(input_file);
 
-        std::getline(input_file, line);
-        input_file.seekg(0);
-
-        if (line[0] == '$')
-        {
-            while (parser.is_head())
-            {
-                std::getline(input_file, line);
-                parser.parse_headline(line);
-            }
+    if (output_file != "") {
+        if (std::filesystem::is_directory(output_file)) {
+            std::cerr << "Error: output file \"" << output_file
+                      << "\" is a directory. Exiting." << std::endl;
+            exit(1);
         }
-
-        output_file << parser.start() << std::endl;
-
-        while (std::getline(input_file, line))
-        {
-            output_file << parser.parse_line(line) << std::endl;
-        }
-
-        output_file << parser.end() << std::endl;
     }
 }
+
+void sparkdown::parse() {
+    // TODO: Implement.
+}
+
+sparkdown::saved_latex_code_t sparkdown::get_latex_code() const {
+    // TODO: Implement.
+
+    // Just to avoid compiler warnings:
+    return saved_latex_code_t();
+}
+
+void sparkdown::save_latex_code() const {
+    // TODO: Implement.
+}
+
+void sparkdown::save_latex_code(const std::string &output) const {
+    // TODO: Implement.
+}
+
+void sparkdown::save_latex_code(const std::filesystem::path &output) const {
+    // TODO: Implement.
+}
+
+void sparkdown::save_latex_code(std::ostream &output) const {
+    // TODO: Implement.
+}
+
+std::string sparkdown::version() { return std::string(SPARKDOWN_VERSION); }

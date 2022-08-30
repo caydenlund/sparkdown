@@ -1,154 +1,95 @@
-// //sparkdown
-//
-// Author: Cayden Lund
-//
-// This file is part of sparkdown, a new markup/markdown language
-// for quickly writing and formatting notes.
-//
-// This file contains the main program entry point.
-//
-// Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
-// License: MIT <https://opensource.org/licenses/MIT>
+/**
+ * @file sparkdown/executable.cpp
+ * @package //sparkdown:sparkdown
+ * @author Cayden Lund <cayden.lund@utah.edu>
+ * @brief Sparkdown command-line interface.
+ * @details This project is part of Sparkdown, a new markup language
+ *     for quickly writing and formatting notes.
+ *
+ *     This file contains the main program entry point.
+ *
+ *     Usage of this program:
+ *
+ *         The filename is passed as a regular command-line argument:
+ *
+ *             `sparkdown file._`
+ *
+ *             Optionally, the filename can be omitted and Sparkdown
+ *             will read the file contents from stdin.
+ *
+ *             Output is written to stdout by default.
+ *
+ *         The argument `-o`, or `--out`, instructs Sparkdown to
+ *         write the output to the specified file.
+ *
+ *             `sparkdown file._ --out file.tex`
+ *
+ *             Output is then written to the specified file.
+ *
+ *         The argument `-w`, or `--watch`, instructs Sparkdown to
+ *         watch the input file for changes.
+ *
+ *             `sparkdown file._ --watch`
+ *
+ *             `sparkdown file._ -w -o file.tex`
+ *
+ *             Whenever `file._` is modified, Sparkdown will re-parse
+ *             the file and write the output to the specified location.
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @copyright 2021-2022 by Cayden Lund <https://github.com/caydenlund>
+ */
 
-#include <stdio.h>
 #include <iostream>
-#include <fstream>
-#include <filesystem>
 
-// Include our helper functions.
+#include "arg.h/arg.h"
 #include "sparkdown.hpp"
 
-// Main program entry point.
-int main(int argc, char *argv[])
-{
-    // Make sure that the user provided at least one argument.
-    if (argc < 2)
-    {
-        sparkdown::print_usage(argv[0]);
-        return 1;
+/**
+ * @brief Main program entry point.
+ *
+ * @param argc The number of command line arguments.
+ * @param argv The command line arguments.
+ * @return 0 on success; 1 on failure.
+ */
+int main(int argc, char **argv) {
+    argh arguments(argc, argv);
+
+    if (arguments["-h"] || arguments["--help"]) {
+        std::cout
+            << "Usage:" << std::endl
+            << "    sparkdown <input file> [options]" << std::endl
+            << std::endl
+            << "Options:" << std::endl
+            << "    -o <output file>     --  Output the parsed file to the "
+               "given file instead"
+            << std::endl
+            << "    --out <output file>      of stdout." << std::endl
+            << std::endl
+            << "    -w  /  --watch       --  Watch the input file for changes."
+            << std::endl
+            << "                             Whenever the file is modified,"
+            << std::endl
+            << "                             Sparkdown will re-parse the file "
+               "and write the"
+            << std::endl
+            << "                             output to the proper location."
+            << std::endl;
     }
 
-    std::string input = "";
+    if (arguments["-v"] || arguments["--version"]) {
+        std::cout << "Sparkdown" << std::endl
+                  << "Version: " << sparkdown::version() << std::endl
+                  << "Copyright (C) 2021-2022 by Cayden Lund." << std::endl
+                  << "License: MIT <https://opensource.org/licenses/MIT>"
+                  << std::endl;
+    }
+
     std::string output = "";
+    if (arguments["-o"]) output = arguments("-o");
+    if (arguments["--out"]) output = arguments("--out");
 
-    bool output_stdout = true;
-    bool overwrite = false;
+    std::string input = arguments[1];
 
-    // Parse the input arguments.
-    for (int i = 1; i < argc; i++)
-    {
-        std::string arg = argv[i];
-        if (arg == "-h" || arg == "--help")
-        {
-            sparkdown::print_usage(argv[0]);
-            return 0;
-        }
-        else if (arg == "-v" || arg == "--version")
-        {
-            sparkdown::print_version();
-            return 0;
-        }
-        else if (arg == "-o" || arg == "--output")
-        {
-            if (i + 1 < argc)
-            {
-                output = argv[++i];
-                output_stdout = false;
-            }
-            else
-            {
-                std::cout << "Error: Missing output file." << std::endl;
-                return 1;
-            }
-        }
-        else if (arg == "-w" || arg == "--overwrite")
-        {
-            overwrite = true;
-        }
-        else
-        {
-            input = arg;
-        }
-    }
-
-    // Make sure that the user provided a file to parse.
-    if (input == "")
-    {
-        sparkdown::print_usage(argv[0]);
-        return 1;
-    }
-
-    // Make sure that the input file exists.
-    if (!std::filesystem::exists(input))
-    {
-        std::cerr << "Error: File '" << input << "' does not exist." << std::endl;
-        return 1;
-    }
-
-    // Make sure that the output file is not the same as the input file.
-    if (input == output)
-    {
-        std::cerr << "Error: Input and output files cannot be the same." << std::endl;
-        return 1;
-    }
-
-    // Make sure that the input and output files are not a directory.
-    if (std::filesystem::is_directory(input))
-    {
-        std::cerr << "Error: Is a directory: " << input << std::endl;
-        return 1;
-    }
-    if (std::filesystem::is_directory(output))
-    {
-        std::cerr << "Error: Is a directory: " << output << std::endl;
-        return 1;
-    }
-
-    // If the output file exists, make sure that the user wants to overwrite it.
-    if (std::filesystem::exists(output) && !overwrite)
-    {
-        std::cout << "Warning: Output file '" << output << "' already exists. Overwrite? (Y/n) ";
-        std::string input;
-        std::getline(std::cin, input);
-        if (input == "Y" || input == "y" || input == "")
-        {
-            overwrite = true;
-        }
-        else
-        {
-            std::cerr << "Error: Output file '" << output << "' already exists. Will not overwrite." << std::endl;
-            return 1;
-        }
-    }
-
-    // Open the input file.
-    std::ifstream input_file(input);
-    if (!input_file.is_open())
-    {
-        std::cerr << "Error: Could not open file '" << input << "'." << std::endl;
-        return 1;
-    }
-
-    // Open the output file.
-    std::ofstream output_file(output);
-    if (!output_stdout && !output_file.is_open())
-    {
-        std::cerr << "Error: Could not open file '" << output << "'." << std::endl;
-        return 1;
-    }
-
-    // Instantiate a new Parser object.
-    sparkdown::Parser parser = sparkdown::Parser();
-
-    // Parse the input file.
-    if (output_stdout)
-    {
-        sparkdown::parse_file(parser, input_file);
-    }
-    else
-    {
-        sparkdown::parse_file(parser, input_file, output_file);
-    }
-
-    return 0;
+    sparkdown driver(input, output);
 }

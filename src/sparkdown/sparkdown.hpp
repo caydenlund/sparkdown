@@ -1,46 +1,126 @@
-// //sparkdown
-//
-// Author: Cayden Lund
-//
-// This file is part of sparkdown, a new markup/markdown language
-// for quickly writing and formatting notes.
-//
-// This file contains the definitions for the library methods.
-// See sparkdown.cc for implementation.
-//
-// Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
-// License: MIT <https://opensource.org/licenses/MIT>
+/**
+ * @file sparkdown/sparkdown.hpp
+ * @package //sparkdown:sparkdown.lib
+ * @author Cayden Lund <cayden.lund@utah.edu>
+ * @brief `sparkdown` class definition.
+ * @details This project is part of Sparkdown, a new markup language
+ *     for quickly writing and formatting notes.
+ *
+ *     This file defines the `sparkdown` class, which serves as the public
+ *     interface to the Sparkdown library.
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @copyright 2021-2022 by Cayden Lund <https://github.com/caydenlund>
+ */
 
 #ifndef SPARKDOWN_HPP
 #define SPARKDOWN_HPP
 
+#define SPARKDOWN_VERSION "v2.0.0"
+
+#include <filesystem>
 #include <string>
+#include <vector>
 
-#include "parser/parser.hpp"
+/**
+ * @brief TODO: Document.
+ *
+ */
+class sparkdown {
+    /**
+     * @brief Represents the type used to hold the saved LaTeX code.
+     * @details TODO: Decide what to use.
+     *
+     */
+    typedef std::string saved_latex_code_t;
 
-// The sparkdown namespace contains all the classes and methods of the sparkdown library.
-namespace sparkdown
-{
-    // Print usage information.
-    //
-    // * std::string program_name - The name of the program being executed.
-    void print_usage(std::string program_name);
+   private:
+    //  ++====================++
+    //  ||  Member variables  ||
+    //  ++====================++
 
-    // Print version information.
-    void print_version();
+    /**
+     * @brief The file path to the Sparkdown file to parse.
+     *
+     */
+    std::filesystem::path _input_file;
 
-    // Parse a sparkdown file to stdout.
-    //
-    // * sparkdown::Parser parser - The parser to handle the input file.
-    // * std::ifstream &input_file    - The file to parse.
-    void parse_file(sparkdown::Parser parser, std::ifstream &input_file);
+    /**
+     * @brief The file path to the LaTeX output file.
+     *
+     */
+    std::filesystem::path _output_file;
 
-    // Parse a sparkdown file to an output file.
-    //
-    // * sparkdown::Parser parser - The parser to handle the input file.
-    // * std::ifstream &input_file    - The file to parse.
-    // * std::ofstream &output_file   - The output file for the LaTeX code.
-    void parse_file(sparkdown::Parser parser, std::ifstream &input_file, std::ofstream &output_file);
-}
+   public:
+    //  ++====================++
+    //  ||  Instance methods  ||
+    //  ++====================++
+
+    /**
+     * @brief Constructor.
+     *
+     * @param input_file The file path to the Sparkdown file to parse.
+     * @param output_file The file path to the LaTeX output file. If left empty,
+     *     the output will be written to stdout.
+     */
+    sparkdown(const std::string& input_file,
+              const std::string& output_file = "");
+
+    /**
+     * @brief Parses the input file.
+     * @details Saves the data in the class structure for later use.
+     *
+     */
+    void parse();
+
+    /**
+     * @brief Returns the LaTeX code for the parsed file.
+     * @details Must be called after `parse()`.
+     *     TODO: Should we be returning a string instead of a
+     *         `saved_latex_code_t`?
+     *
+     * @return The LaTeX code for the parsed file.
+     */
+    saved_latex_code_t get_latex_code() const;
+
+    /**
+     * @brief Writes the stored LaTeX code to the output file.
+     * @details The output file must have been saved from the constructor.
+     *
+     */
+    void save_latex_code() const;
+
+    /**
+     * @brief Writes the stored LaTeX code to the output file.
+     *
+     * @param output The output file to write to.
+     */
+    void save_latex_code(const std::string& output) const;
+
+    /**
+     * @brief Writes the stored LaTeX code to the output file.
+     *
+     * @param output The output file to write to.
+     */
+    void save_latex_code(const std::filesystem::path& output) const;
+
+    /**
+     * @brief Writes the stored LaTeX code to an output stream.
+     *
+     * @param output The output stream to write to.
+     */
+    void save_latex_code(std::ostream& output) const;
+
+    //  ++==================++
+    //  ||  Static methods  ||
+    //  ++==================++
+
+    /**
+     * @brief Returns the version information of the Sparkdown library.
+     *
+     * @return The version information of the Sparkdown library.
+     */
+    static std::string version();
+};
 
 #endif
