@@ -22,6 +22,8 @@
 #include <string>
 #include <vector>
 
+namespace sparkdown {
+
 /**
  * @brief TODO: Document.
  *
@@ -122,5 +124,7 @@ class sparkdown {
      */
     static std::string version();
 };
+
+}  // namespace sparkdown
 
 #endif

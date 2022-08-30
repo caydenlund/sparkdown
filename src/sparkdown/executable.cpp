@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
 
     if (arguments["-v"] || arguments["--version"]) {
         std::cout << "Sparkdown" << std::endl
-                  << "Version: " << sparkdown::version() << std::endl
+                  << "Version: " << sparkdown::sparkdown::version() << std::endl
                   << "Copyright (C) 2021-2022 by Cayden Lund." << std::endl
                   << "License: MIT <https://opensource.org/licenses/MIT>"
                   << std::endl;
@@ -91,5 +91,5 @@ int main(int argc, char **argv) {
 
     std::string input = arguments[1];
 
-    sparkdown driver(input, output);
+    sparkdown::sparkdown driver(input, output);
 }

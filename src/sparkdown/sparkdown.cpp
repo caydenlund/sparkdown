@@ -24,7 +24,7 @@
 
 #include <iostream>
 
-sparkdown::sparkdown(const std::string &input_file,
+sparkdown::sparkdown::sparkdown::sparkdown(const std::string &input_file,
                      const std::string &output_file) {
     if (input_file == "") {
         // TODO: stdin.
@@ -53,31 +53,31 @@ sparkdown::sparkdown(const std::string &input_file,
     }
 }
 
-void sparkdown::parse() {
+void sparkdown::sparkdown::parse() {
     // TODO: Implement.
 }
 
-sparkdown::saved_latex_code_t sparkdown::get_latex_code() const {
+sparkdown::sparkdown::saved_latex_code_t sparkdown::sparkdown::get_latex_code() const {
     // TODO: Implement.
 
     // Just to avoid compiler warnings:
     return saved_latex_code_t();
 }
 
-void sparkdown::save_latex_code() const {
+void sparkdown::sparkdown::save_latex_code() const {
     // TODO: Implement.
 }
 
-void sparkdown::save_latex_code(const std::string &output) const {
+void sparkdown::sparkdown::save_latex_code(const std::string &output) const {
     // TODO: Implement.
 }
 
-void sparkdown::save_latex_code(const std::filesystem::path &output) const {
+void sparkdown::sparkdown::save_latex_code(const std::filesystem::path &output) const {
     // TODO: Implement.
 }
 
-void sparkdown::save_latex_code(std::ostream &output) const {
+void sparkdown::sparkdown::save_latex_code(std::ostream &output) const {
     // TODO: Implement.
 }
 
-std::string sparkdown::version() { return std::string(SPARKDOWN_VERSION); }
+std::string sparkdown::sparkdown::version() { return std::string(SPARKDOWN_VERSION); }
