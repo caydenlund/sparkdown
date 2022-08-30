@@ -13,9 +13,19 @@
  * @copyright 2021-2022 by Cayden Lund <https://github.com/caydenlund>
  */
 
+// TODO: Remove these temporary pragmas once we no longer need them.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunknown-pragmas"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+#pragma ide diagnostic ignored "readability-convert-member-functions-to-static"
+
 #ifndef SPARKDOWN_HPP
 #define SPARKDOWN_HPP
 
+/**
+ * @brief Sparkdown current version information.
+ *
+ */
 #define SPARKDOWN_VERSION "v2.0.0"
 
 #include <filesystem>
@@ -25,17 +35,17 @@
 namespace sparkdown {
 
 /**
- * @brief TODO: Document.
+ * @brief The main driver class for Sparkdown.
+ * @details This class provides the main driver class for both the library
+ *     and the command-line interface.
+ *
+ *     Includes methods for inputting Sparkdown text
+ *     and retrieving LaTeX output.
+ *
+ *     TODO: Add stream redirection operators.
  *
  */
 class sparkdown {
-    /**
-     * @brief Represents the type used to hold the saved LaTeX code.
-     * @details TODO: Decide what to use.
-     *
-     */
-    typedef std::string saved_latex_code_t;
-
    private:
     //  ++====================++
     //  ||  Member variables  ||
@@ -43,15 +53,17 @@ class sparkdown {
 
     /**
      * @brief The file path to the Sparkdown file to parse.
+     * @details May be left empty.
      *
      */
-    std::filesystem::path _input_file;
+    std::string _input_file;
 
     /**
      * @brief The file path to the LaTeX output file.
+     * @details May be left empty.
      *
      */
-    std::filesystem::path _output_file;
+    std::string _output_file;
 
    public:
     //  ++====================++
@@ -62,11 +74,13 @@ class sparkdown {
      * @brief Constructor.
      *
      * @param input_file The file path to the Sparkdown file to parse.
+     *     Leave empty for manual input.
      * @param output_file The file path to the LaTeX output file. If left empty,
      *     the output will be written to stdout.
+     *     Leave empty for manual output.
      */
-    sparkdown(const std::string& input_file,
-              const std::string& output_file = "");
+    explicit sparkdown(const std::string& input_file,
+                       const std::string& output_file = "");
 
     /**
      * @brief Parses the input file.
@@ -76,14 +90,12 @@ class sparkdown {
     void parse();
 
     /**
-     * @brief Returns the LaTeX code for the parsed file.
+     * @brief Returns the LaTeX code for the parsed file as a string.
      * @details Must be called after `parse()`.
-     *     TODO: Should we be returning a string instead of a
-     *         `saved_latex_code_t`?
      *
      * @return The LaTeX code for the parsed file.
      */
-    saved_latex_code_t get_latex_code() const;
+    [[nodiscard]] std::string get_latex_code() const;
 
     /**
      * @brief Writes the stored LaTeX code to the output file.
@@ -128,3 +140,4 @@ class sparkdown {
 }  // namespace sparkdown
 
 #endif
+#pragma clang diagnostic pop

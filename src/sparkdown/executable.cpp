@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
                   << std::endl;
     }
 
-    std::string output = "";
+    std::string output;
     if (arguments["-o"]) output = arguments("-o");
     if (arguments["--out"]) output = arguments("--out");
 
