@@ -13,13 +13,6 @@
  * @copyright 2021-2022 by Cayden Lund <https://github.com/caydenlund>
  */
 
-// TODO: Remove temporary pragmas once we no longer need them.
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunknown-pragmas"
-#pragma ide diagnostic ignored "OCUnusedStructInspection"
-#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
-#pragma ide diagnostic ignored "google-explicit-constructor"
-
 #ifndef TOKEN_HPP
 #define TOKEN_HPP
 
@@ -111,4 +104,3 @@ struct token {
 }  // namespace sparkdown
 
 #endif
-#pragma clang diagnostic pop

@@ -13,17 +13,10 @@
  * @copyright 2021-2022 by Cayden Lund <https://github.com/caydenlund>
  */
 
-// TODO: Remove temporary pragmas once we no longer need them.
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunknown-pragmas"
-#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
-#pragma ide diagnostic ignored "readability-convert-member-functions-to-static"
-
 #include "token.hpp"
 
 namespace sparkdown {
 
-// TODO: Correctly initialize `type`.
 token::token(char character) : type(get_type(character)), value(character) {}
 
 token::token(const token &other) = default;
@@ -84,5 +77,3 @@ token_type token::get_type(char character) {
 }
 
 }  // namespace sparkdown
-
-#pragma clang diagnostic pop
