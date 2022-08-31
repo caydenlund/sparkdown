@@ -3,21 +3,15 @@
  * @package //sparkdown:sparkdown.lib
  * @author Cayden Lund <cayden.lund@utah.edu>
  * @brief `sparkdown` class definition.
- * @details This project is part of Sparkdown, a new markup language
- *     for quickly writing and formatting notes.
+ * @details This project is part of Sparkdown,
+ *     a new markup language for quickly writing and formatting notes.
  *
- *     This file defines the `sparkdown` class, which serves as the public
- *     interface to the Sparkdown library.
+ *     This file defines the `sparkdown` class,
+ *     which serves as the public interface to the Sparkdown library.
  *
  * @license MIT <https://opensource.org/licenses/MIT>
  * @copyright 2021-2022 by Cayden Lund <https://github.com/caydenlund>
  */
-
-// TODO: Remove temporary pragmas once we no longer need them.
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunknown-pragmas"
-#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
-#pragma ide diagnostic ignored "readability-convert-member-functions-to-static"
 
 #ifndef SPARKDOWN_HPP
 #define SPARKDOWN_HPP
@@ -35,7 +29,7 @@
 namespace sparkdown {
 
 /**
- * @brief The main driver class for Sparkdown.
+ * @brief The main driver class for the Sparkdown library.
  * @details This class provides the main driver class for both the library
  *     and the command-line interface.
  *
@@ -140,4 +134,3 @@ class sparkdown {
 }  // namespace sparkdown
 
 #endif
-#pragma clang diagnostic pop

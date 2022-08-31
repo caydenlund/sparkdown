@@ -1,21 +1,20 @@
 /**
- * @file parser/parser.hpp
- * @package //parser:parser
+ * @file state/state.hpp
+ * @package //state:state
  * @author Cayden Lund <cayden.lund@utah.edu>
- * @brief `parser` class definition.
+ * @brief `state` class definition.
  * @details This project is part of Sparkdown,
  *     a new markup language for quickly writing and formatting notes.
  *
- *     This file defines the `parser` class,
- *     which is used to parse a sequence of tokens into
- *     a model of syntactic meaning.
+ *     This file defines the `state` class,
+ *     which represents the state of the language parser.
  *
  * @license MIT <https://opensource.org/licenses/MIT>
  * @copyright 2021-2022 by Cayden Lund <https://github.com/caydenlund>
  */
 
-#ifndef PARSER_HPP
-#define PARSER_HPP
+#ifndef STATE_HPP
+#define STATE_HPP
 
 namespace sparkdown {}  // namespace sparkdown
 

@@ -2,12 +2,14 @@
  * @file token/token.cpp
  * @package //token:token
  * @author Cayden Lund <cayden.lund@utah.edu>
- * @brief `token` class definition.
- * @details This project is part of Sparkdown, a new markup language
- *     for quickly writing and formatting notes.
+ * @brief `token` class implementation.
+ * @details This project is part of Sparkdown,
+ *     a new markup language for quickly writing and formatting notes.
  *
- *     This file implements the `token` class, which represents a single token
- *     in the lexing/parsing process.
+ *     This file implements the `token` class,
+ *     which represents a single token in the lexing/parsing process.
+ *
+ *     See the header file for documentation.
  *
  * @license MIT <https://opensource.org/licenses/MIT>
  * @copyright 2021-2022 by Cayden Lund <https://github.com/caydenlund>

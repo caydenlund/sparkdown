@@ -3,11 +3,11 @@
  * @package //token:token.tests
  * @author Cayden Lund <cayden.lund@utah.edu>
  * @brief `token` class unit tests.
- * @details This project is part of Sparkdown, a new markup language
- *     for quickly writing and formatting notes.
+ * @details This project is part of Sparkdown,
+ *     a new markup language for quickly writing and formatting notes.
  *
- *     This file tests the `token` class, which represents a single token
- *     in the lexing/parsing process.
+ *     This file tests the `token` class,
+ *     which represents a single token in the lexing/parsing process.
  *
  * @license MIT <https://opensource.org/licenses/MIT>
  * @copyright 2021-2022 by Cayden Lund <https://github.com/caydenlund>

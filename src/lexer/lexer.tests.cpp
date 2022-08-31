@@ -3,8 +3,8 @@
  * @package //lexer:lexer.tests
  * @author Cayden Lund <cayden.lund@utah.edu>
  * @brief `lexer` class unit tests.
- * @details This project is part of Sparkdown, a new markup language
- *     for quickly writing and formatting notes.
+ * @details This project is part of Sparkdown,
+ *     a new markup language for quickly writing and formatting notes.
  *
  *     This file tests the `lexer` class,
  *     which is used to lex a string into a sequence of tokens.

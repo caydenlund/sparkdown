@@ -3,8 +3,8 @@
  * @package //sparkdown:sparkdown
  * @author Cayden Lund <cayden.lund@utah.edu>
  * @brief Sparkdown command-line interface.
- * @details This project is part of Sparkdown, a new markup language
- *     for quickly writing and formatting notes.
+ * @details This project is part of Sparkdown,
+ *     a new markup language for quickly writing and formatting notes.
  *
  *     This file contains the main program entry point.
  *
