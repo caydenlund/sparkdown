@@ -1,38 +1,65 @@
-// //lexer
-//
-// Author: Cayden Lund
-//
-// This file is part of sparkdown, a new markup/markdown language
-// for quickly writing and formatting notes.
-//
-// This file contains the header of the lex() method.
-// This method is used to lex a line for parsing.
-//
-// Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
-// License: MIT <https://opensource.org/licenses/MIT>
+/**
+ * @file lexer/lexer.hpp
+ * @package //lexer:lexer
+ * @author Cayden Lund <cayden.lund@utah.edu>
+ * @brief `lexer` class definition.
+ * @details This project is part of Sparkdown, a new markup language
+ *     for quickly writing and formatting notes.
+ *
+ *     This file defines the `lexer` class,
+ *     which is used to lex a string into a sequence of tokens.
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @copyright 2021-2022 by Cayden Lund <https://github.com/caydenlund>
+ */
 
 #ifndef LEXER_HPP
 #define LEXER_HPP
 
-// System imports.
 #include <string>
 #include <vector>
 
-// We use the Token class to build a vector of tokens.
 #include "token/token.hpp"
 
-// The sparkdown namespace contains all the classes and methods of the sparkdown library.
-namespace sparkdown
-{
-    // lex
-    //    Used to lex a line for parsing.
-    //
-    // Parameters:
-    //    const std::string &line  - The line to lex.
-    //
-    // Returns:
-    //    std::vector<Token> - A vector of tokens.
-    std::vector<Token> lex(const std::string &line);
-}
+namespace sparkdown {
+
+/**
+ * @brief Used to lex a string into a sequence of tokens.
+ * @details
+ *
+ *     TODO: Add stream redirection operators.
+ *
+ */
+class lexer {
+   private:
+    /**
+     * @brief Contains the current sequence of tokens.
+     *
+     */
+    std::vector<token> _tokens;
+
+   public:
+    /**
+     * @brief Constructor.
+     *
+     */
+    lexer();
+
+    /**
+     * @brief Lexes the given string into a sequence of tokens.
+     *
+     * @param str The string to lex.
+     */
+    void lex(const std::string &str);
+
+    /**
+     * @brief Returns a copy of the token sequence and flushes the buffer.
+     *
+     * @return A copy of the token sequence.
+     */
+    std::vector<token> get_tokens();
+};
+
+}  // namespace sparkdown
 
 #endif

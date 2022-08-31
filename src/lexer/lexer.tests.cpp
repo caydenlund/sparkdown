@@ -1,115 +1,97 @@
-// //lexer:lexer.test
-//
-// Author: Cayden Lund
-//
-// This file is part of sparkdown, a new markup/markdown language
-// for quickly writing and formatting notes.
-//
-// This file contains the unit tests for the lex() method.
-// This method is used to lex a line for parsing.
-//
-// Copyright (C) 2021 Cayden Lund <https://github.com/shrimpster00>
-// License: MIT <https://opensource.org/licenses/MIT>
+/**
+ * @file lexer/lexer.tests.cpp
+ * @package //lexer:lexer.tests
+ * @author Cayden Lund <cayden.lund@utah.edu>
+ * @brief `lexer` class unit tests.
+ * @details This project is part of Sparkdown, a new markup language
+ *     for quickly writing and formatting notes.
+ *
+ *     This file tests the `lexer` class,
+ *     which is used to lex a string into a sequence of tokens.
+ *
+ * @license MIT <https://opensource.org/licenses/MIT>
+ * @copyright 2021-2022 by Cayden Lund <https://github.com/caydenlund>
+ */
 
-// System imports.
-#include <string>
-#include <vector>
-
-// The GTest testing framework.
-#include <gtest/gtest.h>
-
-// We use the Token class to build a vector of tokens.
-#include "token/token.hpp"
-
-// The header for the lex() method.
 #include "lexer.hpp"
 
-using namespace sparkdown;
+#include <gtest/gtest.h>
 
-// Test the lex() method.
-// Ensure that the method returns an empty vector when given an empty string.
-TEST(Lexer, Empty)
-{
-    std::string input = "";
+#include "token/token.hpp"
 
-    std::vector<Token> expected;
+/**
+ * @brief Ensures that the lexer returns an empty vector
+ *     when given an empty string.
+ *
+ */
+TEST(lexer, handles_empty_string) {
+    sparkdown::lexer lexer;
+    std::vector<sparkdown::token> tokens;
+    EXPECT_TRUE(tokens.empty());
 
-    std::vector<Token> actual = lex(input);
-
-    EXPECT_TRUE(Token::tokens_equal(expected, actual));
-
-    input += "\n";
-
-    actual = lex(input);
-
-    EXPECT_TRUE(Token::tokens_equal(expected, actual));
+    lexer.lex("");
+    tokens = lexer.get_tokens();
+    EXPECT_TRUE(tokens.empty());
 }
 
-// Test the lex() method.
-// Ensure that the method returns a vector of the given terminal tokens.
-TEST(Lexer, Terminal)
-{
-    std::string input = "abc";
+/**
+ * @brief Ensures that the lexer correctly lexes a simple string.
+ *
+ */
+TEST(lexer, handles_simple_string) {
+    sparkdown::lexer lexer;
+    std::vector<sparkdown::token> tokens;
 
-    std::vector<Token> expected;
-    expected.push_back(Token(token_type::TERMINAL, "abc"));
-
-    std::vector<Token> actual = lex(input);
-
-    EXPECT_TRUE(Token::tokens_equal(expected, actual));
+    lexer.lex("abc");
+    tokens = lexer.get_tokens();
+    EXPECT_EQ(tokens.size(), 3);
+    EXPECT_EQ(tokens[0].type, sparkdown::token_type::OTHER);
+    EXPECT_EQ(tokens[0].value, 'a');
+    EXPECT_EQ(tokens[1].type, sparkdown::token_type::OTHER);
+    EXPECT_EQ(tokens[1].value, 'b');
+    EXPECT_EQ(tokens[2].type, sparkdown::token_type::OTHER);
+    EXPECT_EQ(tokens[2].value, 'c');
 }
 
-// Test the lex() method.
-// Ensure that the method can correctly lex mixed numbers and letters.
-TEST(Lexer, Mixed)
-{
-    std::string input = "a1b2c3";
+/**
+ * @brief Ensures that the lexer correctly flushes the buffer
+ *     when `lexer#get_tokens()` is called.
+ *
+ */
+TEST(lexer, flushes_buffer) {
+    sparkdown::lexer lexer;
+    std::vector<sparkdown::token> tokens;
 
-    std::vector<Token> expected;
-    expected.push_back(Token(token_type::TERMINAL, 'a'));
-    expected.push_back(Token(token_type::NUMBER, '1'));
-    expected.push_back(Token(token_type::TERMINAL, 'b'));
-    expected.push_back(Token(token_type::NUMBER, '2'));
-    expected.push_back(Token(token_type::TERMINAL, 'c'));
-    expected.push_back(Token(token_type::NUMBER, '3'));
+    lexer.lex("abc");
+    tokens = lexer.get_tokens();
+    EXPECT_EQ(tokens.size(), 3);
 
-    std::vector<Token> actual = lex(input);
+    tokens = lexer.get_tokens();
+    EXPECT_EQ(tokens.size(), 0);
 }
 
-// Test the lex() method.
-// Ensure that the method can correctly lex each of the given spaces.
-TEST(Lexer, Spaces)
-{
-    std::string input = " \t";
+/**
+ * @brief Ensures that the lexer can be reused after the buffer
+ *     has been flushed at least once.
+ *
+ */
+TEST(lexer, is_reusable) {
+    sparkdown::lexer lexer;
+    std::vector<sparkdown::token> tokens;
 
-    std::vector<Token> expected;
-    expected.push_back(Token(token_type::SPACE, " \t"));
+    lexer.lex("abc");
+    tokens = lexer.get_tokens();
+    EXPECT_EQ(tokens.size(), 3);
 
-    std::vector<Token> actual = lex(input);
+    tokens = lexer.get_tokens();
+    EXPECT_EQ(tokens.size(), 0);
 
-    EXPECT_TRUE(Token::tokens_equal(expected, actual));
-}
-
-// Test the lex() method.
-// Ensure that the method can correctly lex each of the given non-terminals.
-TEST(Lexer, NonTerminal)
-{
-    std::string input = "$:[]#*-=<>\\";
-
-    std::vector<Token> expected;
-    expected.push_back(Token(token_type::DOLLAR));
-    expected.push_back(Token(token_type::COLON));
-    expected.push_back(Token(token_type::LBRAC));
-    expected.push_back(Token(token_type::RBRAC));
-    expected.push_back(Token(token_type::HASH));
-    expected.push_back(Token(token_type::STAR));
-    expected.push_back(Token(token_type::DASH));
-    expected.push_back(Token(token_type::EQUALS));
-    expected.push_back(Token(token_type::LT));
-    expected.push_back(Token(token_type::GT));
-    expected.push_back(Token(token_type::ESCAPE));
-
-    std::vector<Token> actual = lex(input);
-
-    EXPECT_TRUE(Token::tokens_equal(expected, actual));
+    lexer.lex("123");
+    tokens = lexer.get_tokens();
+    EXPECT_EQ(tokens[0].type, sparkdown::token_type::NUMBER);
+    EXPECT_EQ(tokens[0].value, '1');
+    EXPECT_EQ(tokens[1].type, sparkdown::token_type::NUMBER);
+    EXPECT_EQ(tokens[1].value, '2');
+    EXPECT_EQ(tokens[2].type, sparkdown::token_type::NUMBER);
+    EXPECT_EQ(tokens[2].value, '3');
 }
