@@ -33,35 +33,35 @@ token_type token::get_type(char character) {
     switch (character) {
         case ' ':
         case '\t':
-            return token_type::SPACE;
+            return token_type::CHAR_SPACE;
         case '$':
-            return token_type::DOLLAR;
+            return token_type::CHAR_DOLLAR;
         case ':':
-            return token_type::COLON;
+            return token_type::CHAR_COLON;
         case '.':
-            return token_type::PERIOD;
+            return token_type::CHAR_PERIOD;
         case '[':
-            return token_type::LBRAC;
+            return token_type::CHAR_LBRAC;
         case ']':
-            return token_type::RBRAC;
+            return token_type::CHAR_RBRAC;
         case '#':
-            return token_type::HASH;
+            return token_type::CHAR_HASH;
         case '*':
-            return token_type::STAR;
+            return token_type::CHAR_STAR;
         case '-':
-            return token_type::DASH;
+            return token_type::CHAR_DASH;
         case '=':
-            return token_type::EQUALS;
+            return token_type::CHAR_EQUALS;
         case '<':
-            return token_type::LT;
+            return token_type::CHAR_LT;
         case '>':
-            return token_type::GT;
+            return token_type::CHAR_GT;
         case '|':
-            return token_type::PIPE;
+            return token_type::CHAR_PIPE;
         case '`':
-            return token_type::TICK;
+            return token_type::CHAR_TICK;
         case '\\':
-            return token_type::ESCAPE;
+            return token_type::CHAR_ESCAPE;
         case '0':
         case '1':
         case '2':
@@ -72,9 +72,9 @@ token_type token::get_type(char character) {
         case '7':
         case '8':
         case '9':
-            return token_type::NUMBER;
+            return token_type::CHAR_NUMBER;
         default:
-            return token_type::OTHER;
+            return token_type::CHAR_OTHER;
     }
 }
 
