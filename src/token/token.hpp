@@ -125,6 +125,7 @@ struct token {
      */
     const char value;
 };
+
 }  // namespace sparkdown
 
 #endif

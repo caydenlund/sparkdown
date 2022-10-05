@@ -45,11 +45,11 @@ TEST(lexer, handles_simple_string) {
     lexer.lex("abc");
     tokens = lexer.get_tokens();
     EXPECT_EQ(tokens.size(), 3);
-    EXPECT_EQ(tokens[0].type, sparkdown::token_type::OTHER);
+    EXPECT_EQ(tokens[0].type, sparkdown::token_type::CHAR_OTHER);
     EXPECT_EQ(tokens[0].value, 'a');
-    EXPECT_EQ(tokens[1].type, sparkdown::token_type::OTHER);
+    EXPECT_EQ(tokens[1].type, sparkdown::token_type::CHAR_OTHER);
     EXPECT_EQ(tokens[1].value, 'b');
-    EXPECT_EQ(tokens[2].type, sparkdown::token_type::OTHER);
+    EXPECT_EQ(tokens[2].type, sparkdown::token_type::CHAR_OTHER);
     EXPECT_EQ(tokens[2].value, 'c');
 }
 
@@ -88,10 +88,10 @@ TEST(lexer, is_reusable) {
 
     lexer.lex("123");
     tokens = lexer.get_tokens();
-    EXPECT_EQ(tokens[0].type, sparkdown::token_type::NUMBER);
+    EXPECT_EQ(tokens[0].type, sparkdown::token_type::CHAR_NUMBER);
     EXPECT_EQ(tokens[0].value, '1');
-    EXPECT_EQ(tokens[1].type, sparkdown::token_type::NUMBER);
+    EXPECT_EQ(tokens[1].type, sparkdown::token_type::CHAR_NUMBER);
     EXPECT_EQ(tokens[1].value, '2');
-    EXPECT_EQ(tokens[2].type, sparkdown::token_type::NUMBER);
+    EXPECT_EQ(tokens[2].type, sparkdown::token_type::CHAR_NUMBER);
     EXPECT_EQ(tokens[2].value, '3');
 }
