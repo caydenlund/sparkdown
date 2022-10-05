@@ -17,4 +17,20 @@
 
 #include "state.hpp"
 
-namespace sparkdown {}  // namespace sparkdown
+namespace sparkdown {
+
+state::state() : _is_head(true), _is_math(false), _is_verbatim(false) {}
+
+void state::end_head() { this->_is_head = false; }
+
+bool state::is_head() const { return this->_is_head; }
+
+void state::toggle_is_math() { this->_is_math = !this->_is_math; }
+
+bool state::is_math() const { return this->_is_math; }
+
+void state::toggle_is_verbatim() { this->_is_verbatim = !this->_is_verbatim; }
+
+bool state::is_verbatim() const { return this->_is_verbatim; }
+
+}  // namespace sparkdown
