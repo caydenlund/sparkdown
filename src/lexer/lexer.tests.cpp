@@ -20,13 +20,13 @@
 #include "token/token.hpp"
 
 /**
- * @brief Ensures that the lexer returns an empty vector
+ * @brief Ensures that the lexer returns an empty list
  *     when given an empty string.
  *
  */
 TEST(lexer, handles_empty_string) {
     sparkdown::lexer lexer;
-    std::vector<sparkdown::token> tokens;
+    std::list<sparkdown::token> tokens;
     EXPECT_TRUE(tokens.empty());
 
     lexer.lex("");
@@ -40,17 +40,23 @@ TEST(lexer, handles_empty_string) {
  */
 TEST(lexer, handles_simple_string) {
     sparkdown::lexer lexer;
-    std::vector<sparkdown::token> tokens;
+    std::list<sparkdown::token> tokens_list;
+    std::vector<sparkdown::token> tokens_vec;
 
     lexer.lex("abc");
-    tokens = lexer.get_tokens();
-    EXPECT_EQ(tokens.size(), 3);
-    EXPECT_EQ(tokens[0].type, sparkdown::token_type::CHAR_OTHER);
-    EXPECT_EQ(tokens[0].value, 'a');
-    EXPECT_EQ(tokens[1].type, sparkdown::token_type::CHAR_OTHER);
-    EXPECT_EQ(tokens[1].value, 'b');
-    EXPECT_EQ(tokens[2].type, sparkdown::token_type::CHAR_OTHER);
-    EXPECT_EQ(tokens[2].value, 'c');
+
+    tokens_list = lexer.get_tokens();
+    for (sparkdown::token &token : tokens_list) {
+        tokens_vec.push_back(token);
+    }
+
+    EXPECT_EQ(tokens_vec.size(), 3);
+    EXPECT_EQ(tokens_vec[0].type, sparkdown::token_type::CHAR_OTHER);
+    EXPECT_EQ(tokens_vec[0].value, 'a');
+    EXPECT_EQ(tokens_vec[1].type, sparkdown::token_type::CHAR_OTHER);
+    EXPECT_EQ(tokens_vec[1].value, 'b');
+    EXPECT_EQ(tokens_vec[2].type, sparkdown::token_type::CHAR_OTHER);
+    EXPECT_EQ(tokens_vec[2].value, 'c');
 }
 
 /**
@@ -60,7 +66,7 @@ TEST(lexer, handles_simple_string) {
  */
 TEST(lexer, flushes_buffer) {
     sparkdown::lexer lexer;
-    std::vector<sparkdown::token> tokens;
+    std::list<sparkdown::token> tokens;
 
     lexer.lex("abc");
     tokens = lexer.get_tokens();
@@ -77,21 +83,34 @@ TEST(lexer, flushes_buffer) {
  */
 TEST(lexer, is_reusable) {
     sparkdown::lexer lexer;
-    std::vector<sparkdown::token> tokens;
+    std::list<sparkdown::token> tokens_list;
+    std::vector<sparkdown::token> tokens_vec;
 
     lexer.lex("abc");
-    tokens = lexer.get_tokens();
-    EXPECT_EQ(tokens.size(), 3);
 
-    tokens = lexer.get_tokens();
-    EXPECT_EQ(tokens.size(), 0);
+    tokens_list = lexer.get_tokens();
+    for (sparkdown::token &token : tokens_list) {
+        tokens_vec.push_back(token);
+    }
+
+    EXPECT_EQ(tokens_vec.size(), 3);
+
+    tokens_list = lexer.get_tokens();
+
+    EXPECT_EQ(tokens_list.size(), 0);
 
     lexer.lex("123");
-    tokens = lexer.get_tokens();
-    EXPECT_EQ(tokens[0].type, sparkdown::token_type::CHAR_NUMBER);
-    EXPECT_EQ(tokens[0].value, '1');
-    EXPECT_EQ(tokens[1].type, sparkdown::token_type::CHAR_NUMBER);
-    EXPECT_EQ(tokens[1].value, '2');
-    EXPECT_EQ(tokens[2].type, sparkdown::token_type::CHAR_NUMBER);
-    EXPECT_EQ(tokens[2].value, '3');
+
+    tokens_list = lexer.get_tokens();
+    tokens_vec.clear();
+    for (sparkdown::token &token : tokens_list) {
+        tokens_vec.push_back(token);
+    }
+
+    EXPECT_EQ(tokens_vec[0].type, sparkdown::token_type::CHAR_NUMBER);
+    EXPECT_EQ(tokens_vec[0].value, '1');
+    EXPECT_EQ(tokens_vec[1].type, sparkdown::token_type::CHAR_NUMBER);
+    EXPECT_EQ(tokens_vec[1].value, '2');
+    EXPECT_EQ(tokens_vec[2].type, sparkdown::token_type::CHAR_NUMBER);
+    EXPECT_EQ(tokens_vec[2].value, '3');
 }

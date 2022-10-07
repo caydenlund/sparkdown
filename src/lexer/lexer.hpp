@@ -16,8 +16,8 @@
 #ifndef LEXER_HPP
 #define LEXER_HPP
 
+#include <list>
 #include <string>
-#include <vector>
 
 #include "token/token.hpp"
 
@@ -36,7 +36,7 @@ class lexer {
      * @brief Contains the current sequence of tokens.
      *
      */
-    std::vector<token> _tokens;
+    std::list<token> _tokens;
 
    public:
     /**
@@ -57,7 +57,7 @@ class lexer {
      *
      * @return A copy of the token sequence.
      */
-    std::vector<token> get_tokens();
+    std::list<token> get_tokens();
 };
 
 }  // namespace sparkdown

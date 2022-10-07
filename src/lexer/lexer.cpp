@@ -27,8 +27,8 @@ void lexer::lex(const std::string &str) {
     }
 }
 
-std::vector<token> lexer::get_tokens() {
-    std::vector<token> tokens(this->_tokens);
+std::list<token> lexer::get_tokens() {
+    std::list<token> tokens(this->_tokens);
 
     this->_tokens.clear();
 

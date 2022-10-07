@@ -8,6 +8,18 @@ cc_library(
     ],
     deps = [
         "//lexer",
+        "//parser/patterns:pattern",
+        "//state",
         "//token",
+    ],
+)
+
+cc_test(
+    name = "parser.tests",
+    size = "small",
+    srcs = ["parser.tests.cpp"],
+    deps = [
+        ":parser",
+        "@googletest//:gtest_main",
     ],
 )

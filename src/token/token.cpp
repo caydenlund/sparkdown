@@ -21,6 +21,8 @@ namespace sparkdown {
 
 token::token(char character) : type(get_type(character)), value(character) {}
 
+token::token(token_type type) : type(type), value('\0') {}
+
 token::token(const token &other) = default;
 
 bool token::operator==(const token &other) const {

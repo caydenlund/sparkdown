@@ -238,6 +238,7 @@ TEST(token, get_value) {
               sparkdown::token::get_type(';'));
 }
 
+// TODO: Document.
 TEST(token, operator_equality) {
     EXPECT_TRUE(sparkdown::token('=') == sparkdown::token('='));
     EXPECT_TRUE(sparkdown::token('(') == sparkdown::token('('));
@@ -254,6 +255,7 @@ TEST(token, operator_equality) {
     EXPECT_FALSE(sparkdown::token('a') == sparkdown::token('A'));
 }
 
+// TODO: Document.
 TEST(token, operator_inequality) {
     EXPECT_FALSE(sparkdown::token('=') != sparkdown::token('='));
     EXPECT_FALSE(sparkdown::token('(') != sparkdown::token('('));

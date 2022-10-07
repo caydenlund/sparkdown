@@ -64,6 +64,7 @@ enum token_type {
 
     // Body tokens:
     // ------------
+    COMP_R_ARROW  // "->"
 };
 
 /**
@@ -81,6 +82,16 @@ struct token {
      * @param character The character used to construct the token.
      */
     token(char character);  // NOLINT(google-explicit-constructor)
+
+    /**
+     * @brief Constructs a new token from a single token type.
+     * @details The implicit construction is intentional.
+     *
+     *     Useful for the complex tokens.
+     *
+     * @param type The token type used to construct the token.
+     */
+    token(token_type type);  // NOLINT(google-explicit-constructor)
 
     /**
      * @brief Copy constructor.
